@@ -1,0 +1,56 @@
+{
+    "preload": {
+        "files": [
+            {
+                "type": "image",
+                "key": "blackBubble",
+                "url": "./assets/images/bubbles/bubble-black.png"
+            },
+            {
+                "type": "image",
+                "key": "blueBubble",
+                "url": "./assets/images/bubbles/bubble-blue.png"
+            },
+            {
+                "type": "image",
+                "key": "cyanBubble",
+                "url": "./assets/images/bubbles/bubble-cyan.png"
+            },
+            {
+                "type": "image",
+                "key": "grayBubble",
+                "url": "./assets/images/bubbles/bubble-gray.png"
+            },
+            {
+                "type": "image",
+                "key": "greenBubble",
+                "url": "./assets/images/bubbles/bubble-green.png"
+            },
+            {
+                "type": "image",
+                "key": "pinkBubble",
+                "url": "./assets/images/bubbles/bubble-pink.png"
+            },
+            {
+                "type": "image",
+                "key": "redBubble",
+                "url": "./assets/images/bubbles/bubble-red.png"
+            },
+            {
+                "type": "image",
+                "key": "violetBubble",
+                "url": "./assets/images/bubbles/bubble-violet.png"
+            },
+            {
+                "type": "image",
+                "key": "yellowBubble",
+                "url": "./assets/images/bubbles/bubble-yellow.png"
+            },
+            {
+                "type": "image",
+                "key": "circle",
+                "url": "./assets/images/player/circle.png"
+            }
+        ]
+    }
+}

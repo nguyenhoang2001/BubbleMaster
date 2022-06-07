@@ -1,10 +1,12 @@
 import { BootScene } from "./scenes/BootScene";
+import { GameScene } from "./scenes/GameScene";
+import { MenuScene } from "./scenes/MenuScene";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Bubble Master',
   version: '1.0.0',
-  width: 800,
-  height: 832,
+  width: 375,
+  height: 667,
   type: Phaser.AUTO,
   scale: {
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -17,9 +19,8 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 475 },
-      debug: false
+      debug: true
     }
   },
-  scene: [BootScene]
+  scene: [BootScene,MenuScene,GameScene]
 };
