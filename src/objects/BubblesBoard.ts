@@ -1,5 +1,6 @@
 import { GameScene } from "../scenes/GameScene";
 import { Bubble } from "./Bubble";
+import { ShootedBubble } from "./ShootedBubble";
 
 export class BubblesBoard {
     private bubblesBoard!: Bubble[][];
@@ -8,11 +9,10 @@ export class BubblesBoard {
     private rowOffSet!:number;
     private rowHeight!:number;
     public scene!: GameScene;
-    private bubbleTypes!: string[];
     private x!: number;
     private y!:number;
 
-    constructor(scene:GameScene,x:number,y:number,width:number, height:number,rowOffSet:number, rowHeight:number,bubbleTypes:string[]) {
+    constructor(scene:GameScene,x:number,y:number,width:number, height:number,rowOffSet:number, rowHeight:number) {
         this.x = x;
         this.y = y;
         this.scene = scene;
@@ -20,7 +20,6 @@ export class BubblesBoard {
         this.height = height;
         this.rowOffSet = rowOffSet;
         this.rowHeight = rowHeight;
-        this.bubbleTypes = bubbleTypes;
         this.bubblesBoard = [];
         for(let i = 0; i < this.width; i++) {
             this.bubblesBoard[i] = []
@@ -50,8 +49,7 @@ export class BubblesBoard {
     }
 
     private drawBubble(row:number, column:number):Bubble {
-        let randomBubbleType = Phaser.Math.Between(0, this.bubbleTypes.length - 1);
-        let bubbleType = this.bubbleTypes[randomBubbleType];
+        let bubbleType = this.scene.typeGenerator.getTexture();
         let bubble = new Bubble(this.scene,0,0,bubbleType);
         this.setCoordinateBubble(row,column,bubble);
         return bubble;
@@ -66,5 +64,17 @@ export class BubblesBoard {
         }
         let gridX = Math.floor((bubble.x - xOffset) / bubble.width);
         return { x: gridX, y: gridY };
+    }
+
+
+    public createColliderWithShootedBubble(shootedBubble:ShootedBubble) {
+        for(let i = 0; i < this.width; i++) {
+            for(let j = 0; j < this.height; j++) {
+                this.scene.physics.add.collider(shootedBubble,this.bubblesBoard[i][j],()=>{
+                    this.bubblesBoard[i][j].body.stop();
+                    shootedBubble.body.stop();
+                });
+            }
+        }
     }
 }
