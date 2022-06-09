@@ -3,6 +3,7 @@ import { GameScene } from "../scenes/GameScene";
 
 export class GameContainer extends Phaser.GameObjects.Container {
     public mainZone!: Phaser.GameObjects.Zone;
+    public scene!: GameScene;
 
     constructor(scene:GameScene,x:number,y:number) {
         super(scene,x,y);

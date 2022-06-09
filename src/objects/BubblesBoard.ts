@@ -1,18 +1,25 @@
 import { GameScene } from "../scenes/GameScene";
+import { AddingBubble } from "./AddingBubble";
 import { Bubble } from "./Bubble";
+import { ClusterDetector } from "./ClusterDetector";
+import { ColliderManager } from "./ColliderManager";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class BubblesBoard {
-    private bubblesBoard!: Bubble[][];
-    private width!: number;
-    private height!:number;
-    private rowOffSet!:number;
+    public bubblesBoard!: Bubble[][];
+    public addingBubble!: AddingBubble;
+    public colliderBubble!: ColliderManager;
+    public clusterDetector!: ClusterDetector;
+    public width!: number;
+    public height!:number;
+    public rowOffSet!:number;
     private rowHeight!:number;
     public scene!: GameScene;
     private x!: number;
     private y!:number;
 
     constructor(scene:GameScene,x:number,y:number,width:number, height:number,rowOffSet:number, rowHeight:number) {
+        // Variables
         this.x = x;
         this.y = y;
         this.scene = scene;
@@ -25,17 +32,35 @@ export class BubblesBoard {
             this.bubblesBoard[i] = []
         }
         this.drawBubblesBoard();
+        // Game Objects
+        this.addingBubble = new AddingBubble(this);
+        this.colliderBubble = new ColliderManager(this);
+        this.clusterDetector = new ClusterDetector(this);
+    }
+
+    public getCoordinateBubble(row:number,column:number):any {
+        let bubbleX = column * 56;
+        if ((row + this.rowOffSet) % 2) {
+            bubbleX += 56/2;
+        }
+        let bubbleY = row * this.rowHeight;
+        bubbleX = bubbleX + this.x;
+        bubbleY = bubbleY + this.y;
+        return {x: bubbleX, y:bubbleY};
     }
 
     private setCoordinateBubble(row:number,column:number,bubble:Bubble) {
-        let bubbleX = column * bubble.width;
-        // X offset for odd or even rows
+        let bubbleX = column * bubble.displayWidth;
         if ((row + this.rowOffSet) % 2) {
-            bubbleX += bubble.width/2;
+            bubbleX += bubble.displayWidth/2;
         }
         let bubbleY = row * this.rowHeight;
         bubble.x = bubbleX + this.x;
         bubble.y = bubbleY + this.y;
+    }
+
+    public isBublleExisting(row:number,column:number):boolean {
+        return (this.bubblesBoard[row][column] != undefined && this.bubblesBoard[row][column].visible)
     }
 
     public drawBubblesBoard() {
@@ -48,33 +73,34 @@ export class BubblesBoard {
         }
     }
 
-    private drawBubble(row:number, column:number):Bubble {
+    public drawBubble(row:number, column:number, texture?:string):Bubble {
         let bubbleType = this.scene.typeGenerator.getTexture();
-        let bubble = new Bubble(this.scene,0,0,bubbleType);
+        let bubble = new Bubble(this.scene,0,0,row,column,bubbleType);
+        if(texture != undefined) {
+            bubble.setTexture(texture);
+        }
         this.setCoordinateBubble(row,column,bubble);
         return bubble;
     }
 
-    public getIndexBubble(bubble:Bubble): any {
-        let gridY = Math.floor(bubble.y / this.rowHeight);
-        // Check for offset
+    public addNewRow(row:number) {
+        if(row >= this.width) {
+            this.width += 1;
+            this.bubblesBoard[row] = [];
+        }
+    }
+
+    public getIndexBubble(bubble:ShootedBubble): any {
+        let gridX = Math.floor(bubble.y / this.rowHeight);
         let xOffset = 0;
-        if ((gridY + this.rowOffSet) % 2) {
+        if ((gridX + this.rowOffSet) % 2) {
             xOffset = bubble.width / 2;
         }
-        let gridX = Math.floor((bubble.x - xOffset) / bubble.width);
+        let gridY = Math.floor((bubble.x - xOffset) / bubble.width);
         return { x: gridX, y: gridY };
     }
 
-
     public createColliderWithShootedBubble(shootedBubble:ShootedBubble) {
-        for(let i = 0; i < this.width; i++) {
-            for(let j = 0; j < this.height; j++) {
-                this.scene.physics.add.collider(shootedBubble,this.bubblesBoard[i][j],()=>{
-                    this.bubblesBoard[i][j].body.stop();
-                    shootedBubble.body.stop();
-                });
-            }
-        }
+        this.colliderBubble.createColliderShootedBubble(shootedBubble);
     }
 }

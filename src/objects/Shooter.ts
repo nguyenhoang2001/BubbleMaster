@@ -15,22 +15,9 @@ export class Shooter {
     }
 
     public createShootedBubble() {
-        // let oldShootedBubble!:ShootedBubble;
-
-        // if(this.shootedBubble!=undefined) {
-        //     oldShootedBubble = this.shootedBubble;
-        // }
-        this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getTexture());
+        this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getShootTexture());
         Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.gameContainer.mainZone);
         this.scene.add.existing(this.shootedBubble);
-        // if(oldShootedBubble!=undefined) {
-        //     this.scene.physics.add.collider(oldShootedBubble,this.shootedBubble,()=> {
-        //         oldShootedBubble.body.setVelocity(0,0);
-        //         this.shootedBubble.body.setVelocity(0,0);
-        //     })
-        // }
-        this.scene.bubblesBoard.createColliderWithShootedBubble(this.shootedBubble);
-
     }
 
     public drawLineAndCircle() {
@@ -39,14 +26,16 @@ export class Shooter {
     }
 
     public enableInput() {
-        this.scene.input.on('pointerdown',() => {
-            this.scene.physics.velocityFromRotation(
-                this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                500,
-                this.shootedBubble.body.velocity
-              );
-            this.createShootedBubble();
-        },this);
+            this.scene.input.on('pointerup',() => {
+                this.scene.bubblesBoard.createColliderWithShootedBubble(this.shootedBubble);
+                this.scene.physics.velocityFromRotation(
+                    this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
+                    1800,
+                    this.shootedBubble.body.velocity
+                );
+                this.createShootedBubble();
+            },this);
+        
     }
 
     private drawCircle() {
@@ -84,13 +73,12 @@ export class Shooter {
                     angle = 350;
                 }
             }
-            // this.shootedBubble.setAngle(angle);
             this.arrowShoot.setAngle(angle);
         }
     }
     
     public update() {
-        this.shootedBubble.update();
-        this.rotateShooter();
+            this.shootedBubble.update();
+            this.rotateShooter();
     }
 }

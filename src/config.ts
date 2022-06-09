@@ -5,8 +5,8 @@ import { MenuScene } from "./scenes/MenuScene";
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Bubble Master',
   version: '1.0.0',
-  width: 375,
-  height: 667,
+  width: 375 * 2 - 20,
+  height: 667 * 2,
   type: Phaser.AUTO,
   scale: {
     autoCenter: Phaser.Scale.CENTER_BOTH
