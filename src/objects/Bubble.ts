@@ -10,8 +10,7 @@ export class Bubble extends Phaser.GameObjects.Sprite {
         this.column = column;
         this.processed = false;
         this.scene.physics.world.enable(this);
-        // this.setScale(0.5);
-        // this.body.setSize(this.displayWidth,this.displayHeight);
+
         this.body.setCircle(28,0,0);
         this.body.setImmovable();
     }
@@ -20,6 +19,5 @@ export class Bubble extends Phaser.GameObjects.Sprite {
         this.setVisible(false);
         this.body.checkCollision.none = true;
         this.scene.physics.world.disableBody(this.body);
-        // this.destroy();
     }
 }

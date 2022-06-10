@@ -55,7 +55,7 @@ export class PositionBubbleHandler {
     }
 
     private protectRow(gridPos:any, hittedBubble:Bubble, shootedBubble:ShootedBubble) {
-        if(shootedBubble.y - hittedBubble.y <= 47) {
+        if(shootedBubble.y - hittedBubble.y <= 46) {
             gridPos.x = hittedBubble.row;
         } else {
             if(gridPos.x > hittedBubble.row + 1) {
@@ -111,5 +111,15 @@ export class PositionBubbleHandler {
     private protectPosition(gridPos:any, hittedBubble:Bubble,shootedBubble:ShootedBubble) {
         this.parent.bubblesBoard.addNewRow(gridPos.x);
         this.protectColumn(gridPos,hittedBubble,shootedBubble);
+        if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
+            console.log('finnal check and still exiting bubble: ' + gridPos.x + '|' + gridPos.y);
+            if(gridPos.x == hittedBubble.row) {
+                if(shootedBubble.y >= hittedBubble.y) {
+                    gridPos.x = hittedBubble.row + 1;
+                } else {
+                    gridPos.x = hittedBubble.row - 1;
+                } 
+            }
+        }
     }
 }

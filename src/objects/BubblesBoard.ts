@@ -3,6 +3,7 @@ import { AddingBubble } from "./AddingBubble";
 import { Bubble } from "./Bubble";
 import { ClusterDetector } from "./ClusterDetector";
 import { ColliderManager } from "./ColliderManager";
+import { FloatingBubbleDector } from "./FloatingBubbleDetector";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class BubblesBoard {
@@ -10,6 +11,7 @@ export class BubblesBoard {
     public addingBubble!: AddingBubble;
     public colliderBubble!: ColliderManager;
     public clusterDetector!: ClusterDetector;
+    public floatingBubbleDetector!: FloatingBubbleDector;
     public width!: number;
     public height!:number;
     public rowOffSet!:number;
@@ -36,6 +38,7 @@ export class BubblesBoard {
         this.addingBubble = new AddingBubble(this);
         this.colliderBubble = new ColliderManager(this);
         this.clusterDetector = new ClusterDetector(this);
+        this.floatingBubbleDetector = new FloatingBubbleDector(this);
     }
 
     public getCoordinateBubble(row:number,column:number):any {
@@ -102,5 +105,19 @@ export class BubblesBoard {
 
     public createColliderWithShootedBubble(shootedBubble:ShootedBubble) {
         this.colliderBubble.createColliderShootedBubble(shootedBubble);
+    }
+
+    public updateRow() {
+        let maxRow = 0;
+        for(let i = 0; i < this.width; i++) {
+            for(let j = 0; j < this.height; j++) {
+                if(this.isBublleExisting(i,j)) {
+                    if(maxRow < this.bubblesBoard[i][j].row) {
+                        maxRow = this.bubblesBoard[i][j].row;
+                    }
+                }
+            }
+        }
+        this.width = maxRow + 1;
     }
 }

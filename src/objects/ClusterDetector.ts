@@ -11,11 +11,11 @@ export class ClusterDetector {
                                 [[1,0],[1,1],[0,1],[-1,1],[-1,0],[0,-1]]];
     }
 
-    private resetProcess() {
+    public resetProcess() {
         for(let i = 0; i < this.parent.width; i++) {
             for(let j = 0; j < this.parent.height; j++) {
                 if(this.parent.bubblesBoard[i] != undefined ) {
-                    if(this.parent.bubblesBoard[i][j] != undefined && this.parent.bubblesBoard[i][j].visible)  {
+                    if(this.parent.isBublleExisting(i,j))  {
                         this.parent.bubblesBoard[i][j].processed = false;
                     }
                 }
@@ -32,7 +32,7 @@ export class ClusterDetector {
             let neighborColumn = bubble.column + offset[i][1];
             if(neighborRow >= 0 && neighborRow < this.parent.width && neighborColumn >= 0 && neighborColumn < this.parent.height) {
                 let neighborBubble = this.parent.bubblesBoard[neighborRow][neighborColumn];
-                if(neighborBubble != undefined && neighborBubble.visible && !neighborBubble.processed) {
+                if(this.parent.isBublleExisting(neighborRow,neighborColumn) && !neighborBubble.processed) {
                     neighbors.push(neighborBubble);
                 }
             }
@@ -40,7 +40,7 @@ export class ClusterDetector {
         return neighbors;
     }
 
-    public find(targetedBubble:Bubble, reset:boolean):Bubble[] {
+    public find(targetedBubble:Bubble, reset:boolean, matchType:boolean):Bubble[] {
         if(reset) {
             this.resetProcess();
         }
@@ -53,7 +53,7 @@ export class ClusterDetector {
                 continue;
             } else {
                 if(currentBubble.visible) {
-                    if(currentBubble.texture.key == targetedBubble.texture.key) {
+                    if(!matchType || currentBubble.texture.key == targetedBubble.texture.key) {
                         foundCluster.push(currentBubble);
                         let neighbors = this.getNeighbors(currentBubble);
                         for(let i = 0; i < neighbors.length; i++) {

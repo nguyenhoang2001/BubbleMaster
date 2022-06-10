@@ -4,8 +4,6 @@ export class ShootedBubble extends Phaser.GameObjects.Sprite {
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
         this.scene.physics.world.enable(this);
-        // this.setScale(0.5);
-        // this.body.setSize(this.displayWidth,this.displayHeight);
         this.body.setCircle(28,0,0);
         this.createBouncing();
     }

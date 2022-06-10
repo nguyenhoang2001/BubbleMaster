@@ -16,7 +16,7 @@ export class TypeGenerator {
         this.currentTexture = [];
         for(let i = 0; i < this.scene.bubblesBoard.width; i++) {
             for(let j = 0; j < this.scene.bubblesBoard.width; j++) {
-                if( bubblesBoard[i][j] != undefined && bubblesBoard[i][j].visible) {
+                if( this.scene.bubblesBoard.isBublleExisting(i,j) ) {
                     if(this.currentTexture.length > 0) {
                         let texture = bubblesBoard[i][j].texture.key;
                         let allowAdding = true;

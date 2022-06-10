@@ -30,7 +30,7 @@ export class Shooter {
                 this.scene.bubblesBoard.createColliderWithShootedBubble(this.shootedBubble);
                 this.scene.physics.velocityFromRotation(
                     this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                    1800,
+                    2000,
                     this.shootedBubble.body.velocity
                 );
                 this.createShootedBubble();
@@ -78,7 +78,7 @@ export class Shooter {
     }
     
     public update() {
-            this.shootedBubble.update();
+            // this.shootedBubble.update();
             this.rotateShooter();
     }
 }
