@@ -21,7 +21,7 @@ export class ShootedBubble extends Phaser.GameObjects.Sprite {
         });
     }
 
-    public disablePhysics() {
+    public clear() {
         this.body.setImmovable();
         this.body.setBounce(0,0);
         this.body.stop();

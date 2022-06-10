@@ -11,10 +11,4 @@ export class ClusterHandler {
             }
         }
     }
-    public clearFloating(floatingBubbles:Bubble[]) {
-        for(let i = 0; i< floatingBubbles.length; i++) {
-            floatingBubbles[i].clear();
-        }
-    }
-
 }
