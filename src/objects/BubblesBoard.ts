@@ -1,17 +1,19 @@
 import { GameScene } from "../scenes/GameScene";
 import { AddingBubble } from "./AddingBubble";
 import { Bubble } from "./Bubble";
-import { ClusterDetector } from "./ClusterDetector";
+import { Clusters } from "./Cluster";
 import { ColliderManager } from "./ColliderManager";
 import { FloatingBubbleDector } from "./FloatingBubbleDetector";
+import { FloatingBubbles } from "./FloatingBubbles";
+import { FloatingHandler } from "./FloatingHandler";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class BubblesBoard {
     public bubblesBoard!: Bubble[][];
-    public addingBubble!: AddingBubble;
+    public addingBubbleManager!: AddingBubble;
     public colliderBubble!: ColliderManager;
-    public clusterDetector!: ClusterDetector;
-    public floatingBubbleDetector!: FloatingBubbleDector;
+    public clusters!: Clusters;
+    private floatingBubbles!: FloatingBubbles;
     public width!: number;
     public height!:number;
     public rowOffSet!:number;
@@ -35,10 +37,10 @@ export class BubblesBoard {
         }
         this.drawBubblesBoard();
         // Game Objects
-        this.addingBubble = new AddingBubble(this);
+        this.addingBubbleManager = new AddingBubble(this);
         this.colliderBubble = new ColliderManager(this);
-        this.clusterDetector = new ClusterDetector(this);
-        this.floatingBubbleDetector = new FloatingBubbleDector(this);
+        this.floatingBubbles = new FloatingBubbles(this.scene,this);
+        this.clusters = new Clusters(this.scene,this);
     }
 
     public getCoordinateBubble(row:number,column:number):any {
@@ -119,5 +121,13 @@ export class BubblesBoard {
             }
         }
         this.width = maxRow + 1;
+    }
+
+    public update() {
+        if(this.clusters.remains <= 0) {
+            this.floatingBubbles.run();
+            this.updateRow();
+            this.clusters.resetRemains();
+        }
     }
 }

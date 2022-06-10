@@ -2,21 +2,21 @@ import { Bubble } from "./Bubble";
 import { BubblesBoard } from "./BubblesBoard";
 
 export class FloatingBubbleDector {
-    private parent!: BubblesBoard;
+    private bubblesBoard!: BubblesBoard;
 
-    constructor(parent:BubblesBoard) {
-        this.parent = parent;
+    constructor(bubblesBoard:BubblesBoard) {
+        this.bubblesBoard = bubblesBoard;
     }
 
     public find():Bubble[] {
-        this.parent.clusterDetector.resetProcess();
+        this.bubblesBoard.clusters.resetProcess();
         let foundFloating = [];
-        for(let i = 0; i < this.parent.width; i++) {
-            for(let j = 0; j < this.parent.height; j++) {
-                if(this.parent.isBublleExisting(i,j)) {
-                    let bubble = this.parent.bubblesBoard[i][j];
+        for(let i = 0; i < this.bubblesBoard.width; i++) {
+            for(let j = 0; j < this.bubblesBoard.height; j++) {
+                if(this.bubblesBoard.isBublleExisting(i,j)) {
+                    let bubble = this.bubblesBoard.bubblesBoard[i][j];
                     if(!bubble.processed) {
-                        let bubbleGroup = this.parent.clusterDetector.find(bubble,false,false);
+                        let bubbleGroup = this.bubblesBoard.clusters.detector.find(bubble,false,false);
                         if(bubbleGroup.length <= 0) {
                             continue;
                         }

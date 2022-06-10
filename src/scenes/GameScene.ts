@@ -39,5 +39,6 @@ export class GameScene extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         this.shooter.update();
+        this.bubblesBoard.update();
     }
 }
