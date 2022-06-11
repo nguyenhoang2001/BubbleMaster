@@ -11,7 +11,7 @@ export class TypeGenerator {
         'pinkBubble','redBubble','violetBubble','yellowBubble'];
     }
 
-    private resetType() {
+    public resetCurrentType() {
         let bubblesBoard = this.scene.bubblesBoard.bubblesBoard;
         this.currentTexture = [];
         for(let i = 0; i < this.scene.bubblesBoard.width; i++) {
@@ -37,8 +37,7 @@ export class TypeGenerator {
         }
     }
 
-    public getShootTexture(): string {
-        this.resetType();
+    public getCurrentTexture(): string {
         if(this.currentTexture != undefined && this.currentTexture.length > 0) {
             let randomBubbleType = Phaser.Math.Between(0, this.currentTexture.length - 1);
             let bubbleType =  this.currentTexture[randomBubbleType];

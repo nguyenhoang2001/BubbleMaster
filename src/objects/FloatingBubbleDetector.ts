@@ -16,7 +16,7 @@ export class FloatingBubbleDector {
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
                     let bubble = this.bubblesBoard.bubblesBoard[i][j];
                     if(!bubble.processed) {
-                        let bubbleGroup = this.bubblesBoard.clusters.detector.find(bubble,false,false);
+                        let bubbleGroup = this.bubblesBoard.clusters.findClusters(bubble,false,false);
                         if(bubbleGroup.length <= 0) {
                             continue;
                         }

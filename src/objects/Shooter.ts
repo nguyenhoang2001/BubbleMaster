@@ -6,16 +6,19 @@ export class Shooter {
     public scene!: GameScene;
     private arrowShoot!: Phaser.GameObjects.Line
     private circle!: Phaser.GameObjects.Image;
+    private numberOfShooting!: number;
+    public shootTenTimes!: boolean;
 
     constructor(scene:GameScene) {
         this.scene = scene;
+        this.numberOfShooting = 2;
         this.createShootedBubble();
         this.drawLineAndCircle();
         this.enableInput();
     }
 
     public createShootedBubble() {
-        this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getShootTexture());
+        this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
         Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.gameContainer.mainZone);
         this.scene.add.existing(this.shootedBubble);
     }
@@ -25,14 +28,26 @@ export class Shooter {
         this.drawCircle();
     }
 
+    public isShootTenTimes():boolean {
+        if(this.numberOfShooting <= 0) {
+            this.numberOfShooting = 2;
+            return true;
+        }
+        return false;
+    }
+
     public enableInput() {
             this.scene.input.on('pointerup',() => {
+                // this.numberOfShooting -= 1;
+                // this.shootTenTimes = this.isShootTenTimes();
                 this.scene.bubblesBoard.createColliderWithShootedBubble(this.shootedBubble);
                 this.scene.physics.velocityFromRotation(
                     this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                     2000,
                     this.shootedBubble.body.velocity
                 );
+                this.numberOfShooting -= 1;
+                this.shootTenTimes = this.isShootTenTimes();
                 this.createShootedBubble();
             },this);
         
@@ -78,7 +93,6 @@ export class Shooter {
     }
     
     public update() {
-            // this.shootedBubble.update();
-            this.rotateShooter();
+        this.rotateShooter();
     }
 }

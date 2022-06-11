@@ -19,24 +19,12 @@ export class ColliderManager {
                         console.log('Starting point////////////////////////////////');
                         let bubble = _bubble as Bubble;
                         shootedBubble.clear();
-                        let newBubble = this.bubblesBoard.addingBubbleManager.addNewBubble(bubble,shootedBubble);
-                        // let clusters = this.bubblesBoard.clusterDetector.find(newBubble,true,true);
-                        // this.bubblesBoard.clusterHandler.clearClusters(clusters);
+                        let newBubble = this.bubblesBoard.addingBubbleManager.addFromShoot(bubble,shootedBubble);
+                        if(this.bubblesBoard.scene.shooter.shootTenTimes) {
+                            this.bubblesBoard.addSignal = true;
+                        }
                         let clusters =  this.bubblesBoard.clusters.run(newBubble,true,true);
                         console.log(clusters.length);
-                        // this.parent.scene.time.addEvent({delay:500, callback: () => {
-                        //     let floatingBubbles = this.parent.floatingBubbleDetector.find();
-                        //     console.log('Floating bubbles number: ' + floatingBubbles.length);
-                        //     if(floatingBubbles.length > 0) {
-                        //         for(let k = 0; k < floatingBubbles.length; k++) {
-                        //             console.log('floating bubbles position: ' + floatingBubbles[k].row + '|' + floatingBubbles[k].column);
-                        //         }
-                        //     }
-                        //     this.floatingHandler.clearFloating(floatingBubbles);
-                        //     this.parent.updateRow();
-                        //     console.log('New Width: ' + this.parent.width);
-                        //     console.log('Ending point//////////////////////////////////');
-                        // }});
                     });
                 }
             }

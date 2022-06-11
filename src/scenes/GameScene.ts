@@ -33,6 +33,7 @@ export class GameScene extends Phaser.Scene {
         this.add.existing(this.gameContainer);
         this.typeGenerator = new TypeGenerator(this);
         this.bubblesBoard = new BubblesBoard(this,28 + 16,28,6*2,6*2,1,49);
+        this.typeGenerator.resetCurrentType();
         this.createShooter();
         this.runContainer();
     }

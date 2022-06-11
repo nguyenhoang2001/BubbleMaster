@@ -21,11 +21,15 @@ export class BubblesBoard {
     public scene!: GameScene;
     private x!: number;
     private y!:number;
+    public addSignal!: boolean;
+    private allowAdding!: boolean;
 
     constructor(scene:GameScene,x:number,y:number,width:number, height:number,rowOffSet:number, rowHeight:number) {
         // Variables
         this.x = x;
         this.y = y;
+        this.allowAdding = false;
+        this.addSignal = false;
         this.scene = scene;
         this.width = width;
         this.height = height;
@@ -68,11 +72,16 @@ export class BubblesBoard {
         return (this.bubblesBoard[row][column] != undefined && this.bubblesBoard[row][column].visible)
     }
 
+    public addToBoard(row:number, column:number,texture?:string):Bubble {
+        this.bubblesBoard[row][column] = this.drawBubble(row,column,texture);
+        this.scene.add.existing(this.bubblesBoard[row][column]);
+        return this.bubblesBoard[row][column];
+    }
+
     public drawBubblesBoard() {
         for(let i = 0; i < this.width; i++) {
             for(let j = 0; j < this.height; j++) {
-                this.bubblesBoard[i][j] = this.drawBubble(i,j);
-                this.scene.add.existing(this.bubblesBoard[i][j]);
+                this.addToBoard(i,j);
             }
             this.scene.addBubblesToContainer(this.bubblesBoard[i]);
         }
@@ -93,6 +102,13 @@ export class BubblesBoard {
             this.width += 1;
             this.bubblesBoard[row] = [];
         }
+    }
+
+    public invertRowOffset() {
+        if(this.rowOffSet == 0)
+            this.rowOffSet = 1;
+        else
+            this.rowOffSet = 0;
     }
 
     public getIndexBubble(bubble:ShootedBubble): any {
@@ -124,10 +140,37 @@ export class BubblesBoard {
     }
 
     public update() {
+        this.allowAdding = false;
         if(this.clusters.remains <= 0) {
+            this.scene.typeGenerator.resetCurrentType();
             this.floatingBubbles.run();
-            this.updateRow();
             this.clusters.resetRemains();
+            this.allowAdding = true;
+        }
+        if(this.floatingBubbles.isFloating) {
+            this.allowAdding = false;
+            if(this.floatingBubbles.remains <= 0) {
+                this.floatingBubbles.resetRemains();
+                this.allowAdding = true;
+                this.floatingBubbles.isFloating = false
+            }
+        }
+        if(this.addSignal) {
+            if(!this.clusters.isHavingClusters) {
+                this.invertRowOffset();
+                this.addingBubbleManager.addMore();
+                console.log('new width is: ' + this.width + ' but not have clusters');
+            } else {
+                if(this.allowAdding) {
+                    this.updateRow();
+                    this.allowAdding = false;
+                    this.invertRowOffset();
+                    this.addingBubbleManager.addMore();
+                    console.log('new width is: ' + this.width + ' have clusters');
+                    
+                }
+            }
+            this.addSignal = false;
         }
     }
 }
