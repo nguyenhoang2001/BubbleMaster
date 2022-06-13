@@ -11,7 +11,7 @@ export class Shooter {
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.numberOfShooting = 2;
+        this.numberOfShooting = 5;
         this.createShootedBubble();
         this.drawLineAndCircle();
         this.enableInput();
@@ -30,7 +30,7 @@ export class Shooter {
 
     public isShootTenTimes():boolean {
         if(this.numberOfShooting <= 0) {
-            this.numberOfShooting = 2;
+            this.numberOfShooting = 5;
             return true;
         }
         return false;
@@ -38,9 +38,7 @@ export class Shooter {
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
-                // this.numberOfShooting -= 1;
-                // this.shootTenTimes = this.isShootTenTimes();
-                this.scene.bubblesBoard.createColliderWithShootedBubble(this.shootedBubble);
+                this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
                 this.scene.physics.velocityFromRotation(
                     this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                     2000,

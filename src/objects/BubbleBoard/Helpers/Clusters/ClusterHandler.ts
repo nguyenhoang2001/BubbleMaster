@@ -1,4 +1,4 @@
-import { Bubble } from "./Bubble";
+import { Bubble } from "../../../Bubble";
 import { Clusters } from "./Cluster";
 
 export class ClusterHandler {

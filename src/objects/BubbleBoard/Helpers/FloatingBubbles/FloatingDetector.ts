@@ -1,7 +1,7 @@
-import { Bubble } from "./Bubble";
-import { BubblesBoard } from "./BubblesBoard";
+import { Bubble } from "../../../Bubble";
+import { BubblesBoard } from "../../BubblesBoard";
 
-export class FloatingBubbleDector {
+export class FloatingDetector {
     private bubblesBoard!: BubblesBoard;
 
     constructor(bubblesBoard:BubblesBoard) {
@@ -11,10 +11,10 @@ export class FloatingBubbleDector {
     public find():Bubble[] {
         this.bubblesBoard.clusters.resetProcess();
         let foundFloating = [];
-        for(let i = 0; i < this.bubblesBoard.width; i++) {
-            for(let j = 0; j < this.bubblesBoard.height; j++) {
+        for(let i = 0; i < this.bubblesBoard.row; i++) {
+            for(let j = 0; j < this.bubblesBoard.column; j++) {
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    let bubble = this.bubblesBoard.bubblesBoard[i][j];
+                    let bubble = this.bubblesBoard.board[i][j];
                     if(!bubble.processed) {
                         let bubbleGroup = this.bubblesBoard.clusters.findClusters(bubble,false,false);
                         if(bubbleGroup.length <= 0) {

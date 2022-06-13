@@ -12,13 +12,13 @@ export class TypeGenerator {
     }
 
     public resetCurrentType() {
-        let bubblesBoard = this.scene.bubblesBoard.bubblesBoard;
+        let board = this.scene.bubblesBoard.board;
         this.currentTexture = [];
-        for(let i = 0; i < this.scene.bubblesBoard.width; i++) {
-            for(let j = 0; j < this.scene.bubblesBoard.width; j++) {
+        for(let i = 0; i < this.scene.bubblesBoard.row; i++) {
+            for(let j = 0; j < this.scene.bubblesBoard.column; j++) {
                 if( this.scene.bubblesBoard.isBublleExisting(i,j) ) {
                     if(this.currentTexture.length > 0) {
-                        let texture = bubblesBoard[i][j].texture.key;
+                        let texture = board[i][j].texture.key;
                         let allowAdding = true;
                         for(let k = 0; k < this.currentTexture.length; k++) {
                             if(this.currentTexture[k] == texture) {
@@ -30,7 +30,7 @@ export class TypeGenerator {
                             this.currentTexture.push(texture);
                         }
                     } else {
-                        this.currentTexture.push(bubblesBoard[i][j].texture.key);
+                        this.currentTexture.push(board[i][j].texture.key);
                     }
                 }
             }

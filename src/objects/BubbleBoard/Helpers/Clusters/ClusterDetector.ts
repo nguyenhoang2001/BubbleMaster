@@ -1,5 +1,5 @@
-import { Bubble } from "./Bubble";
-import { BubblesBoard } from "./BubblesBoard";
+import { Bubble } from "../../../Bubble";
+import { BubblesBoard } from "../../BubblesBoard";
 
 export class ClusterDetector {
     private parent!: BubblesBoard;
@@ -12,11 +12,11 @@ export class ClusterDetector {
     }
 
     public resetProcess() {
-        for(let i = 0; i < this.parent.width; i++) {
-            for(let j = 0; j < this.parent.height; j++) {
-                if(this.parent.bubblesBoard[i] != undefined ) {
+        for(let i = 0; i < this.parent.row; i++) {
+            for(let j = 0; j < this.parent.column; j++) {
+                if(this.parent.board[i] != undefined ) {
                     if(this.parent.isBublleExisting(i,j))  {
-                        this.parent.bubblesBoard[i][j].processed = false;
+                        this.parent.board[i][j].processed = false;
                     }
                 }
             }
@@ -30,8 +30,8 @@ export class ClusterDetector {
         for(let i = 0; i < offset.length; i++) {
             let neighborRow = bubble.row + offset[i][0];
             let neighborColumn = bubble.column + offset[i][1];
-            if(neighborRow >= 0 && neighborRow < this.parent.width && neighborColumn >= 0 && neighborColumn < this.parent.height) {
-                let neighborBubble = this.parent.bubblesBoard[neighborRow][neighborColumn];
+            if(neighborRow >= 0 && neighborRow < this.parent.row && neighborColumn >= 0 && neighborColumn < this.parent.column) {
+                let neighborBubble = this.parent.board[neighborRow][neighborColumn];
                 if(this.parent.isBublleExisting(neighborRow,neighborColumn) && !neighborBubble.processed) {
                     neighbors.push(neighborBubble);
                 }

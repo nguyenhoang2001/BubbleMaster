@@ -1,5 +1,5 @@
-import { Bubble } from "./Bubble";
-import { BubblesBoard } from "./BubblesBoard";
+import { Bubble } from "../../../Bubble";
+import { BubblesBoard } from "../../BubblesBoard";
 import { ClusterDetector } from "./ClusterDetector";
 import { ClusterHandler } from "./ClusterHandler";
 
@@ -10,9 +10,6 @@ export class Clusters {
     public detector!: ClusterDetector;
     private handler!: ClusterHandler;
     public remains!: number;
-    private targetedBubble!: Bubble;
-    private reset!: boolean;
-    private matchType!: boolean
     public isHavingClusters!: boolean;
 
     constructor(scene:Phaser.Scene, bubblesBoard: BubblesBoard) {

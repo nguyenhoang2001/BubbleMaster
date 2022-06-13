@@ -1,13 +1,13 @@
-import { Bubble } from "./Bubble";
-import { BubblesBoard } from "./BubblesBoard";
-import { FloatingBubbleDector } from "./FloatingBubbleDetector";
+import { Bubble } from "../../../Bubble";
+import { BubblesBoard } from "../../BubblesBoard";
+import { FloatingDetector } from "./FloatingDetector";
 import { FloatingHandler } from "./FloatingHandler";
 
 export class FloatingBubbles {
     private floatingBubbles!: Bubble[];
     public bubblesBoard!: BubblesBoard;
     private scene!: Phaser.Scene;
-    private detector!: FloatingBubbleDector;
+    private detector!: FloatingDetector;
     private handler!: FloatingHandler;
     public remains!: number;
     public isFloating!: boolean;
@@ -17,7 +17,7 @@ export class FloatingBubbles {
         this.bubblesBoard = bubblesBoard;
         this.isFloating = false;
         this.floatingBubbles = [];
-        this.detector = new FloatingBubbleDector(this.bubblesBoard);
+        this.detector = new FloatingDetector(this.bubblesBoard);
         this.handler = new FloatingHandler(this.scene,this);
         this.remains = 1;
     }

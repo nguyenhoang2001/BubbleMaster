@@ -1,5 +1,5 @@
 import { Bubble } from "../objects/Bubble";
-import { BubblesBoard } from "../objects/BubblesBoard";
+import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { Shooter } from "../objects/Shooter";
 import { TypeGenerator } from "../objects/TypeGenerator";
 import { GameContainer } from "../ui/GameContainer";

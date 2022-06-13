@@ -1,4 +1,4 @@
-import { Bubble } from "./Bubble";
+import { Bubble } from "../../../Bubble";
 import { FloatingBubbles } from "./FloatingBubbles";
 
 export class FloatingHandler {
@@ -17,14 +17,13 @@ export class FloatingHandler {
                 targets:floatingBubbles[i],
                 y: floatingBubbles[i].y - 200,
                 ease:'Cubic.easeOut',
-                delay:50,
-                duration: Phaser.Math.Between(250, 500),
+                duration: 300,
                 onComplete: () => {
                     this.scene.tweens.add({
                         targets:floatingBubbles[i],
                         y: this.scene.sys.canvas.height + 28,
                         ease:'Cubic.easeIn',
-                        duration: Phaser.Math.Between(400, 800),
+                        duration: Phaser.Math.Between(400, 500),
                         onComplete: () => {
                             this.floatingBubbles.remains -= 1;
                             floatingBubbles[i].clear();
