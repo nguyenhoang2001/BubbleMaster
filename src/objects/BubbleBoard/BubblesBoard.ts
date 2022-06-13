@@ -6,6 +6,7 @@ import { BubblePositionManager } from "./Helpers/BubblePositionManager";
 import { Clusters } from "./Helpers/Clusters/Cluster";
 import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
+import { ScorllDownBubbles } from "./Helpers/ScrollDownBubbles";
 
 export class BubblesBoard {
     // Helpers
@@ -15,6 +16,7 @@ export class BubblesBoard {
     private floatingBubbles!: FloatingBubbles;
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
+    public scrollDownHelper!: ScorllDownBubbles;
     // Variables
     public board!: Bubble[][];
     public row!: number; // 27 is max
@@ -51,6 +53,7 @@ export class BubblesBoard {
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
         this.painter = new BubblePainter(this);
+        this.scrollDownHelper = new ScorllDownBubbles(this);
         // Init board
         this.painter.drawBubblesBoard();
     }
@@ -85,7 +88,7 @@ export class BubblesBoard {
         this.row = maxRow + 1;
     }
 
-    public update() {
+    private checkingClustersAndFloatings() {
         this.clustersAndFloatingsRemoved = false;
         if(this.clusters.remains <= 0) {
             this.scene.typeGenerator.resetCurrentType();
@@ -102,6 +105,10 @@ export class BubblesBoard {
                 this.floatingBubbles.isFloating = false
             }
         }
+    }
+
+    public update() {
+        this.checkingClustersAndFloatings();
         if(this.addSignal) {
             if(!this.clusters.isHavingClusters) {
                 this.allowAdding = true;
@@ -112,7 +119,7 @@ export class BubblesBoard {
             }
             if(this.allowAdding) {
                 this.invertRowOffset();
-                this.addingManager.addMoreRows(3);
+                this.addingManager.moreBubbleRows(3);
                 this.addSignal = false;
                 this.allowAdding = false;
             }

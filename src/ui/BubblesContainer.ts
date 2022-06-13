@@ -1,7 +1,7 @@
 import { Bubble } from "../objects/Bubble";
 import { GameScene } from "../scenes/GameScene";
 
-export class GameContainer extends Phaser.GameObjects.Container {
+export class BubblesContainer extends Phaser.GameObjects.Container {
     public mainZone!: Phaser.GameObjects.Zone;
     public scene!: GameScene;
 
@@ -41,7 +41,21 @@ export class GameContainer extends Phaser.GameObjects.Container {
         })
     }
 
+    public pullDown(positionY:number) {
+        this.scene.shooter.allowShooting = false;
+        this.scene.tweens.add({
+            targets:this,
+            y: positionY,
+            ease:'Power1',
+            duration: 1000,
+            onComplete: () => {
+                this.scene.shooter.allowShooting = true;
+            }
+        })
+    }
+
     public close() {
+        this.scene.shooter.allowShooting = false;
         this.scene.tweens.add({
             targets:this,
             y: this.scene.sys.canvas.height,

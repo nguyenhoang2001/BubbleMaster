@@ -19,7 +19,7 @@ export class ColliderManager {
                         console.log('Starting point////////////////////////////////');
                         let bubble = _bubble as Bubble;
                         shootedBubble.clear();
-                        let newBubble = this.bubblesBoard.addingManager.addFromShoot(bubble,shootedBubble);
+                        let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
                         if(this.bubblesBoard.scene.shooter.shootTenTimes) {
                             this.bubblesBoard.addSignal = true;
                         }

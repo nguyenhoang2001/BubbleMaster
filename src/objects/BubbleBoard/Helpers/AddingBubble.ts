@@ -16,50 +16,52 @@ export class AddingBubble {
         this.scene = this.bubblesBoard.scene;
     }
 
-    public addToBoard(row:number, column:number,texture?:string):Bubble {
+    public toBoard(row:number, column:number,texture?:string):Bubble {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         this.scene.add.existing(this.bubblesBoard.board[row][column]);
         return this.bubblesBoard.board[row][column];
     }
     
-    public addFromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble {
+    public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble {
         this.bubblesBoard.updateRow();
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
-        let bubble = this.addToBoard(gridPos.x,gridPos.y,shootedBubble.texture.key);
+        let bubble = this.toBoard(gridPos.x,gridPos.y,shootedBubble.texture.key);
         return bubble;
     }
 
-    public addMoreRows(numberOfRow:number) {
-        if(numberOfRow <= 0)
-            return;
-        this.bubblesBoard.updateRow();
-        this.scene.typeGenerator.resetCurrentType();
+    private updateNewRows(numberOfRow:number) {
         for(let i = 0; i < numberOfRow; i++) {
-            this.bubblesBoard.addNewRow();
+            for(let j = 0; j < this.bubblesBoard.column; j++) {
+                if(this.bubblesBoard.isBublleExisting(i,j)) {
+                    this.bubblesBoard.board[i][j].clear();
+                }
+                this.toBoard(i,j,this.bubblesBoard.scene.typeGenerator.getCurrentTexture());
+                this.bubblesBoard.board[i][j].y -= numberOfRow*this.bubblesBoard.rowHeight;
+            }
         }
+    }
+
+    private updateOldRows(numberOfRow:number) {
         let newRowRemains = numberOfRow;
         for(let i = this.bubblesBoard.row - 1; i >= numberOfRow; i--) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 if(i-numberOfRow >= 0) {
                     if(newRowRemains > 0) {
                         if(this.bubblesBoard.isBublleExisting(i-numberOfRow,j)) {
-                            this.addToBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
-                        } else {
-                            this.addToBoard(i,j);
-                            this.bubblesBoard.board[i][j].clear();
+                            this.toBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
+                            this.bubblesBoard.board[i][j].y -= numberOfRow*this.bubblesBoard.rowHeight;
                         }
                     } else {
                         if(this.bubblesBoard.isBublleExisting(i,j)) {
                             this.bubblesBoard.board[i][j].clear();
                             if(this.bubblesBoard.isBublleExisting(i-numberOfRow,j)) {                            
-                                this.addToBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
-                            } else {
-                                this.addToBoard(i,j);
-                                this.bubblesBoard.board[i][j].clear();
+                                this.toBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
+                                this.bubblesBoard.board[i][j].y -= numberOfRow*this.bubblesBoard.rowHeight;
                             }
                         } else {
                             if(this.bubblesBoard.isBublleExisting(i-numberOfRow,j)) {
-                                this.addToBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
+                                this.toBoard(i,j,this.bubblesBoard.board[i-numberOfRow][j].texture.key);
+                                this.bubblesBoard.board[i][j].y -= numberOfRow*this.bubblesBoard.rowHeight;
                             }
                         }
                     }
@@ -67,13 +69,18 @@ export class AddingBubble {
             }
             newRowRemains -= 1;
         }
+    }
+
+    public moreBubbleRows(numberOfRow:number) {
+        if(numberOfRow <= 0)
+            return;
+        this.bubblesBoard.updateRow();
+        this.scene.typeGenerator.resetCurrentType();
         for(let i = 0; i < numberOfRow; i++) {
-            for(let j = 0; j < this.bubblesBoard.column; j++) {
-                if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    this.bubblesBoard.board[i][j].clear();
-                }
-                this.addToBoard(i,j,this.bubblesBoard.scene.typeGenerator.getCurrentTexture());
-            }
+            this.bubblesBoard.addNewRow();
         }
+        this.updateOldRows(numberOfRow);
+        this.updateNewRows(numberOfRow);
+        this.bubblesBoard.scrollDownHelper.run(numberOfRow);
     }
 }

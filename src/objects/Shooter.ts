@@ -21,7 +21,7 @@ export class Shooter {
 
     public createShootedBubble() {
         this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
-        Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.gameContainer.mainZone);
+        Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone);
         this.scene.add.existing(this.shootedBubble);
     }
 
