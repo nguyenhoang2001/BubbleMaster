@@ -29,11 +29,15 @@ export class GameContainer extends Phaser.GameObjects.Container {
 
     public open() {
         this.setVisible(true);
+        this.scene.shooter.allowShooting = false;
         this.scene.tweens.add({
             targets:this,
             y: 0,
             ease:'Power1',
-            duration: 2000
+            duration: 2000,
+            onComplete: () => {
+                this.scene.shooter.allowShooting = true;
+            }
         })
     }
 

@@ -1,17 +1,17 @@
+import { GameScene } from "../../../../scenes/GameScene";
 import { Bubble } from "../../../Bubble";
 import { Clusters } from "./Cluster";
 
 export class ClusterHandler {
-    private scene!: Phaser.Scene;
+    private scene!: GameScene;
     private clusters!: Clusters;
 
-    constructor(scene:Phaser.Scene, clusters: Clusters) {
+    constructor(scene:GameScene, clusters: Clusters) {
         this.scene = scene;
         this.clusters = clusters;
     }
 
     public clearClusters(cluster:Bubble[]) {
-        console.log(cluster.length);
         for(let i = 0; i < cluster.length; i++) {
             console.log(cluster[i].texture.key);
             console.log(cluster[i].row + '|' + cluster[i].column);

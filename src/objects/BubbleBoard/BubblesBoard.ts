@@ -59,11 +59,9 @@ export class BubblesBoard {
         return (this.board[row][column] != undefined && this.board[row][column].visible)
     }
 
-    public addNewRow(row:number) {
-        if(row >= this.row) {
-            this.row += 1;
-            this.board[row] = [];
-        }
+    public addNewRow() {
+        this.board[this.row] = [];
+        this.row += 1;
     }
 
     public invertRowOffset() {
@@ -109,13 +107,12 @@ export class BubblesBoard {
                 this.allowAdding = true;
             } else {
                 if(this.clustersAndFloatingsRemoved) {
-                    this.updateRow();
                     this.allowAdding = true;
                 }
             }
             if(this.allowAdding) {
                 this.invertRowOffset();
-                this.addingManager.addMoreRow();
+                this.addingManager.addMoreRows(3);
                 this.addSignal = false;
                 this.allowAdding = false;
             }

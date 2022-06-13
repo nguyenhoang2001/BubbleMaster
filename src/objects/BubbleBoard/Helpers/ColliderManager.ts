@@ -19,13 +19,11 @@ export class ColliderManager {
                         console.log('Starting point////////////////////////////////');
                         let bubble = _bubble as Bubble;
                         shootedBubble.clear();
-                        // let newBubble = this.bubblesBoard.addingManager.addFromShoot(bubble,shootedBubble);
                         let newBubble = this.bubblesBoard.addingManager.addFromShoot(bubble,shootedBubble);
                         if(this.bubblesBoard.scene.shooter.shootTenTimes) {
                             this.bubblesBoard.addSignal = true;
                         }
-                        let clusters = this.bubblesBoard.clusters.run(newBubble,true,true);
-                        console.log(clusters.length);
+                        this.bubblesBoard.clusters.run(newBubble,true,true);
                     });
                 }
             }

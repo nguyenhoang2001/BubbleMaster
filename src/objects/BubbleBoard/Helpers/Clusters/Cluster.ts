@@ -1,3 +1,4 @@
+import { GameScene } from "../../../../scenes/GameScene";
 import { Bubble } from "../../../Bubble";
 import { BubblesBoard } from "../../BubblesBoard";
 import { ClusterDetector } from "./ClusterDetector";
@@ -6,13 +7,13 @@ import { ClusterHandler } from "./ClusterHandler";
 export class Clusters {
     private clusters!: Bubble[];
     private bubblesBoard!: BubblesBoard;
-    public scene!: Phaser.Scene;
+    public scene!: GameScene;
     public detector!: ClusterDetector;
     private handler!: ClusterHandler;
     public remains!: number;
     public isHavingClusters!: boolean;
 
-    constructor(scene:Phaser.Scene, bubblesBoard: BubblesBoard) {
+    constructor(scene:GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
         this.bubblesBoard = bubblesBoard;
         this.clusters = [];

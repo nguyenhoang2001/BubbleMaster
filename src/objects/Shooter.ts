@@ -8,10 +8,12 @@ export class Shooter {
     private circle!: Phaser.GameObjects.Image;
     private numberOfShooting!: number;
     public shootTenTimes!: boolean;
+    public allowShooting!: boolean;
 
     constructor(scene:GameScene) {
         this.scene = scene;
         this.numberOfShooting = 5;
+        this.allowShooting = true;
         this.createShootedBubble();
         this.drawLineAndCircle();
         this.enableInput();
@@ -38,15 +40,17 @@ export class Shooter {
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
-                this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
-                this.scene.physics.velocityFromRotation(
-                    this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                    2000,
-                    this.shootedBubble.body.velocity
-                );
-                this.numberOfShooting -= 1;
-                this.shootTenTimes = this.isShootTenTimes();
-                this.createShootedBubble();
+                if(this.allowShooting) {
+                    this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
+                    this.scene.physics.velocityFromRotation(
+                        this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
+                        2000,
+                        this.shootedBubble.body.velocity
+                    );
+                    this.numberOfShooting -= 1;
+                    this.shootTenTimes = this.isShootTenTimes();
+                    this.createShootedBubble();
+                }
             },this);
         
     }

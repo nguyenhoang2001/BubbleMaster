@@ -109,7 +109,7 @@ export class PositionBubbleHandler {
     }
 
     private protectPosition(gridPos:any, hittedBubble:Bubble,shootedBubble:ShootedBubble) {
-        this.parent.bubblesBoard.addNewRow(gridPos.x);
+        this.parent.bubblesBoard.addNewRow();
         this.protectColumn(gridPos,hittedBubble,shootedBubble);
         if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
             console.log('finnal check and still exiting bubble: ' + gridPos.x + '|' + gridPos.y);
