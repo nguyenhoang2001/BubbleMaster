@@ -33,7 +33,7 @@ export class BubblePositionManager {
     }
 
     public getIndexBubble(bubble:ShootedBubble): any {
-        let gridX = Math.floor(bubble.y / this.bubblesBoard.rowHeight);
+        let gridX = Math.floor((bubble.y) / this.bubblesBoard.rowHeight);
         let xOffset = 0;
         if ((gridX + this.bubblesBoard.rowOffSet) % 2) {
             xOffset = bubble.width / 2;

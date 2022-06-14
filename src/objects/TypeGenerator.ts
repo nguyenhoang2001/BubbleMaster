@@ -43,11 +43,11 @@ export class TypeGenerator {
             let bubbleType =  this.currentTexture[randomBubbleType];
             return bubbleType;
         }
-        return 'blackBubble';
+        return 'redBubble';
     }
 
     public getTexture(): string {
-        let randomBubbleType = Phaser.Math.Between(0, this.textureKeys.length - 5);
+        let randomBubbleType = Phaser.Math.Between(4, this.textureKeys.length - 1);
         let bubbleType = this.textureKeys[randomBubbleType];
         return bubbleType;
     }

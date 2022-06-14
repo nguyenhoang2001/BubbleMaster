@@ -81,6 +81,6 @@ export class AddingBubble {
         }
         this.updateOldRows(numberOfRow);
         this.updateNewRows(numberOfRow);
-        this.bubblesBoard.scrollDownHelper.run(numberOfRow);
+        // this.bubblesBoard.scrollDownHelper.run(numberOfRow);
     }
 }
