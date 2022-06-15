@@ -9,11 +9,13 @@ export class AddingBubble {
     public fixedPos!: any;
     private positionHandler!: PositionBubbleHandler;
     public scene!: GameScene;
+    public finishedAdding!: boolean;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.positionHandler = new PositionBubbleHandler(this);
         this.scene = this.bubblesBoard.scene;
+        this.finishedAdding = false;
     }
 
     public toBoard(row:number, column:number,texture?:string):Bubble {
@@ -29,8 +31,11 @@ export class AddingBubble {
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble {
+        this.finishedAdding = false;
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble.texture.key);
+        this.bubblesBoard.colliderBubble.colliderBubbleAndShoot(bubble,this.scene.shooter.shootedBubble);
+        this.finishedAdding = true;
         return bubble;
     }
 

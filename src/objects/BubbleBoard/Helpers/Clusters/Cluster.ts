@@ -12,6 +12,7 @@ export class Clusters {
     private handler!: ClusterHandler;
     public remains!: number;
     public isHavingClusters!: boolean;
+    public clustersFinish!: boolean;
 
     constructor(scene:GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
@@ -21,6 +22,7 @@ export class Clusters {
         this.handler = new ClusterHandler(this.scene, this);
         this.remains = 1;
         this.isHavingClusters = false;
+        this.clustersFinish = false;
     }
 
     public resetProcess() {
@@ -35,11 +37,9 @@ export class Clusters {
     public run(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         this.clusters = this.findClusters(targetedBubble,reset,matchType);
         if(this.clusters.length >= 3) {
-            for(let i = 0; i < this.clusters.length; i++) {
-                this.clusters[i].setDepth(1);
-            }
             this.remains = this.clusters.length;
             this.isHavingClusters = true;
+            this.clustersFinish = false;
             this.handler.clearClusters(this.clusters);
         } else {
             this.isHavingClusters = false;
@@ -48,6 +48,7 @@ export class Clusters {
     }
 
     public resetRemains() {
+        this.clustersFinish = true;
         this.remains = 1;
     }
 }

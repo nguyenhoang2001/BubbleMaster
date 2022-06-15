@@ -13,6 +13,7 @@ export class ClusterHandler {
 
     public clearClusters(cluster:Bubble[]) {
         for(let i = 0; i < cluster.length; i++) {
+            cluster[i].setDepth(1);
             cluster[i].body.checkCollision.none = true;
             this.scene.tweens.add({
                 targets:cluster[i],

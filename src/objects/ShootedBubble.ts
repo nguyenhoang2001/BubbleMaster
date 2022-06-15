@@ -1,10 +1,12 @@
 import { Bubble } from "./Bubble";
 
-export class ShootedBubble extends Bubble {
+export class ShootedBubble extends Phaser.GameObjects.Sprite {
     public body!: Phaser.Physics.Arcade.Body;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
-        super(scene,x,y,undefined,undefined,texture);
+        super(scene,x,y,texture);
+        this.scene.physics.world.enable(this);
+        this.body.setCircle(28,0,0);
         this.createBouncing();
     }
 
@@ -19,5 +21,11 @@ export class ShootedBubble extends Bubble {
                 }
             }
         });
+    }
+
+    public clear() {
+        this.setVisible(false);
+        this.body.checkCollision.none = true;
+        this.scene.physics.world.disableBody(this.body);
     }
 }

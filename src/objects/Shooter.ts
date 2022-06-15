@@ -39,9 +39,31 @@ export class Shooter {
         return false;
     }
 
+    private updateAllowShooting() {
+        if(this.scene.bubblesBoard.addingManager.finishedAdding) {
+            if(!this.scene.bubblesBoard.clusters.isHavingClusters) {
+                this.allowShooting = true;
+                this.scene.bubblesBoard.addingManager.finishedAdding = false;
+            } else {
+                if(this.scene.bubblesBoard.clusters.clustersFinish) {
+                    if(!this.scene.bubblesBoard.floatingBubbles.isFloating) {
+                        this.scene.bubblesBoard.addingManager.finishedAdding = false;
+                        this.allowShooting = true;
+                    } else {
+                        if(this.scene.bubblesBoard.floatingBubbles.floatingFinish) {
+                            this.scene.bubblesBoard.addingManager.finishedAdding = false;
+                            this.allowShooting = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public enableInput() {
             this.scene.input.on('pointerup',() => {
                 if(this.allowShooting) {
+                    this.allowShooting = false;
                     this.scene.physics.velocityFromRotation(
                         this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                         2000,
@@ -96,5 +118,11 @@ export class Shooter {
     
     public update() {
         this.rotateShooter();
+        if(!this.allowShooting) {
+            this.updateAllowShooting();
+            if(this.allowShooting) {
+                console.log('reset allow success');
+            }
+        }
     }
 }

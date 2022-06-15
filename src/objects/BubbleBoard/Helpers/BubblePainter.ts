@@ -11,22 +11,25 @@ export class BubblePainter {
         this.scene = this.bubblesBoard.scene;
     }
 
-    public drawBubble(row:number, column:number, texture?:string):Bubble {
-        let bubbleType = this.scene.typeGenerator.getTexture();
-        let bubble = new Bubble(this.scene,0,0,row,column,bubbleType);
+    private createBubble(row:number, column:number, texture?:string):Bubble {
+        let bubble = new Bubble(this.scene,0,0,row,column,'');
         if(texture != undefined) {
             bubble.setTexture(texture);
+        } else {
+            let bubbleType = this.scene.typeGenerator.getTexture();
+            bubble.setTexture(bubbleType);
         }
+        return bubble;
+    }
+
+    public drawBubble(row:number, column:number, texture?:string):Bubble {
+        let bubble = this.createBubble(row,column,texture);
         this.bubblesBoard.positionManager.setCoordinateBubble(row,column,bubble);
         return bubble;
     }
 
     public drawBubbleFromShoot(row:number, column:number, texture?:string):Bubble {
-        let bubbleType = this.scene.typeGenerator.getTexture();
-        let bubble = new Bubble(this.scene,0,0,row,column,bubbleType);
-        if(texture != undefined) {
-            bubble.setTexture(texture);
-        }
+        let bubble = this.createBubble(row,column,texture);
         this.bubblesBoard.positionManager.setPositionFromShooting(row,column,bubble);
         return bubble;
     }

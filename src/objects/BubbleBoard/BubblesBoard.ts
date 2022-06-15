@@ -12,7 +12,7 @@ export class BubblesBoard {
     public addingManager!: AddingBubble;
     public colliderBubble!: ColliderManager;
     public clusters!: Clusters;
-    private floatingBubbles!: FloatingBubbles;
+    public floatingBubbles!: FloatingBubbles;
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
     // Variables
@@ -27,6 +27,7 @@ export class BubblesBoard {
     public addSignal!: boolean;
     private clustersAndFloatingsRemoved!: boolean;
     private allowAdding!: boolean;
+    public isUpdating!: boolean;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
         // Variables
@@ -35,6 +36,7 @@ export class BubblesBoard {
         this.clustersAndFloatingsRemoved = false;
         this.addSignal = false;
         this.allowAdding = false;
+        this.isUpdating = false;
         this.scene = scene;
         this.row = row;
         this.column = column;

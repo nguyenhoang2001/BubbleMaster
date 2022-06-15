@@ -10,21 +10,28 @@ export class ColliderManager {
         this.bubblesBoard = bubblesBoard;
     }
 
+
+    public colliderBubbleAndShoot(bubble:Bubble, shootedBubble:ShootedBubble) {
+        this.bubblesBoard.scene.physics.add.collider(shootedBubble,bubble,(_shootedBubble:any,_bubble:any) => {
+            let bubble = _bubble as Bubble;
+            let shootedBubble = _shootedBubble as ShootedBubble;
+            shootedBubble.clear();
+            let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
+            if(this.bubblesBoard.scene.shooter.shootTenTimes) {
+                this.bubblesBoard.addSignal = true;
+            }
+            this.bubblesBoard.clusters.run(newBubble,true,true);
+        });
+    }
+
     public createColliderShootedBubble(shootedBubble:ShootedBubble) {
         this.bubblesBoard.updateRow();
         let widthRange = this.bubblesBoard.row;
+        console.log('the row to collide: ' + widthRange);
         for(let i = 0; i < widthRange; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    this.bubblesBoard.scene.physics.add.collider(shootedBubble,this.bubblesBoard.board[i][j],(_shootedBubble:any,_bubble:any) => {
-                        let bubble = _bubble as Bubble;
-                        shootedBubble.clear();
-                        let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
-                        if(this.bubblesBoard.scene.shooter.shootTenTimes) {
-                            this.bubblesBoard.addSignal = true;
-                        }
-                        this.bubblesBoard.clusters.run(newBubble,true,true);
-                    });
+                    this.colliderBubbleAndShoot(this.bubblesBoard.board[i][j],shootedBubble);
                 }
             }
         }

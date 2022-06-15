@@ -12,6 +12,7 @@ export class FloatingHandler {
 
     public clearFloating(floatingBubbles:Bubble[]) {
         for(let i = 0; i< floatingBubbles.length; i++) {
+            floatingBubbles[i].setDepth(1);
             floatingBubbles[i].body.checkCollision.none = true;
             this.scene.tweens.add({
                 targets:floatingBubbles[i],

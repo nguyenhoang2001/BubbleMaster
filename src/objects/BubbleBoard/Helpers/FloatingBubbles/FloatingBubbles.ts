@@ -11,6 +11,7 @@ export class FloatingBubbles {
     private handler!: FloatingHandler;
     public remains!: number;
     public isFloating!: boolean;
+    public floatingFinish!: boolean;
 
     constructor(scene: Phaser.Scene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
@@ -20,21 +21,23 @@ export class FloatingBubbles {
         this.detector = new FloatingDetector(this.bubblesBoard);
         this.handler = new FloatingHandler(this.scene,this);
         this.remains = 1;
+        this.floatingFinish = false;
     }
 
     public resetRemains() {
+        this.floatingFinish = true;
         this.remains = 1;
     }
 
     public run() {
         this.floatingBubbles = this.detector.find();
         if( this.floatingBubbles.length > 0) {
-            for(let k = 0; k <  this.floatingBubbles.length; k++) {
-                this.floatingBubbles[k].setDepth(1);
-            }
+            this.floatingFinish = false;
             this.isFloating = true;
             this.remains = this.floatingBubbles.length;
             this.handler.clearFloating(this.floatingBubbles);         
+        } else {
+            this.isFloating = false;
         }
     }
 }
