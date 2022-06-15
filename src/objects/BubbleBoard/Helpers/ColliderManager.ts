@@ -11,6 +11,7 @@ export class ColliderManager {
     }
 
     public createColliderShootedBubble(shootedBubble:ShootedBubble) {
+        this.bubblesBoard.updateRow();
         let widthRange = this.bubblesBoard.row;
         for(let i = 0; i < widthRange; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {

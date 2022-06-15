@@ -21,6 +21,16 @@ export class BubblePainter {
         return bubble;
     }
 
+    public drawBubbleFromShoot(row:number, column:number, texture?:string):Bubble {
+        let bubbleType = this.scene.typeGenerator.getTexture();
+        let bubble = new Bubble(this.scene,0,0,row,column,bubbleType);
+        if(texture != undefined) {
+            bubble.setTexture(texture);
+        }
+        this.bubblesBoard.positionManager.setPositionFromShooting(row,column,bubble);
+        return bubble;
+    }
+
     public drawBubblesBoard() {
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {

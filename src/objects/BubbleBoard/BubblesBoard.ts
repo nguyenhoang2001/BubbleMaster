@@ -1,12 +1,11 @@
 import { GameScene } from "../../scenes/GameScene";
-import { AddingBubble } from "./Helpers/AddingBubble";
+import { AddingBubble } from "./Helpers/AddingBubble/AddingBubble";
 import { Bubble } from "../Bubble";
 import { BubblePainter } from "./Helpers/BubblePainter";
 import { BubblePositionManager } from "./Helpers/BubblePositionManager";
 import { Clusters } from "./Helpers/Clusters/Cluster";
 import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
-import { ScorllDownBubbles } from "./Helpers/ScrollDownBubbles";
 
 export class BubblesBoard {
     // Helpers
@@ -16,7 +15,6 @@ export class BubblesBoard {
     private floatingBubbles!: FloatingBubbles;
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
-    public scrollDownHelper!: ScorllDownBubbles;
     // Variables
     public board!: Bubble[][];
     public row!: number; // 27 is max
@@ -46,6 +44,7 @@ export class BubblesBoard {
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
         }
+        // console.log(this.board.length);
         // Game Objects
         this.addingManager = new AddingBubble(this);
         this.colliderBubble = new ColliderManager(this);
@@ -53,7 +52,6 @@ export class BubblesBoard {
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
         this.painter = new BubblePainter(this);
-        this.scrollDownHelper = new ScorllDownBubbles(this);
         // Init board
         this.painter.drawBubblesBoard();
     }
@@ -86,6 +84,7 @@ export class BubblesBoard {
             }
         }
         this.row = maxRow + 1;
+        this.board.length = this.row;
     }
 
     private checkingClustersAndFloatings() {
@@ -107,6 +106,17 @@ export class BubblesBoard {
         }
     }
 
+    private moveBubbles(deltaY:number) {
+        this.updateRow();
+        for(let i = 0; i < this.row; i++) {
+            for(let j = 0; j < this.column; j++) {
+                if(this.isBublleExisting(i,j)) {
+                    this.board[i][j].y += deltaY;
+                }
+            }
+        }
+    }
+
     public update() {
         this.checkingClustersAndFloatings();
         if(this.addSignal) {
@@ -124,5 +134,6 @@ export class BubblesBoard {
                 this.allowAdding = false;
             }
         }
+        this.moveBubbles(0.1);
     }
 }

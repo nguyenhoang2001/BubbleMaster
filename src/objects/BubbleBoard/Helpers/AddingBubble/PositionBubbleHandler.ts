@@ -1,6 +1,6 @@
 import { AddingBubble } from "./AddingBubble";
-import { Bubble } from "../../Bubble";
-import { ShootedBubble } from "../../ShootedBubble";
+import { Bubble } from "../../../Bubble";
+import { ShootedBubble } from "../../../ShootedBubble";
 
 export class PositionBubbleHandler {
     private parent!: AddingBubble;
@@ -13,10 +13,14 @@ export class PositionBubbleHandler {
         console.log('hitted bubble coordinate: ' + hittedBubble.y);
         console.log('shooted bubble coordinate: ' + shootedBubble.y);
         console.log('difference of heigth: ' + (shootedBubble.y - hittedBubble.y));
-        let gridPos = this.parent.bubblesBoard.positionManager.getIndexBubble(shootedBubble);
+
+        let gridPos = this.parent.bubblesBoard.positionManager.getPositionFromShooting(shootedBubble);
+
         console.log('unProtected bubble position: ' + gridPos.x + '|' + gridPos.y);
         this.protectRow(gridPos,hittedBubble,shootedBubble);
+
         let newBubbleCoordinate = this.parent.bubblesBoard.positionManager.getCoordinateBubble(gridPos.x,gridPos.y);
+
         let distanceOldAndNew = Phaser.Math.Distance.Between(hittedBubble.x,hittedBubble.y,newBubbleCoordinate.x,newBubbleCoordinate.y);
         console.log('distance between two bubbbles: ' + distanceOldAndNew);
         if(distanceOldAndNew >= 57) {
