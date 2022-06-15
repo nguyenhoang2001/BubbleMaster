@@ -44,7 +44,6 @@ export class BubblesBoard {
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
         }
-        // console.log(this.board.length);
         // Game Objects
         this.addingManager = new AddingBubble(this);
         this.colliderBubble = new ColliderManager(this);
@@ -73,17 +72,18 @@ export class BubblesBoard {
     }
 
     public updateRow() {
-        let maxRow = 0;
-        for(let i = 0; i < this.row; i++) {
+        for(let i = this.row - 1; i >= 0; i--) {
+            let exit = false;
             for(let j = 0; j < this.column; j++) {
                 if(this.isBublleExisting(i,j)) {
-                    if(maxRow < this.board[i][j].row) {
-                        maxRow = this.board[i][j].row;
-                    }
+                    this.row = this.board[i][j].row + 1;
+                    exit = true;
+                    break;
                 }
             }
+            if(exit)
+                break;
         }
-        this.row = maxRow + 1;
         this.board.length = this.row;
     }
 
@@ -94,6 +94,7 @@ export class BubblesBoard {
             this.floatingBubbles.run();
             this.clusters.resetRemains();
             this.clustersAndFloatingsRemoved = true;
+            this.updateRow();
         }
         if(this.floatingBubbles.isFloating) {
             this.clustersAndFloatingsRemoved = false;
@@ -102,12 +103,12 @@ export class BubblesBoard {
                 this.floatingBubbles.resetRemains();
                 this.clustersAndFloatingsRemoved = true;
                 this.floatingBubbles.isFloating = false
+                this.updateRow();
             }
         }
     }
 
     private moveBubbles(deltaY:number) {
-        this.updateRow();
         for(let i = 0; i < this.row; i++) {
             for(let j = 0; j < this.column; j++) {
                 if(this.isBublleExisting(i,j)) {
@@ -128,10 +129,11 @@ export class BubblesBoard {
                 }
             }
             if(this.allowAdding) {
-                this.invertRowOffset();
+                this.updateRow();
                 this.addingManager.moreBubbleRows(3);
                 this.addSignal = false;
                 this.allowAdding = false;
+                this.updateRow();
             }
         }
         this.moveBubbles(0.1);

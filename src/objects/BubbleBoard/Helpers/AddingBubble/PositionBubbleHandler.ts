@@ -10,21 +10,11 @@ export class PositionBubbleHandler {
     }
 
     public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
-        console.log('hitted bubble coordinate: ' + hittedBubble.y);
-        console.log('shooted bubble coordinate: ' + shootedBubble.y);
-        console.log('difference of heigth: ' + (shootedBubble.y - hittedBubble.y));
-
         let gridPos = this.parent.bubblesBoard.positionManager.getPositionFromShooting(shootedBubble);
-
-        console.log('unProtected bubble position: ' + gridPos.x + '|' + gridPos.y);
         this.protectRow(gridPos,hittedBubble,shootedBubble);
-
         let newBubbleCoordinate = this.parent.bubblesBoard.positionManager.getCoordinateBubble(gridPos.x,gridPos.y);
-
         let distanceOldAndNew = Phaser.Math.Distance.Between(hittedBubble.x,hittedBubble.y,newBubbleCoordinate.x,newBubbleCoordinate.y);
-        console.log('distance between two bubbbles: ' + distanceOldAndNew);
         if(distanceOldAndNew >= 57) {
-            console.log('detect high distance');
             this.rePositionBubble(hittedBubble,newBubbleCoordinate,gridPos);
         }
         this.protectPosition(gridPos,hittedBubble,shootedBubble);
@@ -78,7 +68,6 @@ export class PositionBubbleHandler {
     private protectColumn(gridPos:any, hittedBubble:Bubble, shootedBubble:ShootedBubble) {
         if(gridPos.x != hittedBubble.row) {
             if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
-                console.log('existing bubble position: ' + gridPos.x + '|' + gridPos.y);
                 if((hittedBubble.row + this.parent.bubblesBoard.rowOffSet) % 2) {
                     if(gridPos.y > hittedBubble.column) {
                         gridPos.y = hittedBubble.column;
@@ -95,7 +84,6 @@ export class PositionBubbleHandler {
             }
         } else {
             if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
-                console.log('existing bubble position: ' + gridPos.x + '|' + gridPos.y);
                 if(hittedBubble.x >= shootedBubble.x) {
                     gridPos.y = hittedBubble.column - 1;
                 } else {
@@ -116,7 +104,6 @@ export class PositionBubbleHandler {
         this.parent.bubblesBoard.addNewRow();
         this.protectColumn(gridPos,hittedBubble,shootedBubble);
         if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
-            console.log('finnal check and still exiting bubble: ' + gridPos.x + '|' + gridPos.y);
             if(gridPos.x == hittedBubble.row) {
                 if(shootedBubble.y >= hittedBubble.y) {
                     gridPos.x = hittedBubble.row + 1;

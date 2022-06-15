@@ -28,11 +28,9 @@ export class FloatingBubbles {
 
     public run() {
         this.floatingBubbles = this.detector.find();
-        console.log('Floating bubbles number: ' +  this.floatingBubbles.length);
         if( this.floatingBubbles.length > 0) {
             for(let k = 0; k <  this.floatingBubbles.length; k++) {
                 this.floatingBubbles[k].setDepth(1);
-                console.log('floating bubbles position: ' +  this.floatingBubbles[k].row + '|' +  this.floatingBubbles[k].column);
             }
             this.isFloating = true;
             this.remains = this.floatingBubbles.length;

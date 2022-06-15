@@ -22,6 +22,7 @@ export class Shooter {
     public createShootedBubble() {
         this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
         Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone);
+        this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
         this.scene.add.existing(this.shootedBubble);
     }
 
@@ -41,7 +42,6 @@ export class Shooter {
     public enableInput() {
             this.scene.input.on('pointerup',() => {
                 if(this.allowShooting) {
-                    this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
                     this.scene.physics.velocityFromRotation(
                         this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                         2000,

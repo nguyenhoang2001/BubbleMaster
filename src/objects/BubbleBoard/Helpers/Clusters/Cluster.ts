@@ -29,16 +29,15 @@ export class Clusters {
 
     public findClusters(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         let foundClusters = this.detector.find(targetedBubble,reset,matchType);
-
         return foundClusters;
     }
 
     public run(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         this.clusters = this.findClusters(targetedBubble,reset,matchType);
-        for(let i = 0; i < this.clusters.length; i++) {
-            this.clusters[i].setDepth(1);
-        }
         if(this.clusters.length >= 3) {
+            for(let i = 0; i < this.clusters.length; i++) {
+                this.clusters[i].setDepth(1);
+            }
             this.remains = this.clusters.length;
             this.isHavingClusters = true;
             this.handler.clearClusters(this.clusters);

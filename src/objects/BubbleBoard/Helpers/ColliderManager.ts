@@ -17,7 +17,6 @@ export class ColliderManager {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
                     this.bubblesBoard.scene.physics.add.collider(shootedBubble,this.bubblesBoard.board[i][j],(_shootedBubble:any,_bubble:any) => {
-                        console.log('Starting point////////////////////////////////');
                         let bubble = _bubble as Bubble;
                         shootedBubble.clear();
                         let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);

@@ -4,14 +4,14 @@ export class Bubble extends Phaser.GameObjects.Sprite {
     public row!:number;
     public column!: number;
 
-    constructor(scene:Phaser.Scene, x:number, y:number,row:number,column:number, texture:string) {
-        super(scene,x,y,texture);
-        this.row = row;
-        this.column = column;
+    constructor(scene:Phaser.Scene, x:number, y:number,row?:number,column?:number, texture?:string) {
+        super(scene,x,y,texture!);
+        this.row = row!;
+        this.column = column!;
         this.processed = false;
         this.scene.physics.world.enable(this);
         this.body.setCircle(28,0,0);
-        this.body.setImmovable();
+        this.body.setImmovable(true);
     }
 
     public clear() {
