@@ -1,3 +1,4 @@
+import { GameScene } from "../../../scenes/GameScene";
 import { Bubble } from "../../Bubble";
 import { ShootedBubble } from "../../ShootedBubble";
 import { BubblesBoard } from "../BubblesBoard";
@@ -5,35 +6,30 @@ import { BubblesBoard } from "../BubblesBoard";
 
 export class ColliderManager {
     public bubblesBoard!: BubblesBoard;
+    public scene!: GameScene;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
+        this.scene = this.bubblesBoard.scene;
     }
 
-
-    public colliderBubbleAndShoot(bubble:Bubble, shootedBubble:ShootedBubble) {
-        this.bubblesBoard.scene.physics.add.collider(shootedBubble,bubble,(_shootedBubble:any,_bubble:any) => {
+    public gridGroupAndBulletGroup() {
+        this.scene.physics.add.collider(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             let bubble = _bubble as Bubble;
             let shootedBubble = _shootedBubble as ShootedBubble;
-            shootedBubble.clear();
+            shootedBubble.stopPhysics();
+            let bulletGroup = this.scene.shooter.bulletGroup;
+            let gridGroup = this.bubblesBoard.gridGroup;
             let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
+            // get from the bullet group to the grid group
+            bulletGroup.remove(shootedBubble);
+            gridGroup.add(shootedBubble);
+            // check adding signal but need to change this
             if(this.bubblesBoard.scene.shooter.shootTenTimes) {
                 this.bubblesBoard.addSignal = true;
             }
+            // run the clusters
             this.bubblesBoard.clusters.run(newBubble,true,true);
-        });
-    }
-
-    public createColliderShootedBubble(shootedBubble:ShootedBubble) {
-        this.bubblesBoard.updateRow();
-        let widthRange = this.bubblesBoard.row;
-        console.log('the row to collide: ' + widthRange);
-        for(let i = 0; i < widthRange; i++) {
-            for(let j = 0; j < this.bubblesBoard.column; j++) {
-                if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    this.colliderBubbleAndShoot(this.bubblesBoard.board[i][j],shootedBubble);
-                }
-            }
-        }
+        })
     }
 }

@@ -9,11 +9,13 @@ export class Shooter {
     private numberOfShooting!: number;
     public shootTenTimes!: boolean;
     public allowShooting!: boolean;
+    public bulletGroup!: Phaser.GameObjects.Group;
 
     constructor(scene:GameScene) {
         this.scene = scene;
         this.numberOfShooting = 5;
         this.allowShooting = true;
+        this.bulletGroup = this.scene.add.group({});
         this.createShootedBubble();
         this.drawLineAndCircle();
         this.enableInput();
@@ -22,8 +24,9 @@ export class Shooter {
     public createShootedBubble() {
         this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
         Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone);
-        this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
         this.scene.add.existing(this.shootedBubble);
+        this.bulletGroup.add(this.shootedBubble);
+        // this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
     }
 
     public drawLineAndCircle() {

@@ -18,23 +18,31 @@ export class AddingBubble {
         this.finishedAdding = false;
     }
 
+    private addingToGridGroup(bubble:Bubble) {
+        this.bubblesBoard.gridGroup.add(bubble);
+    }
+
     public toBoard(row:number, column:number,texture?:string):Bubble {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         this.scene.add.existing(this.bubblesBoard.board[row][column]);
+        // adding to the grid group
+        this.addingToGridGroup(this.bubblesBoard.board[row][column]);
         return this.bubblesBoard.board[row][column];
     }
 
-    private toBoardFromShoot(row:number, column:number,texture?:string):Bubble {
-        this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubbleFromShoot(row,column,texture);
-        this.scene.add.existing(this.bubblesBoard.board[row][column]);
+    private toBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble {
+        this.bubblesBoard.positionManager.setPositionFromShooting(row,column,shootedBubble);
+        shootedBubble.resetPhysics();
+        shootedBubble.row = row;
+        shootedBubble.column = column;
+        this.bubblesBoard.board[row][column] = shootedBubble;
         return this.bubblesBoard.board[row][column];
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble {
         this.finishedAdding = false;
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
-        let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble.texture.key);
-        this.bubblesBoard.colliderBubble.colliderBubbleAndShoot(bubble,this.scene.shooter.shootedBubble);
+        let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
         this.finishedAdding = true;
         return bubble;
     }
@@ -64,6 +72,8 @@ export class AddingBubble {
                 this.bubblesBoard.board[0][j].x = bubbleX + this.bubblesBoard.x;
                 let bellowBubble = this.bubblesBoard.board[1].find(n => n)!;
                 this.bubblesBoard.board[0][j].y = bellowBubble.y - 49;
+                // adding to grid group
+                this.addingToGridGroup(this.bubblesBoard.board[0][j]);
             }
             numberOfRow -= 1;
         }

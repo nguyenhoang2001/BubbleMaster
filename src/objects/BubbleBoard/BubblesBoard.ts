@@ -15,8 +15,10 @@ export class BubblesBoard {
     public floatingBubbles!: FloatingBubbles;
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
+
     // Variables
     public board!: Bubble[][];
+    public gridGroup!: Phaser.GameObjects.Group;
     public row!: number; // 27 is max
     public column!:number; // 12 is max
     public rowOffSet!:number;
@@ -42,6 +44,7 @@ export class BubblesBoard {
         this.column = column;
         this.rowOffSet = rowOffSet;
         this.rowHeight = rowHeight;
+        this.gridGroup = this.scene.add.group({});
         this.board = [];
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
