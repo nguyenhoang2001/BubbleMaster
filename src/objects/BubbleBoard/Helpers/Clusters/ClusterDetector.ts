@@ -14,16 +14,17 @@ export class ClusterDetector {
     public resetProcess() {
         for(let i = 0; i < this.parent.row; i++) {
             for(let j = 0; j < this.parent.column; j++) {
-                if(this.parent.board[i] != undefined ) {
-                    if(this.parent.isBublleExisting(i,j))  {
-                        this.parent.board[i][j].processed = false;
-                    }
+                const object = this.parent.board[i][j];
+                if(object == undefined)
+                    continue;
+                if(this.parent.isBublleExisting(i,j))  {
+                    object.processed = false;
                 }
             }
         }
     }
 
-    private getNeighbors(bubble:Bubble):Bubble[] {
+    private getNeighbors(bubble:Bubble):Bubble[]|void {
         let bubbleRow = (bubble.row + this.parent.rowOffSet) % 2;
         let neighbors = [];
         let offset = this.neighborOffsets[bubbleRow];
@@ -31,7 +32,9 @@ export class ClusterDetector {
             let neighborRow = bubble.row + offset[i][0];
             let neighborColumn = bubble.column + offset[i][1];
             if(neighborRow >= 0 && neighborRow < this.parent.row && neighborColumn >= 0 && neighborColumn < this.parent.column) {
-                let neighborBubble = this.parent.board[neighborRow][neighborColumn];
+                const neighborBubble = this.parent.board[neighborRow][neighborColumn];
+                if(neighborBubble == undefined)
+                    continue;
                 if(this.parent.isBublleExisting(neighborRow,neighborColumn) && !neighborBubble.processed) {
                     neighbors.push(neighborBubble);
                 }
@@ -55,7 +58,9 @@ export class ClusterDetector {
                 if(currentBubble.visible) {
                     if(!matchType || currentBubble.texture.key == targetedBubble.texture.key) {
                         foundCluster.push(currentBubble);
-                        let neighbors = this.getNeighbors(currentBubble);
+                        const neighbors = this.getNeighbors(currentBubble);
+                        if(neighbors == undefined)
+                            continue;
                         for(let i = 0; i < neighbors.length; i++) {
                             if(!neighbors[i].processed) {
                                 neighbors[i].processed = true;

@@ -4,9 +4,11 @@ import { GameScene } from "../scenes/GameScene";
 export class BubblesContainer extends Phaser.GameObjects.Container {
     public mainZone!: Phaser.GameObjects.Zone;
     public scene!: GameScene;
+    public isRunning!: boolean;
 
     constructor(scene:GameScene,x:number,y:number) {
         super(scene,x,y);
+        this.isRunning = false;
         this.create();
     }
 
@@ -17,10 +19,12 @@ export class BubblesContainer extends Phaser.GameObjects.Container {
         this.turnOff();
     }
 
-    public addBubbles(bubbles:Bubble[]) {
-        this.add(bubbles);
+    public addBubbles(bubbles:(Bubble | undefined)[]) {
+        const objects = bubbles;
+        if(objects == undefined)
+            return;
+        this.add(objects as Bubble[]);
     }
-
 
     private turnOff() {
         this.setVisible(false);
@@ -29,28 +33,14 @@ export class BubblesContainer extends Phaser.GameObjects.Container {
 
     public open() {
         this.setVisible(true);
-        this.scene.shooter.allowShooting = false;
+        this.isRunning = true;
         this.scene.tweens.add({
             targets:this,
             y: 0,
             ease:'Power1',
             duration: 2000,
             onComplete: () => {
-                this.scene.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
-                this.scene.shooter.allowShooting = true;
-            }
-        })
-    }
-
-    public pullDown(positionY:number) {
-        this.scene.shooter.allowShooting = false;
-        this.scene.tweens.add({
-            targets:this,
-            y: positionY,
-            ease:'Power1',
-            duration: 1000,
-            onComplete: () => {
-                this.scene.shooter.allowShooting = true;
+                this.isRunning = false;
             }
         })
     }

@@ -6,16 +6,13 @@ export class Shooter {
     public scene!: GameScene;
     private arrowShoot!: Phaser.GameObjects.Line
     private circle!: Phaser.GameObjects.Image;
-    private numberOfShooting!: number;
-    public shootTenTimes!: boolean;
     public allowShooting!: boolean;
     public bulletGroup!: Phaser.GameObjects.Group;
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.numberOfShooting = 5;
         this.allowShooting = true;
-        this.bulletGroup = this.scene.add.group({});
+        this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.createShootedBubble();
         this.drawLineAndCircle();
         this.enableInput();
@@ -26,7 +23,6 @@ export class Shooter {
         Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone);
         this.scene.add.existing(this.shootedBubble);
         this.bulletGroup.add(this.shootedBubble);
-        // this.scene.bubblesBoard.colliderBubble.createColliderShootedBubble(this.shootedBubble);
     }
 
     public drawLineAndCircle() {
@@ -34,27 +30,19 @@ export class Shooter {
         this.drawCircle();
     }
 
-    public isShootTenTimes():boolean {
-        if(this.numberOfShooting <= 0) {
-            this.numberOfShooting = 5;
-            return true;
-        }
-        return false;
-    }
-
     private updateAllowShooting() {
-        if(this.scene.bubblesBoard.addingManager.finishedAdding) {
+        if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
             if(!this.scene.bubblesBoard.clusters.isHavingClusters) {
                 this.allowShooting = true;
-                this.scene.bubblesBoard.addingManager.finishedAdding = false;
+                this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
             } else {
                 if(this.scene.bubblesBoard.clusters.clustersFinish) {
                     if(!this.scene.bubblesBoard.floatingBubbles.isFloating) {
-                        this.scene.bubblesBoard.addingManager.finishedAdding = false;
+                        this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
                         this.allowShooting = true;
                     } else {
                         if(this.scene.bubblesBoard.floatingBubbles.floatingFinish) {
-                            this.scene.bubblesBoard.addingManager.finishedAdding = false;
+                            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
                             this.allowShooting = true;
                         }
                     }
@@ -72,8 +60,6 @@ export class Shooter {
                         2000,
                         this.shootedBubble.body.velocity
                     );
-                    this.numberOfShooting -= 1;
-                    this.shootTenTimes = this.isShootTenTimes();
                     this.createShootedBubble();
                 }
             },this);
@@ -123,9 +109,6 @@ export class Shooter {
         this.rotateShooter();
         if(!this.allowShooting) {
             this.updateAllowShooting();
-            if(this.allowShooting) {
-                console.log('reset allow success');
-            }
         }
     }
 }

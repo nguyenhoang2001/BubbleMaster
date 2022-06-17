@@ -13,8 +13,10 @@ export class FloatingDetector {
         let foundFloating = [];
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
+                const bubble = this.bubblesBoard.board[i][j];
+                if(bubble == undefined)
+                    continue;
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    let bubble = this.bubblesBoard.board[i][j];
                     if(!bubble.processed) {
                         let bubbleGroup = this.bubblesBoard.clusters.findClusters(bubble,false,false);
                         if(bubbleGroup.length <= 0) {

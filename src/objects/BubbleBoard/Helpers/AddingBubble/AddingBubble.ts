@@ -9,73 +9,150 @@ export class AddingBubble {
     public fixedPos!: any;
     private positionHandler!: PositionBubbleHandler;
     public scene!: GameScene;
-    public finishedAdding!: boolean;
+    public finishedAddingBullet!: boolean;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.positionHandler = new PositionBubbleHandler(this);
         this.scene = this.bubblesBoard.scene;
-        this.finishedAdding = false;
+        this.finishedAddingBullet = false;
     }
 
-    private addingToGridGroup(bubble:Bubble) {
-        this.bubblesBoard.gridGroup.add(bubble);
+    private addingToGridGroup(bubbles:Bubble[]) {
+        this.bubblesBoard.gridGroup.addMultiple(bubbles)
     }
 
-    public toBoard(row:number, column:number,texture?:string):Bubble {
+    private toContainer(bubbles:Bubble[]) {
+        this.scene.bubblesContainer.add(bubbles);
+    }
+
+    public toBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
-        this.scene.add.existing(this.bubblesBoard.board[row][column]);
+        const object = this.bubblesBoard.board[row][column];
+        if(object == undefined)
+            return;
+        this.scene.add.existing(object);
         // adding to the grid group
-        this.addingToGridGroup(this.bubblesBoard.board[row][column]);
-        return this.bubblesBoard.board[row][column];
+        this.addingToGridGroup([object]);
+        return object;
     }
 
-    private toBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble {
+    private toBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble|void {
         this.bubblesBoard.positionManager.setPositionFromShooting(row,column,shootedBubble);
         shootedBubble.resetPhysics();
         shootedBubble.row = row;
         shootedBubble.column = column;
         this.bubblesBoard.board[row][column] = shootedBubble;
-        return this.bubblesBoard.board[row][column];
+
+        const object = this.bubblesBoard.board[row][column];
+        if(object == undefined)
+            return;
+        return object;
     }
     
-    public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble {
-        this.finishedAdding = false;
+    public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
+        this.finishedAddingBullet = false;
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
-        this.finishedAdding = true;
+        const object = bubble;
+        if(object == undefined)
+            return;
+        this.toContainer([object]);
+        this.finishedAddingBullet = true;
         return bubble;
     }
 
+    private activateBubble(bubble:Bubble, texture:string) {
+        this.scene.physics.world.enable(bubble);
+        bubble.body.checkCollision.none = false;
+        bubble.setScale(1);
+        bubble.setDepth(0);
+        bubble.setActive(true);
+        // bubble.setVisible(true);
+        bubble.setTexture(texture);
+    }
+
     public moreBubbleRows(numberOfRow:number) {
+        console.log('add more row');
         if(numberOfRow <= 0)
             return;
-        while(numberOfRow > 0) {
-            this.bubblesBoard.invertRowOffset();
-            this.scene.typeGenerator.resetCurrentType();
-            this.bubblesBoard.board.unshift([]);
-            this.bubblesBoard.row += 1;
-            for(let i = 1; i < this.bubblesBoard.row; i++) {
-                for(let j = 0; j < this.bubblesBoard.column; j++) {
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        this.bubblesBoard.board[i][j].row += 1;
-                    }
+
+        this.scene.typeGenerator.resetCurrentType();
+
+        let bellowBubble = this.bubblesBoard.board[0].find(n=>n)!
+        let bellowY = bellowBubble.y;
+        /////
+        for(let i = 0; i < this.bubblesBoard.row; i++) {
+            for(let j = 0; j < this.bubblesBoard.column; j++) {
+                const object = this.bubblesBoard.board[i][j];
+                if(object == undefined)
+                    continue;
+                if(this.bubblesBoard.isBublleExisting(i,j)) {
+                    object.row += 3;
                 }
             }
+        }
+        /////
+        let bubblesArray:Bubble[] = [];
+        while(numberOfRow > 0) {
+            this.bubblesBoard.invertRowOffset();
             for(let j = 0; j < this.bubblesBoard.column; j++) {
-                this.bubblesBoard.board[0][j] = new Bubble(this.scene,0,0,0,j,this.scene.typeGenerator.getCurrentTexture());
-                this.scene.add.existing(this.bubblesBoard.board[0][j]);
                 let bubbleX = j * 56;
                 if(this.bubblesBoard.rowOffSet % 2) {
                     bubbleX += 28;
                 }
-                this.bubblesBoard.board[0][j].x = bubbleX + this.bubblesBoard.x;
-                let bellowBubble = this.bubblesBoard.board[1].find(n => n)!;
-                this.bubblesBoard.board[0][j].y = bellowBubble.y - 49;
-                // adding to grid group
-                this.addingToGridGroup(this.bubblesBoard.board[0][j]);
+                bubbleX += this.bubblesBoard.x;
+                let bubbleY = bellowY - 49;
+                let bubble = this.bubblesBoard.gridGroup.get(bubbleX,bubbleY,'',undefined,true) as Bubble;
+                this.activateBubble(bubble,this.scene.typeGenerator.getCurrentTexture());
+                bubblesArray.push(bubble);
             }
             numberOfRow -= 1;
+            bellowY -= 49;
         }
+        this.bubblesBoard.board.unshift([]);
+        this.bubblesBoard.board.unshift([]);
+        this.bubblesBoard.board.unshift([]);
+
+        this.bubblesBoard.row += 3;
+        let j = 0;
+        let k = 0;
+
+        while(bubblesArray.length > 0) {
+            if(j == 12) {
+                k++;
+                j = 0;
+            }
+            let bubble = bubblesArray.pop()!;
+            if(bubble.visible) {
+                this.toContainer([bubble]);
+            } else {
+                bubble.setVisible(true);
+            }
+            bubble.row = k;
+            bubble.column = j;
+            this.bubblesBoard.board[k][j] = bubble;
+            j++;
+        }
+        const object = this.bubblesBoard.board[0][0];
+        if(object != undefined) {
+            this.bubblesBoard.y = object.y + this.scene.bubblesContainer.y;
+            this.bubblesBoard.updateRow();
+
+            for(let i = 0; i < this.bubblesBoard.row; i++) {
+                for(let j = 0; j < this.bubblesBoard.column; j++) {
+                    const bubble = this.bubblesBoard.board[i][j];
+                    if(bubble == undefined)
+                        continue;
+                    if(this.bubblesBoard.isBublleExisting(i,j)) {
+                        // bubble.row = i;
+                        // bubble.column = j;
+                        console.log(bubble.row +'|'+ bubble.column);
+                    }
+                }
+            }
+        }
+
+
     }
 }

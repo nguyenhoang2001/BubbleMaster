@@ -15,8 +15,6 @@ export class Bubble extends Phaser.GameObjects.Sprite {
     }
 
     public clear() {
-        this.setVisible(false);
-        this.body.checkCollision.none = true;
         this.scene.physics.world.disableBody(this.body);
     }
 }

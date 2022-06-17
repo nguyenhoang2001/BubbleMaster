@@ -19,7 +19,7 @@ export class Clusters {
         this.bubblesBoard = bubblesBoard;
         this.clusters = [];
         this.detector = new ClusterDetector(this.bubblesBoard);
-        this.handler = new ClusterHandler(this.scene, this);
+        this.handler = new ClusterHandler(this.scene, this, this.bubblesBoard);
         this.remains = 1;
         this.isHavingClusters = false;
         this.clustersFinish = false;

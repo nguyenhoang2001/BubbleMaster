@@ -17,19 +17,17 @@ export class ColliderManager {
         this.scene.physics.add.collider(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             let bubble = _bubble as Bubble;
             let shootedBubble = _shootedBubble as ShootedBubble;
-            shootedBubble.stopPhysics();
             let bulletGroup = this.scene.shooter.bulletGroup;
             let gridGroup = this.bubblesBoard.gridGroup;
-            let newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
+            shootedBubble.stopPhysics();
+            console.log('the before collide check row is: ' + this.bubblesBoard.row);
+            const newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
             // get from the bullet group to the grid group
             bulletGroup.remove(shootedBubble);
-            gridGroup.add(shootedBubble);
-            // check adding signal but need to change this
-            if(this.bubblesBoard.scene.shooter.shootTenTimes) {
-                this.bubblesBoard.addSignal = true;
-            }
+            gridGroup.add(shootedBubble as Bubble);
             // run the clusters
-            this.bubblesBoard.clusters.run(newBubble,true,true);
+            if(newBubble != undefined)
+                this.bubblesBoard.clusters.run(newBubble,true,true);
         })
     }
 }

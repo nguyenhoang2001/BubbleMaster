@@ -12,7 +12,7 @@ export class PositionBubbleHandler {
     public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
         let gridPos = this.parent.bubblesBoard.positionManager.getPositionFromShooting(shootedBubble);
         this.protectRow(gridPos,hittedBubble,shootedBubble);
-        let newBubbleCoordinate = this.parent.bubblesBoard.positionManager.getCoordinateBubble(gridPos.x,gridPos.y);
+        let newBubbleCoordinate = this.parent.bubblesBoard.positionManager.getPosition(gridPos.x,gridPos.y);
         let distanceOldAndNew = Phaser.Math.Distance.Between(hittedBubble.x,hittedBubble.y,newBubbleCoordinate.x,newBubbleCoordinate.y);
         if(distanceOldAndNew >= 57) {
             this.rePositionBubble(hittedBubble,newBubbleCoordinate,gridPos);

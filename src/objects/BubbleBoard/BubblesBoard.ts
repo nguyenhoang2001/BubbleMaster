@@ -6,6 +6,7 @@ import { BubblePositionManager } from "./Helpers/BubblePositionManager";
 import { Clusters } from "./Helpers/Clusters/Cluster";
 import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
+import { ShootedBubble } from "../ShootedBubble";
 
 export class BubblesBoard {
     // Helpers
@@ -17,7 +18,7 @@ export class BubblesBoard {
     public painter!: BubblePainter;
 
     // Variables
-    public board!: Bubble[][];
+    public board!: (Bubble | undefined)[][];
     public gridGroup!: Phaser.GameObjects.Group;
     public row!: number; // 27 is max
     public column!:number; // 12 is max
@@ -44,7 +45,7 @@ export class BubblesBoard {
         this.column = column;
         this.rowOffSet = rowOffSet;
         this.rowHeight = rowHeight;
-        this.gridGroup = this.scene.add.group({});
+        this.gridGroup = this.scene.add.group({classType:Bubble});
         this.board = [];
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
@@ -61,7 +62,8 @@ export class BubblesBoard {
     }
 
     public isBublleExisting(row:number,column:number):boolean {
-        return (this.board[row][column] != undefined && this.board[row][column].visible)
+        const object = this.board[row][column]
+        return (object != undefined && object.visible && object.active)
     }
 
     public addNewRow() {
@@ -77,69 +79,57 @@ export class BubblesBoard {
     }
 
     public updateRow() {
-        for(let i = this.row - 1; i >= 0; i--) {
-            let exit = false;
+        let maxRow = 0;
+        for(let i = 0; i < this.row; i++) {
             for(let j = 0; j < this.column; j++) {
+                const object = this.board[i][j];
+                if (object == undefined) 
+                    continue;
                 if(this.isBublleExisting(i,j)) {
-                    this.row = this.board[i][j].row + 1;
-                    exit = true;
-                    break;
+                    if(maxRow < object.row) {
+                        maxRow = object.row;
+                    }
                 }
             }
-            if(exit)
-                break;
         }
+        this.row = maxRow + 1;
         this.board.length = this.row;
     }
 
     private checkingClustersAndFloatings() {
         this.clustersAndFloatingsRemoved = false;
         if(this.clusters.remains <= 0) {
+            this.updateRow();
             this.scene.typeGenerator.resetCurrentType();
             this.floatingBubbles.run();
             this.clusters.resetRemains();
             this.clustersAndFloatingsRemoved = true;
-            this.updateRow();
         }
         if(this.floatingBubbles.isFloating) {
             this.clustersAndFloatingsRemoved = false;
             if(this.floatingBubbles.remains <= 0) {
+                this.updateRow();
                 this.scene.typeGenerator.resetCurrentType();
                 this.floatingBubbles.resetRemains();
                 this.clustersAndFloatingsRemoved = true;
-                this.floatingBubbles.isFloating = false
-                this.updateRow();
+                this.floatingBubbles.isFloating = false;
             }
         }
     }
 
     private moveBubbles(deltaY:number) {
-        for(let i = 0; i < this.row; i++) {
-            for(let j = 0; j < this.column; j++) {
-                if(this.isBublleExisting(i,j)) {
-                    this.board[i][j].y += deltaY;
-                }
-            }
-        }
+        this.scene.bubblesContainer.y += deltaY;
+        this.y += deltaY;
     }
 
     public update() {
         this.checkingClustersAndFloatings();
         if(this.addSignal) {
-            if(!this.clusters.isHavingClusters) {
-                this.allowAdding = true;
-            } else {
-                if(this.clustersAndFloatingsRemoved) {
-                    this.allowAdding = true;
-                }
-            }
-            if(this.allowAdding) {
-                this.updateRow();
-                this.addingManager.moreBubbleRows(3);
-                this.addSignal = false;
-                this.allowAdding = false;
-                this.updateRow();
-            }
+            this.updateRow();
+            this.addingManager.moreBubbleRows(3);
+            this.addSignal = false;
+            this.allowAdding = false;
+            this.updateRow();
         }
         this.moveBubbles(0.1);
     }

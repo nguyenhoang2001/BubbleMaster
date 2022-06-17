@@ -11,7 +11,7 @@ export class BubblePositionManager {
         this.scene = this.bubblesBoard.scene;
     }
 
-    public getCoordinateBubble(row:number,column:number):any {
+    public getPosition(row:number,column:number):any {
         let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
         let bubbleX = column * 56;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
@@ -22,7 +22,7 @@ export class BubblePositionManager {
         return {x: bubbleX, y:bubbleY};
     }
 
-    public setCoordinateBubble(row:number,column:number,bubble:Bubble) {
+    public setPosition(row:number,column:number,bubble:Bubble) {
         let bubbleX = column * bubble.displayWidth;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += bubble.displayWidth/2;
