@@ -16,12 +16,11 @@ export class FloatingHandler {
 
     public clearFloating(floatingBubbles:Bubble[]) {
         for(let i = 0; i< floatingBubbles.length; i++) {
-            this.bubblesBoard.board[floatingBubbles[i].row][floatingBubbles[i].column] = undefined;
+            let row = floatingBubbles[i].row;
+            let column = floatingBubbles[i].column;
+            this.bubblesBoard.board[row][column] = undefined;
             floatingBubbles[i].setDepth(1);
             floatingBubbles[i].body.checkCollision.none = true;
-            // floatingBubbles[i].clear();
-            // this.floatingBubbles.remains -= 1;
-            // this.bubblesBoard.gridGroup.killAndHide(floatingBubbles[i]);
             this.scene.tweens.add({
                 targets:floatingBubbles[i],
                 y: floatingBubbles[i].y - 200,

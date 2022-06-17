@@ -20,11 +20,11 @@ export class ColliderManager {
             let bulletGroup = this.scene.shooter.bulletGroup;
             let gridGroup = this.bubblesBoard.gridGroup;
             shootedBubble.stopPhysics();
-            console.log('the before collide check row is: ' + this.bubblesBoard.row);
             const newBubble = this.bubblesBoard.addingManager.fromShoot(bubble,shootedBubble);
             // get from the bullet group to the grid group
             bulletGroup.remove(shootedBubble);
             gridGroup.add(shootedBubble as Bubble);
+            this.bubblesBoard.updateRow();
             // run the clusters
             if(newBubble != undefined)
                 this.bubblesBoard.clusters.run(newBubble,true,true);

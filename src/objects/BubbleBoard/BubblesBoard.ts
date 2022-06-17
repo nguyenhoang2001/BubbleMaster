@@ -28,17 +28,13 @@ export class BubblesBoard {
     public x!: number;
     public y!:number;
     public addSignal!: boolean;
-    private clustersAndFloatingsRemoved!: boolean;
-    private allowAdding!: boolean;
     public isUpdating!: boolean;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
         // Variables
         this.x = x;
         this.y = y;
-        this.clustersAndFloatingsRemoved = false;
         this.addSignal = false;
-        this.allowAdding = false;
         this.isUpdating = false;
         this.scene = scene;
         this.row = row;
@@ -97,21 +93,17 @@ export class BubblesBoard {
     }
 
     private checkingClustersAndFloatings() {
-        this.clustersAndFloatingsRemoved = false;
         if(this.clusters.remains <= 0) {
             this.updateRow();
             this.scene.typeGenerator.resetCurrentType();
             this.floatingBubbles.run();
             this.clusters.resetRemains();
-            this.clustersAndFloatingsRemoved = true;
         }
         if(this.floatingBubbles.isFloating) {
-            this.clustersAndFloatingsRemoved = false;
             if(this.floatingBubbles.remains <= 0) {
                 this.updateRow();
                 this.scene.typeGenerator.resetCurrentType();
                 this.floatingBubbles.resetRemains();
-                this.clustersAndFloatingsRemoved = true;
                 this.floatingBubbles.isFloating = false;
             }
         }
@@ -128,7 +120,6 @@ export class BubblesBoard {
             this.updateRow();
             this.addingManager.moreBubbleRows(3);
             this.addSignal = false;
-            this.allowAdding = false;
             this.updateRow();
         }
         this.moveBubbles(0.1);

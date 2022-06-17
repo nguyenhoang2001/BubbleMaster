@@ -11,10 +11,12 @@ export class PositionBubbleHandler {
 
     public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
         let gridPos = this.parent.bubblesBoard.positionManager.getPositionFromShooting(shootedBubble);
+        console.log('unprotected position: ' + gridPos.x +' | ' + gridPos.y);
         this.protectRow(gridPos,hittedBubble,shootedBubble);
         let newBubbleCoordinate = this.parent.bubblesBoard.positionManager.getPosition(gridPos.x,gridPos.y);
         let distanceOldAndNew = Phaser.Math.Distance.Between(hittedBubble.x,hittedBubble.y,newBubbleCoordinate.x,newBubbleCoordinate.y);
         if(distanceOldAndNew >= 57) {
+            console.log('came to this');
             this.rePositionBubble(hittedBubble,newBubbleCoordinate,gridPos);
         }
         this.protectPosition(gridPos,hittedBubble,shootedBubble);
@@ -67,6 +69,7 @@ export class PositionBubbleHandler {
 
     private protectColumn(gridPos:any, hittedBubble:Bubble, shootedBubble:ShootedBubble) {
         if(gridPos.x != hittedBubble.row) {
+            console.log(hittedBubble.x + '...' + shootedBubble.x);
             if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
                 if((hittedBubble.row + this.parent.bubblesBoard.rowOffSet) % 2) {
                     if(gridPos.y > hittedBubble.column) {
@@ -81,6 +84,20 @@ export class PositionBubbleHandler {
                         gridPos.y = hittedBubble.column - 1;
                     }
                 }
+            } else {
+                if((hittedBubble.row + this.parent.bubblesBoard.rowOffSet) % 2) {
+                    if(shootedBubble.x <= hittedBubble.x) {
+                        gridPos.y = hittedBubble.column;
+                    } else {
+                        gridPos.y = hittedBubble.column + 1;
+                    }
+                } else {
+                    if(shootedBubble.x <= hittedBubble.x) {
+                        gridPos.y = hittedBubble.column - 1;
+                    } else {
+                        gridPos.y = hittedBubble.column;
+                    }
+                }
             }
         } else {
             if(this.parent.bubblesBoard.isBublleExisting(gridPos.x, gridPos.y)) {
@@ -91,6 +108,7 @@ export class PositionBubbleHandler {
                 }
             }
         }
+        
         if(gridPos.y >= this.parent.bubblesBoard.column) {
             gridPos.y = this.parent.bubblesBoard.column - 1;
         } else {

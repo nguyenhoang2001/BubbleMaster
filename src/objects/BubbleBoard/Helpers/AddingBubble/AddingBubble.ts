@@ -68,7 +68,6 @@ export class AddingBubble {
         bubble.setScale(1);
         bubble.setDepth(0);
         bubble.setActive(true);
-        // bubble.setVisible(true);
         bubble.setTexture(texture);
     }
 
@@ -81,7 +80,6 @@ export class AddingBubble {
 
         let bellowBubble = this.bubblesBoard.board[0].find(n=>n)!
         let bellowY = bellowBubble.y;
-        /////
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 const object = this.bubblesBoard.board[i][j];
@@ -92,7 +90,6 @@ export class AddingBubble {
                 }
             }
         }
-        /////
         let bubblesArray:Bubble[] = [];
         while(numberOfRow > 0) {
             this.bubblesBoard.invertRowOffset();
@@ -113,11 +110,9 @@ export class AddingBubble {
         this.bubblesBoard.board.unshift([]);
         this.bubblesBoard.board.unshift([]);
         this.bubblesBoard.board.unshift([]);
-
         this.bubblesBoard.row += 3;
         let j = 0;
         let k = 0;
-
         while(bubblesArray.length > 0) {
             if(j == 12) {
                 k++;
@@ -134,25 +129,10 @@ export class AddingBubble {
             this.bubblesBoard.board[k][j] = bubble;
             j++;
         }
+
         const object = this.bubblesBoard.board[0][0];
         if(object != undefined) {
             this.bubblesBoard.y = object.y + this.scene.bubblesContainer.y;
-            this.bubblesBoard.updateRow();
-
-            for(let i = 0; i < this.bubblesBoard.row; i++) {
-                for(let j = 0; j < this.bubblesBoard.column; j++) {
-                    const bubble = this.bubblesBoard.board[i][j];
-                    if(bubble == undefined)
-                        continue;
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        // bubble.row = i;
-                        // bubble.column = j;
-                        console.log(bubble.row +'|'+ bubble.column);
-                    }
-                }
-            }
         }
-
-
     }
 }
