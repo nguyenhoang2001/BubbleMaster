@@ -32,22 +32,8 @@ export class Shooter {
 
     private updateAllowShooting() {
         if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
-            if(!this.scene.bubblesBoard.clusters.isHavingClusters) {
-                this.allowShooting = true;
-                this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
-            } else {
-                if(this.scene.bubblesBoard.clusters.clustersFinish) {
-                    if(!this.scene.bubblesBoard.floatingBubbles.isFloating) {
-                        this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
-                        this.allowShooting = true;
-                    } else {
-                        if(this.scene.bubblesBoard.floatingBubbles.floatingFinish) {
-                            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
-                            this.allowShooting = true;
-                        }
-                    }
-                }
-            }
+            this.allowShooting = true;
+            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
         }
     }
 
@@ -57,13 +43,12 @@ export class Shooter {
                     this.allowShooting = false;
                     this.scene.physics.velocityFromRotation(
                         this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                        2000,
+                        1500,
                         this.shootedBubble.body.velocity
                     );
                     this.createShootedBubble();
                 }
             },this);
-        
     }
 
     private drawCircle() {

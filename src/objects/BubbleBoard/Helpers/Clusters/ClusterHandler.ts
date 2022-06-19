@@ -16,23 +16,22 @@ export class ClusterHandler {
 
     public clearClusters(cluster:Bubble[]) {
         for(let i = 0; i < cluster.length; i++) {
-            let row = cluster[i].row;
-            let column = cluster[i].column;
-            this.bubblesBoard.board[row][column] = undefined;
             cluster[i].setDepth(1);
             cluster[i].body.checkCollision.none = true;
+            cluster[i].clear();
             this.scene.tweens.add({
                 targets:cluster[i],
                 scale: 1.5,
                 ease:'Power2',
                 duration: 500,
                 onComplete: () => {
-                    cluster[i].clear();
+                    let row = cluster[i].row;
+                    let column = cluster[i].column;
+                    this.bubblesBoard.board[row][column] = undefined;
                     this.clusters.remains -= 1;
                     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
                 }
             });
         }
-        
     }
 }

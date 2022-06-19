@@ -7,6 +7,7 @@ import { Clusters } from "./Helpers/Clusters/Cluster";
 import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
 import { ShootedBubble } from "../ShootedBubble";
+import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
 
 export class BubblesBoard {
     // Helpers
@@ -16,7 +17,7 @@ export class BubblesBoard {
     public floatingBubbles!: FloatingBubbles;
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
-
+    public neighbors: BubbleNeighbors;
     // Variables
     public board!: (Bubble | undefined)[][];
     public gridGroup!: Phaser.GameObjects.Group;
@@ -29,11 +30,13 @@ export class BubblesBoard {
     public y!:number;
     public addSignal!: boolean;
     public isUpdating!: boolean;
+    public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
         // Variables
         this.x = x;
         this.y = y;
+        this.deltaY = 0;
         this.addSignal = false;
         this.isUpdating = false;
         this.scene = scene;
@@ -53,6 +56,7 @@ export class BubblesBoard {
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
         this.painter = new BubblePainter(this);
+        this.neighbors = new BubbleNeighbors(this);
         // Init board
         this.painter.drawBubblesBoard();
     }
@@ -92,36 +96,40 @@ export class BubblesBoard {
         this.board.length = this.row;
     }
 
-    private checkingClustersAndFloatings() {
+    private checkingClusters() {
         if(this.clusters.remains <= 0) {
             this.updateRow();
-            this.scene.typeGenerator.resetCurrentType();
             this.floatingBubbles.run();
             this.clusters.resetRemains();
+            this.clusters.isHavingClusters = false;
         }
         if(this.floatingBubbles.isFloating) {
             if(this.floatingBubbles.remains <= 0) {
                 this.updateRow();
-                this.scene.typeGenerator.resetCurrentType();
                 this.floatingBubbles.resetRemains();
                 this.floatingBubbles.isFloating = false;
             }
         }
     }
 
-    private moveBubbles(deltaY:number) {
-        this.scene.bubblesContainer.y += deltaY;
-        this.y += deltaY;
+    private moveBubbles(delta:number) {
+        this.scene.bubblesContainer.y += delta;
+        this.y += delta;
+        this.deltaY += delta;
     }
 
     public update() {
-        this.checkingClustersAndFloatings();
         if(this.addSignal) {
             this.updateRow();
             this.addingManager.moreBubbleRows(3);
             this.addSignal = false;
             this.updateRow();
+            console.log(this.board);
         }
+        if(this.colliderBubble.isCollide) {
+            this.colliderBubble.runCollide();
+        }
+        this.checkingClusters();
         this.moveBubbles(0.1);
     }
 }

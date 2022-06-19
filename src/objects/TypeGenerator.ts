@@ -7,8 +7,8 @@ export class TypeGenerator {
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.textureKeys = ['blackBubble','blueBubble','cyanBubble','grayBubble','greenBubble',
-        'pinkBubble','redBubble','violetBubble','yellowBubble'];
+        this.textureKeys = ['blackBubble','grayBubble','blueBubble','cyanBubble','greenBubble','violetBubble',
+        'pinkBubble','yellowBubble','redBubble'];
     }
 
     public resetCurrentType() {
@@ -50,7 +50,7 @@ export class TypeGenerator {
     }
 
     public getTexture(): string {
-        let randomBubbleType = Phaser.Math.Between(4, this.textureKeys.length - 1);
+        let randomBubbleType = Phaser.Math.Between(this.textureKeys.length - 4, this.textureKeys.length - 1);
         let bubbleType = this.textureKeys[randomBubbleType];
         return bubbleType;
     }

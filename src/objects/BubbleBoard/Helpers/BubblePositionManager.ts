@@ -1,10 +1,11 @@
 import { Bubble } from "../../Bubble";
 import { BubblesBoard } from "../BubblesBoard";
 import { ShootedBubble } from "../../ShootedBubble";
+import { GameScene } from "../../../scenes/GameScene";
 
 export class BubblePositionManager {
     private bubblesBoard!: BubblesBoard;
-    public scene!: Phaser.Scene;
+    public scene!: GameScene;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
@@ -12,12 +13,11 @@ export class BubblePositionManager {
     }
 
     public getPosition(row:number,column:number):any {
-        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
         let bubbleX = column * 56;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += 56/2;
         }
-        let bubbleY = row * this.bubblesBoard.rowHeight + firstBubble.y;
+        let bubbleY = row * this.bubblesBoard.rowHeight + 28 - this.bubblesBoard.deltaY;
         bubbleX = bubbleX + this.bubblesBoard.x;
         return {x: bubbleX, y:bubbleY};
     }
@@ -30,18 +30,6 @@ export class BubblePositionManager {
         let bubbleY = row * this.bubblesBoard.rowHeight;
         bubble.x = bubbleX + this.bubblesBoard.x;
         bubble.y = bubbleY + this.bubblesBoard.y;
-    }
-
-    public setNewRow(row:number,column:number,bubble:Bubble) {
-        let secondBubble = this.bubblesBoard.board[1].find(n=>n)!;
-        let bubbleX = column * bubble.displayWidth;
-        if (((row + this.bubblesBoard.rowOffSet) % 2)!=1) {
-            bubbleX += bubble.displayWidth/2;
-        }
-        let bubbleY = this.bubblesBoard.rowHeight;
-        bubble.y = secondBubble.y;
-        bubble.x = bubbleX + this.bubblesBoard.x;
-        bubble.y -= bubbleY + 49;
     }
 
     public setPositionFromShooting(row:number,column:number,bubble:Bubble) {
@@ -57,8 +45,8 @@ export class BubblePositionManager {
     }
 
     public getPositionFromShooting(bubble:ShootedBubble):any {
-        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
-        let gridX = Math.floor((bubble.y - firstBubble.y + this.bubblesBoard.rowHeight/2) / this.bubblesBoard.rowHeight);
+        let firstBubbleY = this.bubblesBoard.y;
+        let gridX = Math.floor((bubble.y - firstBubbleY + 28) / this.bubblesBoard.rowHeight);
         let xOffset = 0;
         if ((gridX + this.bubblesBoard.rowOffSet) % 2) {
             xOffset = bubble.width / 2;

@@ -52,8 +52,8 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.checkingContainerRunningAtFirst();
         this.addingNewBubbleRowManager.setAddSignalToGrid();
-        this.shooter.update();
         this.bubblesBoard.update();
+        this.shooter.update();
     }
 
     private checkingContainerRunningAtFirst() {

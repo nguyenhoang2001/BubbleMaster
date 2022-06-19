@@ -9,7 +9,7 @@ export class FloatingDetector {
     }
 
     public find():Bubble[] {
-        this.bubblesBoard.clusters.resetProcess();
+        this.bubblesBoard.neighbors.resetProcess();
         let foundFloating = [];
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {

@@ -36,9 +36,6 @@ export class FloatingBubbles {
             this.floatingFinish = false;
             this.isFloating = true;
             this.remains = this.floatingBubbles.length;
-            for(let i = 0; i < this.floatingBubbles.length; i++) {
-                console.log(this.floatingBubbles[i].row,this.floatingBubbles[i].column);
-            }
             this.handler.clearFloating(this.floatingBubbles);         
         } else {
             this.isFloating = false;

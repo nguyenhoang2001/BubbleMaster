@@ -25,10 +25,6 @@ export class Clusters {
         this.clustersFinish = false;
     }
 
-    public resetProcess() {
-        this.detector.resetProcess();
-    }
-
     public findClusters(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         let foundClusters = this.detector.find(targetedBubble,reset,matchType);
         return foundClusters;
@@ -36,6 +32,7 @@ export class Clusters {
 
     public run(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         this.clusters = this.findClusters(targetedBubble,reset,matchType);
+        console.log(JSON.parse(JSON.stringify(this.clusters)));
         if(this.clusters.length >= 3) {
             this.remains = this.clusters.length;
             this.isHavingClusters = true;

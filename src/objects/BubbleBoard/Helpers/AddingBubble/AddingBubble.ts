@@ -65,6 +65,7 @@ export class AddingBubble {
     private activateBubble(bubble:Bubble, texture:string) {
         this.scene.physics.world.enable(bubble);
         bubble.body.checkCollision.none = false;
+        bubble.name = 'Bubble';
         bubble.setScale(1);
         bubble.setDepth(0);
         bubble.setActive(true);
@@ -75,8 +76,6 @@ export class AddingBubble {
         console.log('add more row');
         if(numberOfRow <= 0)
             return;
-
-        this.scene.typeGenerator.resetCurrentType();
 
         let bellowBubble = this.bubblesBoard.board[0].find(n=>n)!
         let bellowY = bellowBubble.y;
@@ -92,6 +91,8 @@ export class AddingBubble {
         }
         let bubblesArray:Bubble[] = [];
         while(numberOfRow > 0) {
+            this.bubblesBoard.board.unshift([]);
+            this.bubblesBoard.row += 1;
             this.bubblesBoard.invertRowOffset();
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 let bubbleX = j * 56;
@@ -107,16 +108,12 @@ export class AddingBubble {
             numberOfRow -= 1;
             bellowY -= 49;
         }
-        this.bubblesBoard.board.unshift([]);
-        this.bubblesBoard.board.unshift([]);
-        this.bubblesBoard.board.unshift([]);
-        this.bubblesBoard.row += 3;
-        let j = 0;
+        let j = 11;
         let k = 0;
         while(bubblesArray.length > 0) {
-            if(j == 12) {
+            if(j == -1) {
                 k++;
-                j = 0;
+                j = 11;
             }
             let bubble = bubblesArray.pop()!;
             if(bubble.visible) {
@@ -127,12 +124,13 @@ export class AddingBubble {
             bubble.row = k;
             bubble.column = j;
             this.bubblesBoard.board[k][j] = bubble;
-            j++;
+            j--;
         }
-
+        this.bubblesBoard.updateRow();
         const object = this.bubblesBoard.board[0][0];
         if(object != undefined) {
             this.bubblesBoard.y = object.y + this.scene.bubblesContainer.y;
+            this.bubblesBoard.deltaY = 0;
         }
     }
 }
