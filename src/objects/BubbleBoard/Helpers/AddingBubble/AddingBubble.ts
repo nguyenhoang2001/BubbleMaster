@@ -63,13 +63,13 @@ export class AddingBubble {
     }
 
     private activateBubble(bubble:Bubble, texture:string) {
-        this.scene.physics.world.enable(bubble);
-        bubble.body.checkCollision.none = false;
         bubble.name = 'Bubble';
         bubble.setScale(1);
         bubble.setDepth(0);
         bubble.setActive(true);
         bubble.setTexture(texture);
+        this.scene.physics.world.enable(bubble);
+        bubble.body.checkCollision.none = false;
     }
 
     public moreBubbleRows(numberOfRow:number) {

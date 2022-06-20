@@ -24,7 +24,7 @@ export class BubbleNeighbors {
         }
     }
     
-    public getNeighbors(bubble:Bubble):Bubble[]|void {
+    public getNeighbors(bubble:Bubble):Bubble[] {
         let bubbleRow = (bubble.row + this.bubblesBoard.rowOffSet) % 2;
         let neighbors = [];
         let offset = this.neighborOffsets[bubbleRow];
@@ -63,5 +63,45 @@ export class BubbleNeighbors {
             }
         }
         return empty;
+    }
+
+
+    public getOppositeNeighbor(targetedBubble:Bubble, centerBubble:Bubble):any {
+        const neighbors = this.getNeighbors(centerBubble);
+        let isNeighbor = false;
+        neighbors.some((_neighbor:Bubble) => {
+            if(_neighbor == targetedBubble) {
+                isNeighbor = true;
+                return true;
+            }
+        });
+        if(!isNeighbor) {
+            console.log(' The targeted bubble is not the neighbor');
+            return;
+        }
+
+        let oppositeRow = centerBubble.row - (targetedBubble.row - centerBubble.row);
+        let oppositeColumn = 0;
+        if(oppositeRow == centerBubble.row) {
+            oppositeColumn = centerBubble.column - (targetedBubble.column - centerBubble.column);
+        }
+        else {
+            if((centerBubble.row + this.bubblesBoard.rowOffSet) % 2) {
+                if(targetedBubble.column > centerBubble.column) {
+                    oppositeColumn = centerBubble.column;
+                } else {
+                    oppositeColumn = centerBubble.column + 1;
+                }
+            } else {
+                if(targetedBubble.column < centerBubble.column) {
+                    oppositeColumn = centerBubble.column;
+                } else {
+                    oppositeColumn = centerBubble.column - 1;
+                }
+            }
+        }
+        console.log('The opposite position is: ');
+        console.log(oppositeRow,oppositeColumn);
+        return {row:oppositeRow,column:oppositeColumn};
     }
 }

@@ -21,6 +21,9 @@ export class FloatingHandler {
             floatingBubbles[i].setDepth(1);
             floatingBubbles[i].body.checkCollision.none = true;
             floatingBubbles[i].clear();
+            let row = floatingBubbles[i].row;
+            let column = floatingBubbles[i].column;
+            this.bubblesBoard.board[row][column] = undefined;
             this.scene.tweens.add({
                 targets:floatingBubbles[i],
                 y: floatingBubbles[i].y - 200,
@@ -34,9 +37,7 @@ export class FloatingHandler {
                         ease:'Cubic.easeIn',
                         duration: Phaser.Math.Between(400, 500),
                         onComplete: () => {
-                            let row = floatingBubbles[i].row;
-                            let column = floatingBubbles[i].column;
-                            this.bubblesBoard.board[row][column] = undefined;
+                            floatingBubbles[i].setDepth(0);
                             this.floatingBubbles.remains -= 1;
                             this.bubblesBoard.gridGroup.killAndHide(floatingBubbles[i]);
                         }

@@ -2,6 +2,7 @@ import { GameScene } from "../../../scenes/GameScene";
 import { Bubble } from "../../Bubble";
 import { ShootedBubble } from "../../ShootedBubble";
 import { BubblesBoard } from "../BubblesBoard";
+import { BubbleNeighbors } from "./BubbleNeighbors";
 
 export class ColliderManager {
     public bubblesBoard!: BubblesBoard;
@@ -9,11 +10,13 @@ export class ColliderManager {
     public isCollide!: boolean;
     private shootedBubble!: ShootedBubble;
     private hittedBubble!: Bubble;
+    private neighborsHelper!: BubbleNeighbors;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
         this.isCollide = false;
+        this.neighborsHelper = this.bubblesBoard.neighbors;
     }
 
     public gridGroupAndBulletGroup() {
@@ -35,10 +38,7 @@ export class ColliderManager {
         this.shootedBubble.stopPhysics();
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
-        // run the clusters
-        if(newBubble != undefined) {
-            this.bubblesBoard.clusters.run(newBubble,true,true);
-        }
         this.isCollide = false;
+        return newBubble;
     }
 }

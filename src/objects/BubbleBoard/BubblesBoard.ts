@@ -8,6 +8,7 @@ import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
 import { ShootedBubble } from "../ShootedBubble";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
+import { HittingAnimation } from "./HittingAnimation";
 
 export class BubblesBoard {
     // Helpers
@@ -18,6 +19,7 @@ export class BubblesBoard {
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
     public neighbors: BubbleNeighbors;
+    private hittingAnimation!: HittingAnimation;
     // Variables
     public board!: (Bubble | undefined)[][];
     public gridGroup!: Phaser.GameObjects.Group;
@@ -50,13 +52,14 @@ export class BubblesBoard {
             this.board[i] = []
         }
         // Game Objects
+        this.neighbors = new BubbleNeighbors(this);
         this.addingManager = new AddingBubble(this);
         this.colliderBubble = new ColliderManager(this);
         this.floatingBubbles = new FloatingBubbles(this.scene,this);
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
         this.painter = new BubblePainter(this);
-        this.neighbors = new BubbleNeighbors(this);
+        this.hittingAnimation = new HittingAnimation(this);
         // Init board
         this.painter.drawBubblesBoard();
     }
@@ -124,10 +127,15 @@ export class BubblesBoard {
             this.addingManager.moreBubbleRows(3);
             this.addSignal = false;
             this.updateRow();
-            console.log(this.board);
+            // console.log(this.board);
+            console.log(JSON.parse(JSON.stringify(this.board)));
         }
         if(this.colliderBubble.isCollide) {
-            this.colliderBubble.runCollide();
+            const bubble = this.colliderBubble.runCollide();
+            if(bubble != undefined) {
+                this.hittingAnimation.run(bubble);
+                this.clusters.run(bubble,true,true);
+            }
         }
         this.checkingClusters();
         this.moveBubbles(0.1);

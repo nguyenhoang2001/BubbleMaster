@@ -12,14 +12,14 @@ export class ShootedBubble extends Bubble {
     public createBouncing() {
         this.body.setBounce(1,1);
         this.body.setCollideWorldBounds(true,undefined,undefined,true);
-        this.scene.physics.world.setBoundsCollision(true,true,true,false);
-        this.scene.physics.world.on('worldbounds',(e: any)=>{
-            if(this.body.velocity != undefined) {
-                if(this.body.velocity.y > 0) {
-                    this.body.setVelocity(0,0);
-                }
-            }
-        });
+        this.scene.physics.world.setBoundsCollision(true,true,false,false);
+        // this.scene.physics.world.on('worldbounds',(e: any)=>{
+        //     if(this.body.velocity != undefined) {
+        //         if(this.body.velocity.y > 0) {
+        //             this.body.setVelocity(0,0);
+        //         }
+        //     }
+        // });
     }
 
     public stopPhysics() {

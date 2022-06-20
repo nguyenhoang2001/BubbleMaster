@@ -43,7 +43,7 @@ export class Shooter {
                     this.allowShooting = false;
                     this.scene.physics.velocityFromRotation(
                         this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                        1500,
+                        2000,
                         this.shootedBubble.body.velocity
                     );
                     this.createShootedBubble();

@@ -44,14 +44,15 @@ export class BubblePositionManager {
         bubble.y += bubbleY;
     }
 
-    public getPositionFromShooting(bubble:ShootedBubble):any {
-        let firstBubbleY = this.bubblesBoard.y;
-        let gridX = Math.floor((bubble.y - firstBubbleY + 28) / this.bubblesBoard.rowHeight);
-        let xOffset = 0;
-        if ((gridX + this.bubblesBoard.rowOffSet) % 2) {
-            xOffset = bubble.width / 2;
+    public getCoordinate(row:number, column:number) {
+        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
+        let bubbleX = column * 56;
+        if ((row + this.bubblesBoard.rowOffSet) % 2) {
+            bubbleX += 28;
         }
-        let gridY = Math.floor((bubble.x - xOffset) / bubble.width);
-        return { x: gridX, y: gridY };
+        let bubbleY = row * this.bubblesBoard.rowHeight;
+        bubbleY += firstBubble.y;
+        bubbleX += this.bubblesBoard.x;
+        return {x:bubbleX, y:bubbleY};
     }
 }
