@@ -1,5 +1,7 @@
-import { GameScene } from "../scenes/GameScene";
-import { ShootedBubble } from "./ShootedBubble";
+import { GameScene } from "../../scenes/GameScene";
+import { ShootedBubble } from "../ShootedBubble";
+import { BulletCreator } from "./Helpers/BulletCreator";
+import { BulletSwaper } from "./Helpers/BulletSwaper";
 
 export class Shooter {
     public shootedBubble!: ShootedBubble;
@@ -8,22 +10,26 @@ export class Shooter {
     private circle!: Phaser.GameObjects.Image;
     public allowShooting!: boolean;
     public bulletGroup!: Phaser.GameObjects.Group;
+    public secondBubllet!: ShootedBubble;
+    private bulletCreator!: BulletCreator;
+    private bulletSwaper!: BulletSwaper;
+    private isShoot!: boolean;
+    private checkAllowShooting!: boolean;
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.allowShooting = true;
+        this.allowShooting = false;
+        this.isShoot = false;
+        this.checkAllowShooting = true;
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
-        this.createShootedBubble();
+        this.bulletCreator = new BulletCreator(this);
+        this.bulletSwaper = new BulletSwaper(this);
+        this.bulletCreator.run();
         this.drawLineAndCircle();
         this.enableInput();
+        this.InputChangeBubble();
     }
 
-    public createShootedBubble() {
-        this.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
-        Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone);
-        this.scene.add.existing(this.shootedBubble);
-        this.bulletGroup.add(this.shootedBubble);
-    }
 
     public drawLineAndCircle() {
         this.createLine();
@@ -31,22 +37,32 @@ export class Shooter {
     }
 
     private updateAllowShooting() {
-        if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
-            this.allowShooting = true;
-            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
+        if(this.checkAllowShooting) {
+            if(this.scene.bubblesContainer.isRunning) {
+                this.allowShooting = false;
+            } else {
+                if(this.scene.bubblesBoard.addingManager.finishedAddingBullet || !this.isShoot) {
+                    this.allowShooting = true;
+                }
+            }
         }
+    }
+
+    private InputChangeBubble() {
+        this.scene.input.keyboard.on('keydown-F', (event:any) => {
+            if(this.bulletSwaper.finished) {
+                this.checkAllowShooting = false;
+                this.allowShooting = false;
+                this.bulletSwaper.run();
+            }
+        });
     }
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
                 if(this.allowShooting) {
+                    this.isShoot = true;
                     this.allowShooting = false;
-                    this.scene.physics.velocityFromRotation(
-                        this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                        2000,
-                        this.shootedBubble.body.velocity
-                    );
-                    this.createShootedBubble();
                 }
             },this);
     }
@@ -89,9 +105,30 @@ export class Shooter {
             this.arrowShoot.setAngle(angle);
         }
     }
+
+    private shootBubble() {
+        this.shootedBubble.body.checkCollision.none = false;
+        this.scene.physics.velocityFromRotation(
+            this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
+            2000,
+            this.shootedBubble.body.velocity
+        );
+        this.shootedBubble = this.secondBubllet;
+        Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone,0,-30);
+        this.bulletCreator.createSecondBullet();
+    }
     
     public update() {
         this.rotateShooter();
+        if(this.isShoot) {
+            this.isShoot = false;
+            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
+            this.shootBubble();
+        }
+        this.bulletSwaper.update();
+        if(this.bulletSwaper.finished) {
+            this.checkAllowShooting = true;
+        }
         if(!this.allowShooting) {
             this.updateAllowShooting();
         }

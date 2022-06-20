@@ -1,7 +1,7 @@
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { Bubble } from "../objects/Bubble";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
-import { Shooter } from "../objects/Shooter";
+import { Shooter } from "../objects/Shooter/Shooter";
 import { TypeGenerator } from "../objects/TypeGenerator";
 import { BubblesContainer } from "../ui/BubblesContainer";
 
@@ -50,7 +50,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-        this.checkingContainerRunningAtFirst();
+        // this.checkingContainerRunningAtFirst();
         this.addingNewBubbleRowManager.setAddSignalToGrid();
         this.bubblesBoard.update();
         this.shooter.update();
@@ -60,10 +60,8 @@ export class GameScene extends Phaser.Scene {
         if(this.checkContainer) {
             if(this.bubblesContainer.isRunning) {
                 this.shooter.allowShooting = false;
-                this.shooter.shootedBubble.body.checkCollision.none = true;
             } else {
                 this.shooter.allowShooting = true;
-                this.shooter.shootedBubble.body.checkCollision.none = false;
                 this.checkContainer = false;
             }
         }

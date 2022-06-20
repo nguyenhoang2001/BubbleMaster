@@ -51,7 +51,7 @@ export class AddingBubble {
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
-        this.finishedAddingBullet = false;
+        // this.finishedAddingBullet = false;
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
         const object = bubble;
