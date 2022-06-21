@@ -27,7 +27,8 @@ export class BulletCreator {
     public createSecondBullet() {
         this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.typeGenerator.getCurrentTexture());
         Phaser.Display.Align.In.BottomCenter(this.shooter.secondBubllet,this.scene.bubblesContainer.mainZone, 0, -30);
-        Phaser.Display.Align.To.LeftCenter(this.shooter.secondBubllet,this.shooter.shootedBubble, 20);
+        Phaser.Display.Align.To.LeftCenter(this.shooter.secondBubllet,this.shooter.shootedBubble, -12, 20);
+        this.shooter.secondBubllet.setScale(0.5);
         this.scene.add.existing(this.shooter.secondBubllet);
         this.shooter.secondBubllet.body.checkCollision.none = true;
         this.shooter.bulletGroup.add(this.shooter.secondBubllet);

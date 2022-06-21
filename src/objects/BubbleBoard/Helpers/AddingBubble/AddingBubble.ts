@@ -51,12 +51,12 @@ export class AddingBubble {
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
-        // this.finishedAddingBullet = false;
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
         const object = bubble;
         if(object == undefined)
             return;
+        object.setDepth(0);
         this.toContainer([object]);
         this.finishedAddingBullet = true;
         return bubble;

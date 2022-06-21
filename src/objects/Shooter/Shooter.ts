@@ -7,14 +7,14 @@ export class Shooter {
     public shootedBubble!: ShootedBubble;
     public scene!: GameScene;
     private arrowShoot!: Phaser.GameObjects.Line
-    private circle!: Phaser.GameObjects.Image;
+    public circle!: Phaser.GameObjects.Image;
     public allowShooting!: boolean;
     public bulletGroup!: Phaser.GameObjects.Group;
     public secondBubllet!: ShootedBubble;
     private bulletCreator!: BulletCreator;
     private bulletSwaper!: BulletSwaper;
     private isShoot!: boolean;
-    private checkAllowShooting!: boolean;
+    public checkAllowShooting!: boolean;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -29,7 +29,6 @@ export class Shooter {
         this.enableInput();
         this.InputChangeBubble();
     }
-
 
     public drawLineAndCircle() {
         this.createLine();
@@ -86,6 +85,7 @@ export class Shooter {
         this.arrowShoot = this.scene.add.line(this.shootedBubble.x,this.shootedBubble.y,0,0,100,0,0xff0000);
         this.arrowShoot.setOrigin(0,0);
         this.shootedBubble.setDepth(1);
+        this.secondBubllet.setDepth(1);
     }
 
     private rotateShooter() {
@@ -111,11 +111,14 @@ export class Shooter {
         this.shootedBubble.body.checkCollision.none = false;
         this.scene.physics.velocityFromRotation(
             this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-            1700,
+            2000,
             this.shootedBubble.body.velocity
         );
-        this.shootedBubble = this.secondBubllet;
-        Phaser.Display.Align.In.BottomCenter(this.shootedBubble,this.scene.bubblesContainer.mainZone,0,-30);
+        this.checkAllowShooting = false;
+        this.bulletSwaper.afterShooting();
+    }
+
+    public makeSecondBullet() {
         this.bulletCreator.createSecondBullet();
     }
     

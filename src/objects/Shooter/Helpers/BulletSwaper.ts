@@ -22,6 +22,7 @@ export class BulletSwaper {
             targets:shootBullet,
             x:secondBullet.x,
             y:secondBullet.y,
+            scale:secondBullet.scale,
             ease:'Power2',
             duration:400,
             onComplete: () => {
@@ -32,10 +33,28 @@ export class BulletSwaper {
             targets:secondBullet,
             x:shootBullet.x,
             y:shootBullet.y,
+            scale:shootBullet.scale,
             ease:'Power2',
             duration:400,
             onComplete: () => {
                 this.countingFinish += 1;
+            }
+        });
+    }
+
+    public afterShooting() {
+        this.finished = false;
+        this.scene.tweens.add({
+            targets:this.shooter.secondBubllet,
+            x:this.shooter.circle.x,
+            y:this.shooter.circle.y,
+            scale:1,
+            ease:'Power2',
+            duration:300,
+            onComplete: () => {
+                this.finished = true;
+                this.shooter.shootedBubble = this.shooter.secondBubllet;
+                this.shooter.makeSecondBullet();
             }
         });
     }
