@@ -42,7 +42,8 @@ export class Shooter {
                 this.allowShooting = false;
             } else {
                 if(this.scene.bubblesBoard.addingManager.finishedAddingBullet || !this.isShoot) {
-                    this.allowShooting = true;
+                    if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
+                        this.allowShooting = true;
                 }
             }
         }
@@ -110,7 +111,7 @@ export class Shooter {
         this.shootedBubble.body.checkCollision.none = false;
         this.scene.physics.velocityFromRotation(
             this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-            2000,
+            1700,
             this.shootedBubble.body.velocity
         );
         this.shootedBubble = this.secondBubllet;

@@ -12,14 +12,53 @@ export class PositionBubbleHandler {
         this.bubblesBoard = this.parent.bubblesBoard;
     }
 
-    public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
-        if(hittedBubble.row == this.bubblesBoard.row - 1) {
-            this.parent.bubblesBoard.addNewRow();
+    private rePositionShootedBubble(hittedBubble:Bubble, shootBubble:ShootedBubble) {
+        let hitBubbleY = hittedBubble.y + this.parent.scene.bubblesContainer.y;
+        let y = Math.abs(hitBubbleY - shootBubble.y);
+        let x = Math.abs(hittedBubble.x - shootBubble.x);
+        let distance = Phaser.Math.Distance.Between(hittedBubble.x,hitBubbleY,shootBubble.x, shootBubble.y);
+        if(distance >= 56) {
+            if(distance == 56)
+                return;
+            const offsetY = Math.abs(y * (1 - (56/distance)));
+            const offsetX = Math.abs(x * (1 - (56/distance)));
+            if(shootBubble.y >= hitBubbleY) {
+                shootBubble.y -= offsetY;
+            } else {
+                shootBubble.y += offsetY;
+            }
+
+            if(shootBubble.x >= hittedBubble.x) {
+                shootBubble.x -= offsetX;
+            } else {
+                shootBubble.x += offsetX;
+            }
+        } else {
+            const offsetY = Math.abs(y * ((56/distance) - 1));
+            const offsetX = Math.abs(x * ((56/distance) - 1));
+            if(shootBubble.y >= hitBubbleY) {
+                shootBubble.y += offsetY;
+            } else {
+                shootBubble.y -= offsetY;
+            }
+            if(shootBubble.x >= hittedBubble.x) {
+                shootBubble.x += offsetX;
+            } else {
+                shootBubble.x -= offsetX;
+            }
         }
+    }
+
+    public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
+        // if(hittedBubble.row == this.bubblesBoard.row - 1) {
+        //     this.parent.bubblesBoard.addNewRow();
+        // }
+        this.parent.bubblesBoard.addNewRow();
         let empties = this.bubblesBoard.neighbors.getEmpty(hittedBubble);
         let distanceCalculator = Phaser.Math.Distance;
         let smallestdistance = 0;
         let shootedPosition:any;
+        this.rePositionShootedBubble(hittedBubble,shootedBubble);
         for(let i = 0; i < empties.length; i++) {
             let gridPos = empties[i];
             let emptyCoordinate = this.bubblesBoard.positionManager.getPosition(gridPos.row,gridPos.column);

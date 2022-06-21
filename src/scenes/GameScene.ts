@@ -37,6 +37,8 @@ export class GameScene extends Phaser.Scene {
     create() {
         // Variables
         this.checkContainer = true;
+        // Physics
+        this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
         this.bubblesContainer = new BubblesContainer(this,0,0);
         this.add.existing(this.bubblesContainer);
@@ -50,20 +52,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-        // this.checkingContainerRunningAtFirst();
         this.addingNewBubbleRowManager.setAddSignalToGrid();
         this.bubblesBoard.update();
         this.shooter.update();
-    }
-
-    private checkingContainerRunningAtFirst() {
-        if(this.checkContainer) {
-            if(this.bubblesContainer.isRunning) {
-                this.shooter.allowShooting = false;
-            } else {
-                this.shooter.allowShooting = true;
-                this.checkContainer = false;
-            }
-        }
     }
 }

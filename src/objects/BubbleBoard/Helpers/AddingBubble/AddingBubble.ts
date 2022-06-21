@@ -68,8 +68,7 @@ export class AddingBubble {
         bubble.setDepth(0);
         bubble.setActive(true);
         bubble.setTexture(texture);
-        this.scene.physics.world.enable(bubble);
-        bubble.body.checkCollision.none = false;
+        bubble.resetPhysics();
     }
 
     public moreBubbleRows(numberOfRow:number) {

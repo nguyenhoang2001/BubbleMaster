@@ -26,6 +26,7 @@ export class ColliderManager {
                 this.hittedBubble = _bubble as Bubble;
                 let bulletGroup = this.scene.shooter.bulletGroup;
                 let gridGroup = this.bubblesBoard.gridGroup;
+                this.shootedBubble.body.stop();
                 // get from the bullet group to the grid group
                 bulletGroup.remove(this.shootedBubble);
                 gridGroup.add(this.shootedBubble as Bubble);
@@ -35,7 +36,8 @@ export class ColliderManager {
     }
 
     public runCollide() {
-        this.shootedBubble.stopPhysics();
+        this.shootedBubble.clear();
+        this.bubblesBoard.updateRow();
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
         this.isCollide = false;

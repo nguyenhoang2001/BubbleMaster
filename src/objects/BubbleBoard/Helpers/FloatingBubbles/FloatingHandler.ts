@@ -14,36 +14,37 @@ export class FloatingHandler {
         this.bubblesBoard = bubblesBoard;
     }
 
-    public clearFloating(floatingBubbles:Bubble[]) {
+    private getRandomValue(min:number, max:number):number {
+        const delta = max - min;
+        const initialRandom = Math.random();
+        const multiplied = initialRandom * delta;
+        const floored = Math.floor(multiplied);
+        const answer = floored + min;
+        return answer;
+    }
+
+    public clearFloating() {
         console.log('floating are');
-        console.log(JSON.parse(JSON.stringify(floatingBubbles)));
-        for(let i = 0; i< floatingBubbles.length; i++) {
-            floatingBubbles[i].setDepth(1);
-            floatingBubbles[i].body.checkCollision.none = true;
-            floatingBubbles[i].clear();
-            let row = floatingBubbles[i].row;
-            let column = floatingBubbles[i].column;
+        let array = this.floatingBubbles.array;
+        console.log(JSON.parse(JSON.stringify(array)));
+        array.forEach((bubble: Bubble) => {
+            bubble.setDepth(1);
+            let row = bubble.row;
+            let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;
-            this.scene.tweens.add({
-                targets:floatingBubbles[i],
-                y: floatingBubbles[i].y - 200,
-                ease:'Cubic.easeOut',
-                duration: 300,
-                onComplete: () => {
-                    console.log('finish flying up');
-                    this.scene.tweens.add({
-                        targets:floatingBubbles[i],
-                        y: this.scene.sys.canvas.height + 28,
-                        ease:'Cubic.easeIn',
-                        duration: Phaser.Math.Between(400, 500),
-                        onComplete: () => {
-                            floatingBubbles[i].setDepth(0);
-                            this.floatingBubbles.remains -= 1;
-                            this.bubblesBoard.gridGroup.killAndHide(floatingBubbles[i]);
-                        }
-                    });
-                }
-            });
-        }
+            
+            bubble.body.checkCollision.none = true;
+            var directionX = [1,-1];
+            this.scene.bubblesContainer.remove(bubble);
+            bubble.y += this.scene.bubblesContainer.y;
+            var randomDirection = directionX[Math.floor(Math.random() * directionX.length)];
+            let gravityY = this.getRandomValue(2800,3000);
+            let velocityY = this.getRandomValue(50,100);
+            let velocityX = this.getRandomValue(350,400);
+            bubble.body.setGravityY(gravityY);
+            bubble.body.setVelocityX(randomDirection*velocityX);
+            bubble.body.setVelocityY(velocityY);
+            bubble.body.setCollideWorldBounds(true,0.5,0.5,true);
+        })
     }
 }

@@ -19,7 +19,7 @@ export class BubblesBoard {
     public positionManager!: BubblePositionManager;
     public painter!: BubblePainter;
     public neighbors: BubbleNeighbors;
-    private hittingAnimation!: HittingAnimation;
+    public hittingAnimation!: HittingAnimation;
     // Variables
     public board!: (Bubble | undefined)[][];
     public gridGroup!: Phaser.GameObjects.Group;
@@ -100,18 +100,10 @@ export class BubblesBoard {
     }
 
     private checkingClusters() {
-        if(this.clusters.remains <= 0) {
-            this.updateRow();
+        if(this.clusters.isHavingClusters && this.clusters.clustersFinish) {
             this.floatingBubbles.run();
-            this.clusters.resetRemains();
-            this.clusters.isHavingClusters = false;
-        }
-        if(this.floatingBubbles.isFloating) {
-            if(this.floatingBubbles.remains <= 0) {
-                this.updateRow();
-                this.floatingBubbles.resetRemains();
-                this.floatingBubbles.isFloating = false;
-            }
+            this.clusters.checkingFinish = true;
+            this.updateRow();
         }
     }
 
@@ -127,7 +119,6 @@ export class BubblesBoard {
             this.addingManager.moreBubbleRows(3);
             this.addSignal = false;
             this.updateRow();
-            // console.log(this.board);
             console.log(JSON.parse(JSON.stringify(this.board)));
         }
         if(this.colliderBubble.isCollide) {
@@ -137,6 +128,8 @@ export class BubblesBoard {
                 this.clusters.run(bubble,true,true);
             }
         }
+        this.clusters.update();
+        this.floatingBubbles.update();
         this.checkingClusters();
         this.moveBubbles(0.1);
     }

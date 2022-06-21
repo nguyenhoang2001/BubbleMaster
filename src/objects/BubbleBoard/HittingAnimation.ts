@@ -9,7 +9,7 @@ export class HittingAnimation {
     private neighborsHelper!: BubbleNeighbors;
     private x: number;
     private y: number;
-    private offsetcollide: number;
+    private offsetBounce: number;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
@@ -17,59 +17,90 @@ export class HittingAnimation {
         this.neighborsHelper = this.bubblesBoard.neighbors;
         this.x = 0;
         this.y = 0;
-        this.offsetcollide = 15;
+        this.offsetBounce = 16;
     }
 
-    private setUp(coordinateOpposite:any,neighbor:Bubble) {
+    private setUpPosition(coordinateOpposite:any,neighbor:Bubble, offset:number) {
         this.x = 0;
         this.y = 0;
         if(coordinateOpposite.y == neighbor.y) {
             this.y = neighbor.y;
             if(coordinateOpposite.x < neighbor.x) {
-                this.x = neighbor.x - this.offsetcollide;
+                this.x = neighbor.x - offset;
             } else {
-                this.x = neighbor.x + this.offsetcollide;
+                this.x = neighbor.x + offset;
             }
         } else {
             if(coordinateOpposite.x < neighbor.x) {
-                this.x = neighbor.x - this.offsetcollide/1.75;
+                this.x = neighbor.x - offset/1.75;
             } else {
-                this.x = neighbor.x + this.offsetcollide/1.75;
+                this.x = neighbor.x + offset/1.75;
             }
             if(coordinateOpposite.y < neighbor.y) {
-                this.y = neighbor.y - this.offsetcollide;
+                this.y = neighbor.y - offset;
             } else {
-                this.y = neighbor.y + this.offsetcollide;
+                this.y = neighbor.y + offset;
             }
         }
     }
 
-    public run(newBubble: Bubble) {
-        const neighbors = this.neighborsHelper.getNeighbors(newBubble);
-            neighbors.some((neighbor:Bubble) => {
-                const oppositeNeighbor = this.neighborsHelper.getOppositeNeighbor(newBubble,neighbor);
-                if(oppositeNeighbor != undefined && oppositeNeighbor != null) {
-                    const coordinateOpposite = this.bubblesBoard.positionManager.getCoordinate(oppositeNeighbor.row,oppositeNeighbor.column);
-                    this.offsetcollide = 15;
-                    if(oppositeNeighbor.row < this.bubblesBoard.row && oppositeNeighbor.row > 0) {
-                        const bubble = this.bubblesBoard.board[oppositeNeighbor.row][oppositeNeighbor.column];
-                        if(bubble != undefined) {
-                            if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
-                                this.offsetcollide /= 2;
-                            }
+    private setUpAnimation(array:Bubble[], targetedBubble:Bubble, offset:number) {
+        const neighbors = array;
+        neighbors.some((neighbor:Bubble) => {
+            const oppositeNeighbor = this.neighborsHelper.getOppositeNeighbor(targetedBubble,neighbor);
+            if(oppositeNeighbor != undefined && oppositeNeighbor != null) {
+                const coordinateOpposite = this.bubblesBoard.positionManager.getCoordinate(oppositeNeighbor.row,oppositeNeighbor.column);
+                let offsetValue = offset;
+                if(oppositeNeighbor.row < this.bubblesBoard.row && oppositeNeighbor.row > 0) {
+                    const bubble = this.bubblesBoard.board[oppositeNeighbor.row][oppositeNeighbor.column];
+                    if(bubble != undefined) {
+                        if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
+                            offsetValue /= 2;
                         }
                     }
-                    this.setUp(coordinateOpposite,neighbor);
-                    
-                    this.scene.tweens.add({
-                        targets:neighbor,
-                        x:this.x,
-                        y:this.y,
-                        duration:100,
-                        ease: 'Power1',
-                        yoyo:true
-                    });
                 }
-            });
+                this.setUpPosition(coordinateOpposite,neighbor, offsetValue);
+                
+                this.scene.tweens.add({
+                    targets:neighbor,
+                    x:this.x,
+                    y:this.y,
+                    duration:100,
+                    ease: 'Power1',
+                    yoyo:true
+                });
+            }
+        });
+    }
+
+    public run(newBubble: Bubble) {
+        this.neighborsHelper.resetProcess();
+        let toWork:Bubble[] = [];
+        toWork.push(newBubble);
+        newBubble.processed = true;
+        let initialOffset = this.offsetBounce;
+        for(let i = 0; i < 4; i++) {
+            let offset = initialOffset;
+            initialOffset/=2;
+            let neighbors:Bubble[] = [];
+            let toProcess:Bubble[] = [];
+            while(toWork.length > 0) {
+                neighbors = [];
+                let targetedBubble = toWork.pop();
+                if(targetedBubble != undefined) {
+                    const rawNeighbors = this.neighborsHelper.getNeighbors(targetedBubble);
+                    rawNeighbors.some((bubble:Bubble) => {
+                        if(!bubble.processed) {
+                            bubble.processed = true;
+                            // neighbor accepted
+                            neighbors.push(bubble);
+                            toProcess.push(bubble);
+                        }
+                    });
+                    this.setUpAnimation(neighbors,targetedBubble,offset);
+                }
+            }
+            toWork = toProcess;
+        }
     }
 }
