@@ -5,7 +5,7 @@ import { MenuScene } from "./scenes/MenuScene";
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Bubble Master',
   version: '1.0.0',
-  width: 375 * 2 - 20,
+  width: 375 * 2 - 40,
   height: 667 * 2,
   type: Phaser.AUTO,
   scale: {
@@ -19,7 +19,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true
+      debug: false
     }
   },
   scene: [BootScene,MenuScene,GameScene]

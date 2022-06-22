@@ -40,6 +40,7 @@ export class ColliderManager {
         this.bubblesBoard.updateRow();
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
+        console.log(this.shootedBubble.body.onWorldBounds);
         this.isCollide = false;
         return newBubble;
     }

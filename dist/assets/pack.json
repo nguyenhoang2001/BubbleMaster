@@ -50,6 +50,11 @@
                 "type": "image",
                 "key": "circle",
                 "url": "./assets/images/player/circle.png"
+            },
+            {
+                "type": "image",
+                "key": "circleGuide",
+                "url": "./assets/images/shotGuide/red.png"
             }
         ]
     }

@@ -21,6 +21,7 @@ export class BulletCreator {
         Phaser.Display.Align.In.BottomCenter(this.shooter.shootedBubble,this.scene.bubblesContainer.mainZone, 0, -30);
         this.scene.add.existing(this.shooter.shootedBubble);
         this.shooter.shootedBubble.body.checkCollision.none = true;
+        this.shooter.shootedBubble.checkWorldBounce = false;
         this.shooter.bulletGroup.add(this.shooter.shootedBubble);
     }
 
@@ -31,6 +32,7 @@ export class BulletCreator {
         this.shooter.secondBubllet.setScale(0.5);
         this.scene.add.existing(this.shooter.secondBubllet);
         this.shooter.secondBubllet.body.checkCollision.none = true;
+        this.shooter.secondBubllet.checkWorldBounce = false;
         this.shooter.bulletGroup.add(this.shooter.secondBubllet);
     }
 }

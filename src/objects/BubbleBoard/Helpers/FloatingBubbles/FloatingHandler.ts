@@ -44,7 +44,7 @@ export class FloatingHandler {
             bubble.body.setGravityY(gravityY);
             bubble.body.setVelocityX(randomDirection*velocityX);
             bubble.body.setVelocityY(velocityY);
-            bubble.body.setCollideWorldBounds(true,0.5,0.5,true);
+            bubble.body.setCollideWorldBounds(true,0.5,0.5,false);
         })
     }
 }

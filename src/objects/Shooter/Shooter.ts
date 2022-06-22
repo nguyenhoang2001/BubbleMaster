@@ -2,11 +2,12 @@ import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { BulletCreator } from "./Helpers/BulletCreator";
 import { BulletSwaper } from "./Helpers/BulletSwaper";
+import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
     public shootedBubble!: ShootedBubble;
     public scene!: GameScene;
-    private arrowShoot!: Phaser.GameObjects.Line
+    public arrowShoot!: Phaser.GameObjects.Line
     public circle!: Phaser.GameObjects.Image;
     public allowShooting!: boolean;
     public bulletGroup!: Phaser.GameObjects.Group;
@@ -15,6 +16,8 @@ export class Shooter {
     private bulletSwaper!: BulletSwaper;
     private isShoot!: boolean;
     public checkAllowShooting!: boolean;
+    private shotGuide!: ShotGuide;
+
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -24,6 +27,7 @@ export class Shooter {
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
+        this.shotGuide = new ShotGuide(this, this.scene);
         this.bulletCreator.run();
         this.drawLineAndCircle();
         this.enableInput();
@@ -84,6 +88,7 @@ export class Shooter {
     private createLine() {
         this.arrowShoot = this.scene.add.line(this.shootedBubble.x,this.shootedBubble.y,0,0,100,0,0xff0000);
         this.arrowShoot.setOrigin(0,0);
+        this.arrowShoot.setVisible(false);
         this.shootedBubble.setDepth(1);
         this.secondBubllet.setDepth(1);
     }
@@ -104,11 +109,17 @@ export class Shooter {
                 }
             }
             this.arrowShoot.setAngle(angle);
+            if(this.allowShooting) {
+                this.shotGuide.run();
+            }
         }
     }
 
     private shootBubble() {
         this.shootedBubble.body.checkCollision.none = false;
+        this.shootedBubble.checkWorldBounce = true;
+        this.shootedBubble.initialX = this.shootedBubble.x;
+        this.shootedBubble.initialY = this.shootedBubble.y;
         this.scene.physics.velocityFromRotation(
             this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
             2000,
@@ -134,6 +145,7 @@ export class Shooter {
             this.checkAllowShooting = true;
         }
         if(!this.allowShooting) {
+            this.shotGuide.hide();
             this.updateAllowShooting();
         }
     }
