@@ -10,7 +10,7 @@ export class Bubble extends Phaser.GameObjects.Sprite {
         this.column = column!;
         this.processed = false;
         this.scene.physics.world.enable(this);
-        this.body.setCircle(26,2,2);
+        this.body.setCircle(28,0,0);
         this.body.setImmovable(true);
         this.name = 'Bubble';
     }
@@ -21,6 +21,7 @@ export class Bubble extends Phaser.GameObjects.Sprite {
 
     public resetPhysics() {
         this.scene.physics.world.enable(this);
+        this.body.setCircle(28,0,0);
         this.body.setGravity(0,0);
         this.body.reset(this.x,this.y);
         this.body.setBounce(0,0);

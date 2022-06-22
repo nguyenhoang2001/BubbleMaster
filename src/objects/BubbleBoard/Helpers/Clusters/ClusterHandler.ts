@@ -15,6 +15,8 @@ export class ClusterHandler {
     }
 
     public clearClusters(cluster:Bubble[]) {
+
+        let delay = 100;
         for(let i = 0; i < cluster.length; i++) {
             cluster[i].setDepth(1);
             cluster[i].body.checkCollision.none = true;
@@ -27,12 +29,14 @@ export class ClusterHandler {
                 scale: 1.5,
                 ease:'Power2',
                 duration: 500,
+                delay: delay,
                 onComplete: () => {
                     cluster[i].setDepth(0);
                     this.clusters.remains -= 1;
                     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
                 }
             });
+            delay += 100;
         }
     }
 }

@@ -7,6 +7,8 @@ export class ShootedBubble extends Bubble {
         super(scene,x,y,undefined,undefined,texture);
         this.createBouncing();
         this.name = 'ShootedBubble';
+        this.body.setCircle(14,14,14);
+
     }
 
     public createBouncing() {
