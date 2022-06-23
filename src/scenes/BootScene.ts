@@ -29,6 +29,7 @@ export class BootScene extends Phaser.Scene {
             () => {
               this.progressBar.destroy();
               this.loadingBar.destroy();
+
             },
             this
         );
@@ -47,7 +48,15 @@ export class BootScene extends Phaser.Scene {
         this.progressBar = this.add.graphics();
     }
 
+
+    create() {
+      this.registry.set('score',0);
+
+    }
+
     update (time:number, delta:number): void {
         this.scene.start('GameScene');
+        this.scene.start('HudScene');
+        this.scene.bringToTop('HudScene');
     }
 }

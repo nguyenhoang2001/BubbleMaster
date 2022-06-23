@@ -2,14 +2,17 @@ import { AddingBubble } from "./AddingBubble";
 import { Bubble } from "../../../Bubble";
 import { ShootedBubble } from "../../../ShootedBubble";
 import { BubblesBoard } from "../../BubblesBoard";
+import { GameScene } from "../../../../scenes/GameScene";
 
 export class PositionBubbleHandler {
     private parent!: AddingBubble;
     private bubblesBoard: BubblesBoard;
+    private scene!: GameScene;
 
     constructor(parent: AddingBubble) {
         this.parent = parent;
         this.bubblesBoard = this.parent.bubblesBoard;
+        this.scene = this.bubblesBoard.scene;
     }
 
     private rePositionShootedBubble(hittedBubble:Bubble, shootBubble:ShootedBubble) {
@@ -50,9 +53,6 @@ export class PositionBubbleHandler {
     }
 
     public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
-        // if(hittedBubble.row == this.bubblesBoard.row - 1) {
-        //     this.parent.bubblesBoard.addNewRow();
-        // }
         this.parent.bubblesBoard.addNewRow();
         let empties = this.bubblesBoard.neighbors.getEmpty(hittedBubble);
         let distanceCalculator = Phaser.Math.Distance;
@@ -62,8 +62,8 @@ export class PositionBubbleHandler {
         for(let i = 0; i < empties.length; i++) {
             let gridPos = empties[i];
             let emptyCoordinate = this.bubblesBoard.positionManager.getPosition(gridPos.row,gridPos.column);
-            let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y, 
-                shootedBubble.x, shootedBubble.y - this.bubblesBoard.y + 28);
+            let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y + this.scene.bubblesContainer.y,  
+                shootedBubble.x, shootedBubble.y);
             if(i == 0) {
                 smallestdistance = distance;
                 shootedPosition = gridPos;

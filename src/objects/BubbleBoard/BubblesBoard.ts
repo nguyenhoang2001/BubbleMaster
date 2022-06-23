@@ -116,7 +116,7 @@ export class BubblesBoard {
     public update() {
         if(this.addSignal) {
             this.updateRow();
-            this.addingManager.moreBubbleRows(3);
+            this.addingManager.moreBubbleRows(5);
             this.addSignal = false;
             this.updateRow();
             console.log(JSON.parse(JSON.stringify(this.board)));

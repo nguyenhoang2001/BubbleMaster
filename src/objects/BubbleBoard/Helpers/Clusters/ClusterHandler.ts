@@ -28,12 +28,15 @@ export class ClusterHandler {
                 targets:cluster[i],
                 scale: 1.5,
                 ease:'Power2',
-                duration: 500,
+                duration: 200,
                 delay: delay,
                 onComplete: () => {
                     cluster[i].setDepth(0);
                     this.clusters.remains -= 1;
                     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
+                    let score = this.scene.registry.get('score');
+                    score += 1;
+                    this.scene.registry.set('score', score);
                 }
             });
             delay += 100;

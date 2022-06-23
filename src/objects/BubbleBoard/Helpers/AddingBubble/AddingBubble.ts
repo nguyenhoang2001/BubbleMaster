@@ -15,7 +15,7 @@ export class AddingBubble {
         this.bubblesBoard = bubblesBoard;
         this.positionHandler = new PositionBubbleHandler(this);
         this.scene = this.bubblesBoard.scene;
-        this.finishedAddingBullet = false;
+        this.finishedAddingBullet = true;
     }
 
     private addingToGridGroup(bubbles:Bubble[]) {
@@ -75,7 +75,7 @@ export class AddingBubble {
         console.log('add more row');
         if(numberOfRow <= 0)
             return;
-
+        let saveNumberRowAdd = numberOfRow;
         let bellowBubble = this.bubblesBoard.board[0].find(n=>n)!
         let bellowY = bellowBubble.y;
         for(let i = 0; i < this.bubblesBoard.row; i++) {
@@ -84,7 +84,7 @@ export class AddingBubble {
                 if(object == undefined)
                     continue;
                 if(this.bubblesBoard.isBublleExisting(i,j)) {
-                    object.row += 3;
+                    object.row += saveNumberRowAdd;
                 }
             }
         }

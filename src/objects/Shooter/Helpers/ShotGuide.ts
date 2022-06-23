@@ -32,6 +32,7 @@ export class ShotGuide {
         circle.setTexture('circleGuide');
         circle.setActive(true);
         circle.setVisible(true);
+        circle.setScale(1);
         circle.isOverlap = false;
     }
 
@@ -44,7 +45,7 @@ export class ShotGuide {
                     if(this.bubblesBoard.isBublleExisting(i,j)) {
                         let bubbleY = bubble.y + this.scene.bubblesContainer.y;
                         let distance = Phaser.Math.Distance.Between(x,y,bubble.x,bubbleY);
-                        if(distance <= 50) {
+                        if(distance <= 52) {
                             hittedBubble = true;
                             break;
                         }
@@ -107,7 +108,6 @@ export class ShotGuide {
         let range = this.offsetDistance;
         let distance = this.distance;
         let arrowAngle = 180 + (180 + arrowShoot.angle);
-
         while(!this.stopGenrate) {
             let postPosition:any;
             if(arrowAngle >= 270) {
@@ -130,8 +130,8 @@ export class ShotGuide {
                     let saveOldX = x - (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = this.gameWidth - 20;
-                    y = saveOldY - (x - saveOldX)*Math.tan(angle) - 20;
+                    x = this.gameWidth - 18;
+                    y = saveOldY - (x - saveOldX)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
                 } else if(x <= 25) {
@@ -141,8 +141,8 @@ export class ShotGuide {
                     let saveOldX = x + (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = 20;
-                    y = saveOldY - (saveOldX - x)*Math.tan(angle) - 20;
+                    x = 18;
+                    y = saveOldY - (saveOldX - x)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
                 }

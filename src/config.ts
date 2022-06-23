@@ -1,5 +1,6 @@
 import { BootScene } from "./scenes/BootScene";
 import { GameScene } from "./scenes/GameScene";
+import { HudScene } from "./scenes/HudScene";
 import { MenuScene } from "./scenes/MenuScene";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
@@ -22,5 +23,5 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
       debug: false
     }
   },
-  scene: [BootScene,MenuScene,GameScene]
+  scene: [BootScene,MenuScene,GameScene,HudScene]
 };

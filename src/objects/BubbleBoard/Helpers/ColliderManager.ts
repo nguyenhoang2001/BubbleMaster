@@ -19,6 +19,35 @@ export class ColliderManager {
         this.neighborsHelper = this.bubblesBoard.neighbors;
     }
 
+
+    private handleWrongBubbleHit() {
+        if((this.hittedBubble.row + this.bubblesBoard.rowOffSet) % 2) {
+            if(this.hittedBubble.column == 11) {
+               if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
+                    const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][11];
+                    if(bubble != undefined) {
+                        if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,11)) {
+                            console.log('we handle it');
+                            this.hittedBubble = bubble;
+                        }
+                    }
+               }
+            }
+        } else {
+            if(this.hittedBubble.column == 0) {
+                if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
+                     const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][0];
+                     if(bubble != undefined) {
+                         if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,0)) {
+                             console.log('we handle it');
+                             this.hittedBubble = bubble;
+                         }
+                     }
+                }
+            }
+        }
+    }
+
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.collider(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             if(!this.isCollide) {
@@ -27,6 +56,7 @@ export class ColliderManager {
                 let bulletGroup = this.scene.shooter.bulletGroup;
                 let gridGroup = this.bubblesBoard.gridGroup;
                 this.shootedBubble.body.stop();
+                this.handleWrongBubbleHit();
                 // get from the bullet group to the grid group
                 bulletGroup.remove(this.shootedBubble);
                 gridGroup.add(this.shootedBubble as Bubble);
@@ -40,7 +70,6 @@ export class ColliderManager {
         this.bubblesBoard.updateRow();
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
-        console.log(this.shootedBubble.body.onWorldBounds);
         this.isCollide = false;
         return newBubble;
     }

@@ -10,8 +10,8 @@ export class GameScene extends Phaser.Scene {
     public bubblesContainer!: BubblesContainer;
     public shooter!: Shooter;
     public typeGenerator!: TypeGenerator;
-    private checkContainer!: boolean;
     private addingNewBubbleRowManager!: AddingNewBubbleRowManager;
+    private background!: Phaser.GameObjects.Image;
 
     constructor() {
         super({
@@ -36,14 +36,14 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         // Variables
-        this.checkContainer = true;
+        this.background = this.add.image(0,0,'background').setOrigin(0,0);
         // Physics
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
         this.bubblesContainer = new BubblesContainer(this,0,0);
         this.add.existing(this.bubblesContainer);
         this.typeGenerator = new TypeGenerator(this);
-        this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6*2,6*2,1,49);
+        this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,49);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.typeGenerator.resetCurrentType();
         this.createShooter();

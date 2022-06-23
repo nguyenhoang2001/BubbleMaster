@@ -44,7 +44,7 @@ export class Shooter {
             if(this.scene.bubblesContainer.isRunning) {
                 this.allowShooting = false;
             } else {
-                if(this.scene.bubblesBoard.addingManager.finishedAddingBullet || !this.isShoot) {
+                if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
                     if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
                         this.allowShooting = true;
                 }
@@ -94,22 +94,22 @@ export class Shooter {
     }
 
     private rotateShooter() {
-        let angle = Phaser.Math.RAD_TO_DEG * 
-            Phaser.Math.Angle.Between(this.arrowShoot.x,this.arrowShoot.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
-        if (angle < 0) {
-            angle = 180 + (180 + angle);
-        }
-        if(angle >= 180 && angle <= 360) {
-            if(angle < 190) {
-                angle = 190;
+        if(this.allowShooting) {
+            let angle = Phaser.Math.RAD_TO_DEG * 
+            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+            if (angle < 0) {
+                angle = 180 + (180 + angle);
             }
-            else {
-                if(angle > 350) {
-                    angle = 350;
+            if(angle >= 180 && angle <= 360) {
+                if(angle < 190) {
+                    angle = 190;
                 }
-            }
-            this.arrowShoot.setAngle(angle);
-            if(this.allowShooting) {
+                else {
+                    if(angle > 350) {
+                        angle = 350;
+                    }
+                }
+                this.arrowShoot.setAngle(angle);
                 this.shotGuide.run();
             }
         }

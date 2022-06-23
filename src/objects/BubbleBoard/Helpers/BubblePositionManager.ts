@@ -13,13 +13,22 @@ export class BubblePositionManager {
     }
 
     public getPosition(row:number,column:number):any {
+        // let bubbleX = column * 56;
+        // if ((row + this.bubblesBoard.rowOffSet) % 2) {
+        //     bubbleX += 56/2;
+        // }
+        // let bubbleY = row * this.bubblesBoard.rowHeight + 28 - this.bubblesBoard.deltaY;
+        // bubbleX = bubbleX + this.bubblesBoard.x;
+        // return {x: bubbleX, y:bubbleY};
+        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
         let bubbleX = column * 56;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += 56/2;
         }
-        let bubbleY = row * this.bubblesBoard.rowHeight + 28 - this.bubblesBoard.deltaY;
-        bubbleX = bubbleX + this.bubblesBoard.x;
-        return {x: bubbleX, y:bubbleY};
+        let bubbleY = row * this.bubblesBoard.rowHeight;
+        bubbleY += firstBubble.y;
+        bubbleX += this.bubblesBoard.x;
+        return {x:bubbleX,y:bubbleY};
     }
 
     public setPosition(row:number,column:number,bubble:Bubble) {

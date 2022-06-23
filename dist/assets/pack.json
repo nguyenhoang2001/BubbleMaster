@@ -55,6 +55,21 @@
                 "type": "image",
                 "key": "circleGuide",
                 "url": "./assets/images/shotGuide/red.png"
+            },
+            {
+                "type": "image",
+                "key": "background",
+                "url": "./assets/images/background-image.jpg"
+            },
+            {
+                "type": "image",
+                "key": "scoreContainer",
+                "url": "./assets/images/others/tab-score.png"
+            },
+            {
+                "type": "image",
+                "key": "threeBubbles",
+                "url": "./assets/images/others/3-bubbles.png"
             }
         ]
     }
