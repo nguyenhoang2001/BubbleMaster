@@ -70,6 +70,26 @@
                 "type": "image",
                 "key": "threeBubbles",
                 "url": "./assets/images/others/3-bubbles.png"
+            },
+            {
+                "type": "image",
+                "key": "bgProgressBar",
+                "url": "./assets/images/progressBar/bg-progress-bar.png"
+            },
+            {
+                "type": "image",
+                "key": "progressLeft",
+                "url": "./assets/images/progressBar/progress-bar-left.png"
+            },
+            {
+                "type": "image",
+                "key": "progressMid",
+                "url": "./assets/images/progressBar/progress-bar-middle.png"
+            },
+            {
+                "type": "image",
+                "key": "progressRight",
+                "url": "./assets/images/progressBar/progress-bar-right.png"
             }
         ]
     }

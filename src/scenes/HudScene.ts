@@ -17,7 +17,7 @@ export class HudScene extends Phaser.Scene {
 
     public update(time: number, delta: number): void {
         this.score = this.registry.get('score');
-        this.container.update();
+        this.container.update(time,delta);
     }
 
 }
