@@ -51,7 +51,7 @@ export class BootScene extends Phaser.Scene {
 
     create() {
       this.registry.set('score',0);
-
+      this.registry.set('isGameOver',false);
     }
 
     update (time:number, delta:number): void {

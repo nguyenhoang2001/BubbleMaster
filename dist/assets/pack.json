@@ -90,6 +90,23 @@
                 "type": "image",
                 "key": "progressRight",
                 "url": "./assets/images/progressBar/progress-bar-right.png"
+            },
+            {
+                "type": "image",
+                "key": "rope",
+                "url": "./assets/images/others/rope.png"
+            },
+            {
+                "type": "atlas",
+                "key": "gamePlaySet",
+                "textureURL": "./assets/atlas/gameplay-textures.png",
+                "atlasURL": "./assets/atlas/gameplay-textures.json"
+            },
+            {
+                "type": "atlas",
+                "key": "gamePlay32bit",
+                "textureURL": "./assets/atlas/gameplay-textures-32bit.png",
+                "atlasURL": "./assets/atlas/gameplay-textures-32bit.json"
             }
         ]
     }

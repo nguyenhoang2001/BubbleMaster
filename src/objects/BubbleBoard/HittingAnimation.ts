@@ -65,8 +65,8 @@ export class HittingAnimation {
                     targets:neighbor,
                     x:this.x,
                     y:this.y,
-                    duration:100,
-                    ease: 'Power1',
+                    duration:150,
+                    ease: 'Sine.easeOut',
                     yoyo:true
                 });
             }

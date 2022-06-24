@@ -8,7 +8,7 @@ export class ShootedBubble extends Bubble {
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,undefined,undefined,texture);
-        this.body.setCircle(18,10,10);
+        this.body.setCircle(10,18,18);
         this.createBouncing();
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;

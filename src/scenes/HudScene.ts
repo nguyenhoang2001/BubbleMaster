@@ -16,8 +16,12 @@ export class HudScene extends Phaser.Scene {
     }
 
     public update(time: number, delta: number): void {
-        this.score = this.registry.get('score');
-        this.container.update(time,delta);
+        let isGameOver = this.registry.get('isGameOver');
+        if(!isGameOver) {
+            this.score = this.registry.get('score');
+            this.container.update(time,delta);
+        }
+
     }
 
 }
