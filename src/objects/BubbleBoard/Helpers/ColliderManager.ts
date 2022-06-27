@@ -52,17 +52,20 @@ export class ColliderManager {
         this.scene.physics.add.collider(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             if(!this.isCollide) {
                 this.shootedBubble = _shootedBubble as ShootedBubble;
+                this.shootedBubble.body.checkCollision.none = true;
+                this.shootedBubble.checkWorldBounce = false;
+
                 this.hittedBubble = _bubble as Bubble;
                 let bulletGroup = this.scene.shooter.bulletGroup;
                 let gridGroup = this.bubblesBoard.gridGroup;
-                this.shootedBubble.body.stop();
+                // this.shootedBubble.body.stop();
                 this.handleWrongBubbleHit();
                 // get from the bullet group to the grid group
                 bulletGroup.remove(this.shootedBubble);
                 gridGroup.add(this.shootedBubble as Bubble);
                 this.isCollide = true;
             }
-        })
+        });
     }
 
     public runCollide() {
@@ -71,6 +74,8 @@ export class ColliderManager {
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
         this.isCollide = false;
+        if(newBubble == undefined)
+            return;
         return newBubble;
     }
 }

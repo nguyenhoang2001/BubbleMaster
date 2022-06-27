@@ -99,8 +99,8 @@
             {
                 "type": "atlas",
                 "key": "gamePlaySet",
-                "textureURL": "./assets/atlas/gameplay-textures.png",
-                "atlasURL": "./assets/atlas/gameplay-textures.json"
+                "textureURL": "assets/atlas/gameplay-textures.png",
+                "atlasURL": "assets/atlas/gameplay-textures.json"
             },
             {
                 "type": "atlas",

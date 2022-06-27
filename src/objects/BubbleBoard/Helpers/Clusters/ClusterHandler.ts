@@ -15,29 +15,33 @@ export class ClusterHandler {
     }
 
     public clearClusters(cluster:Bubble[]) {
-
-        let delay = 100;
+        let delay = 0;
+        console.log(JSON.parse(JSON.stringify(cluster)));
         for(let i = 0; i < cluster.length; i++) {
-            cluster[i].setDepth(1);
             cluster[i].body.checkCollision.none = true;
             cluster[i].clear();
             let row = cluster[i].row;
             let column = cluster[i].column;
             this.bubblesBoard.board[row][column] = undefined;
-            this.scene.tweens.add({
-                targets:cluster[i],
-                scale: 1.5,
-                ease:'Power2',
-                duration: 200,
-                delay: delay,
-                onComplete: () => {
-                    cluster[i].setDepth(0);
-                    this.clusters.remains -= 1;
-                    this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
-                    this.scene.score += 1;
-                }
+
+            // cluster[i].playAnimation(delay,() => {
+            //     cluster[i].setDepth(0);
+            //     this.clusters.remains -= 1;
+            //     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
+            //     this.scene.score += 1;
+            // });
+
+            // cluster[i].playAfterDelay('explode',delay);
+
+            cluster[i].setTintColor();
+
+            cluster[i].on('animationcomplete-explode', () => {                    
+                console.log('animation complete');
+                this.clusters.remains -= 1;
+                this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
+                this.scene.score += 1;
             });
-            delay += 100;
+            delay += 50;
         }
     }
 }

@@ -18,7 +18,6 @@ export class Shooter {
     public checkAllowShooting!: boolean;
     private shotGuide!: ShotGuide;
 
-
     constructor(scene:GameScene) {
         this.scene = scene;
         this.allowShooting = false;

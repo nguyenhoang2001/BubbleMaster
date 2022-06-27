@@ -1,8 +1,11 @@
+import { TintGenerator } from "./TintGenerator";
+
 export class Bubble extends Phaser.GameObjects.Sprite {
     public body!: Phaser.Physics.Arcade.Body;
     public processed!: boolean;
     public row!:number;
     public column!: number;
+    public tintGenerator!: TintGenerator;
 
     constructor(scene:Phaser.Scene, x:number, y:number,row?:number,column?:number, texture?:string) {
         super(scene,x,y,texture!);
@@ -13,6 +16,8 @@ export class Bubble extends Phaser.GameObjects.Sprite {
         this.body.setCircle(28,0,0);
         this.body.setImmovable(true);
         this.name = 'Bubble';
+        this.tintGenerator = new TintGenerator(this);
+        this.play('explode');
     }
 
     public clear() {
@@ -30,5 +35,9 @@ export class Bubble extends Phaser.GameObjects.Sprite {
         this.body.setBounce(0,0);
         this.body.setCollideWorldBounds(false);
         this.body.checkCollision.none = false;
+    }
+
+    public setTintColor() {
+        return this.setTint(this.tintGenerator.getTint());
     }
 }

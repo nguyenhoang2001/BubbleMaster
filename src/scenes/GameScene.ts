@@ -1,4 +1,5 @@
 import { Game } from "phaser";
+import { AnimationCreator } from "../helpers/AnimationCreator";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { Bubble } from "../objects/Bubble";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
@@ -20,6 +21,7 @@ export class GameScene extends Phaser.Scene {
     private gameOverContainer!: GameOverContainer;
     public score!: number;
     public highScore!: number;
+    private animationCreator!: AnimationCreator;
 
     constructor() {
         super({
@@ -53,6 +55,7 @@ export class GameScene extends Phaser.Scene {
         // Physics
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
+        this.animationCreator = new AnimationCreator(this);
         this.bubblesContainer = new BubblesContainer(this,0,0);
         this.add.existing(this.bubblesContainer);
         this.typeGenerator = new TypeGenerator(this);
@@ -60,6 +63,7 @@ export class GameScene extends Phaser.Scene {
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverHandler = new GameOverHandler(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
+        this.animationCreator.createAnimations();
         this.typeGenerator.resetCurrentType();
         this.createShooter();
         this.runContainer();

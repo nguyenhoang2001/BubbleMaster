@@ -56,4 +56,5 @@ export class ShootedBubble extends Bubble {
         this.body.setCollideWorldBounds(false,undefined,undefined,false);
         this.checkWorldBounce = false;
     }
+
 }
