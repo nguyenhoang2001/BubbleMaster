@@ -57,10 +57,7 @@ export class FloatingBubbles {
                             this.scene.bubblesContainer.add(bubble);
                             bubble.clear();
                             this.bubblesBoard.gridGroup.killAndHide(bubble);
-                            
-                            let score = this.scene.registry.get('score');
-                            score += 1;
-                            this.scene.registry.set('score', score);
+                            this.scene.score += 1;
                         }
                     }
                 });

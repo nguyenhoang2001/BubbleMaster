@@ -44,7 +44,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
 
         this.scoreContainer = this.scene.add.image(0,0,'scoreContainer');
         this.threeBubbles = this.scene.add.image(0,0,'threeBubbles');
-        this.scoreText = this.scene.add.text(0,0,'');
+        this.scoreText = this.scene.add.text(0,0,'0');
         this.scoreText.style.setFontSize('30px');
         this.scoreText.style.setFontFamily('Arial');
 

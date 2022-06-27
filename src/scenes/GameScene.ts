@@ -18,11 +18,15 @@ export class GameScene extends Phaser.Scene {
     private gameOverHandler!: GameOverHandler;
     public mainZone!: Phaser.GameObjects.Zone;
     private gameOverContainer!: GameOverContainer;
+    public score!: number;
+    public highScore!: number;
 
     constructor() {
         super({
             key:'GameScene'
         });
+        this.score = 0;
+        this.highScore = 0;
     }
 
     public addBubblesToContainer(bubbles: (Bubble | undefined)[]) {
@@ -44,6 +48,8 @@ export class GameScene extends Phaser.Scene {
         // Variables
         this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
+        this.registry.set('score',0);
+        this.score = 0;
         // Physics
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
@@ -63,11 +69,15 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.gameOverHandler.update();
         if(!this.gameOverHandler.isGameOver) {
+            if(this.highScore < this.score) {
+                this.highScore = this.score;
+            }
             this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update();
             this.shooter.update();
         } else {
-            
+            this.shooter.clearShotGuide();
+            this.gameOverContainer.open();
         }
     }
 }

@@ -39,6 +39,10 @@ export class Shooter {
         this.drawCircle();
     }
 
+    public clearShotGuide() {
+        this.shotGuide.hide();
+    }
+
     private updateAllowShooting() {
         if(this.checkAllowShooting) {
             if(this.scene.bubblesContainer.isRunning) {

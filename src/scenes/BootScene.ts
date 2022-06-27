@@ -50,13 +50,14 @@ export class BootScene extends Phaser.Scene {
 
 
     create() {
-      this.registry.set('score',0);
       this.registry.set('isGameOver',false);
+      this.registry.set('restart',false);
     }
 
     update (time:number, delta:number): void {
         this.scene.start('GameScene');
         this.scene.start('HudScene');
+        this.scene.start('SceneManger', {scenes: [this.scene.get('HudScene'),this.scene.get('GameScene')]});
         this.scene.bringToTop('HudScene');
     }
 }

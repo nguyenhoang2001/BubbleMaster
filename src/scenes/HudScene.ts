@@ -1,4 +1,5 @@
 import { HudContainer } from "../ui/HudContainer";
+import { GameScene } from "./GameScene";
 
 export class HudScene extends Phaser.Scene {
     private container!: HudContainer;
@@ -18,10 +19,9 @@ export class HudScene extends Phaser.Scene {
     public update(time: number, delta: number): void {
         let isGameOver = this.registry.get('isGameOver');
         if(!isGameOver) {
-            this.score = this.registry.get('score');
+            let gameScene = this.scene.get('GameScene') as GameScene;
+            this.score = gameScene.score;
             this.container.update(time,delta);
         }
-
     }
-
 }

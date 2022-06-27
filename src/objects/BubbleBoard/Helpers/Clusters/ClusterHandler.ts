@@ -34,9 +34,7 @@ export class ClusterHandler {
                     cluster[i].setDepth(0);
                     this.clusters.remains -= 1;
                     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
-                    let score = this.scene.registry.get('score');
-                    score += 1;
-                    this.scene.registry.set('score', score);
+                    this.scene.score += 1;
                 }
             });
             delay += 100;

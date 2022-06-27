@@ -27,8 +27,10 @@ export class GameOverHandler {
     private enableOverlapRope() {
         this.rope.body.checkCollision.none = true;
         this.scene.physics.add.overlap(this.gridGroup,this.rope, () => {
-            this.isGameOver = true;
-            this.scene.registry.set('isGameOver', true);
+            if(!this.isGameOver) {
+                this.isGameOver = true;
+                this.scene.registry.set('isGameOver', true);
+            }
         });
     }
 
@@ -36,6 +38,5 @@ export class GameOverHandler {
         if(!this.scene.bubblesContainer.isRunning) {
             this.rope.body.checkCollision.none = false;
         }
-
     }
 }

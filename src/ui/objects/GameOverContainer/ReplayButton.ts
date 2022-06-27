@@ -24,24 +24,36 @@ export class ReplayButton {
 
         this.mid = this.scene.add.image(0,0,'progressMid').setOrigin(0,0);
         this.mid.setDisplaySize(270, 50);
+
         this.left = this.scene.add.image(0,0,'progressLeft').setOrigin(0,0);
+        this.left.setDisplaySize(this.left.width,50);
+
         this.right = this.scene.add.image(0,0,'progressRight').setOrigin(0,0);
+        this.right.setDisplaySize(this.right.width,50);
 
         this.text = this.scene.add.text(0,0,'Play Again');
         this.text.style.setFontSize('30px');
         this.text.style.setFontFamily('fontfamily');
 
+        this.container.add([this.left,this.mid,this.right,this.text]);
 
-        this.left.setDisplaySize(this.left.width,50);
-        this.right.setDisplaySize(this.right.width,50);
-        this.container.add(this.left);
-        this.container.add(this.mid);
-        this.container.add(this.right);
-        this.container.add(this.text);
         Phaser.Display.Align.In.Center(this.container, this.scene.mainZone,-150, 100);
         Phaser.Display.Align.To.RightCenter(this.mid,this.left);
         Phaser.Display.Align.To.RightCenter(this.right,this.mid, (this.mid.displayWidth - this.mid.width));
         Phaser.Display.Align.In.Center(this.text,this.mid, 57, 11);
+        this.enableButtonFunction();
+    }
+
+    public enableButtonFunction() {
+        this.mid.on('pointerup', () => {
+            this.scene.registry.set('restart', true);
+        });
+        this.left.on('pointerup', () => {
+            this.scene.registry.set('restart', true);
+        });
+        this.right.on('pointerup', () => {
+            this.scene.registry.set('restart', true);
+        });
     }
 
     public appear() {
@@ -49,7 +61,7 @@ export class ReplayButton {
         this.container.setAlpha(0);
         let tween = {
             targets:this.container,
-            y: this.container.y + 200,
+            y: this.container.y + 100,
             ease: 'Sine',
             alpha: 1,
             duration: 1000,
@@ -64,10 +76,9 @@ export class ReplayButton {
 
     public disappear() {
         this.container.setVisible(false);
-        this.container.y -= 200;
+        this.container.y -= 100;
         this.left.removeInteractive();
         this.mid.removeInteractive();
         this.right.removeInteractive();
     }
-
 }
