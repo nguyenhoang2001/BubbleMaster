@@ -15,8 +15,7 @@ export class ClusterHandler {
     }
 
     public clearClusters(cluster:Bubble[]) {
-        let delay = 0;
-        console.log(JSON.parse(JSON.stringify(cluster)));
+        let delay = 50;
         for(let i = 0; i < cluster.length; i++) {
             cluster[i].body.checkCollision.none = true;
             cluster[i].clear();
@@ -24,23 +23,28 @@ export class ClusterHandler {
             let column = cluster[i].column;
             this.bubblesBoard.board[row][column] = undefined;
 
-            // cluster[i].playAnimation(delay,() => {
-            //     cluster[i].setDepth(0);
-            //     this.clusters.remains -= 1;
-            //     this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
-            //     this.scene.score += 1;
-            // });
+            let tintColor = cluster[i].texture.key;
 
-            // cluster[i].playAfterDelay('explode',delay);
+            cluster[i].on('animationstart', () => {
+                cluster[i].setTintColor(tintColor);
 
-            cluster[i].setTintColor();
+            })
+            cluster[i].on('animationupdate', () => {
+                if(cluster[i].frame.name == 'animations/grey-explosive/explosive_grey_10') {
+                    this.clusters.remains -= 1;
+                    this.scene.score += 1;
+                }
+            })
 
-            cluster[i].on('animationcomplete-explode', () => {                    
-                console.log('animation complete');
-                this.clusters.remains -= 1;
+            cluster[i].on('animationcomplete-explode', () => {
+                console.log('finish animations');
+                cluster[i].removeAllListeners();
+                cluster[i].anims.remove('explode');
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
-                this.scene.score += 1;
             });
+
+            cluster[i].anims.playAfterDelay('explode',delay);
+
             delay += 50;
         }
     }

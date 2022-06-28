@@ -119,17 +119,20 @@ export class Shooter {
     }
 
     private shootBubble() {
-        this.shootedBubble.body.checkCollision.none = false;
-        this.shootedBubble.checkWorldBounce = true;
-        this.shootedBubble.initialX = this.shootedBubble.x;
-        this.shootedBubble.initialY = this.shootedBubble.y;
-        this.scene.physics.velocityFromRotation(
-            this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-            2500,
-            this.shootedBubble.body.velocity
-        );
-        this.checkAllowShooting = false;
-        this.bulletSwaper.afterShooting();
+        if(this.arrowShoot.angle != 0) {
+            this.shootedBubble.body.checkCollision.none = false;
+            this.shootedBubble.checkWorldBounce = true;
+            this.shootedBubble.initialX = this.shootedBubble.x;
+            this.shootedBubble.initialY = this.shootedBubble.y;
+            this.scene.physics.velocityFromRotation(
+                this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
+                2400,
+                this.shootedBubble.body.velocity
+            );
+            this.shootedBubble.tail.setVisible(true);
+            this.checkAllowShooting = false;
+            this.bulletSwaper.afterShooting();
+        }
     }
 
     public makeSecondBullet() {
@@ -138,6 +141,12 @@ export class Shooter {
     
     public update() {
         this.rotateShooter();
+        this.bulletGroup.getChildren().forEach((_bullet:any) => {
+            const bullet = _bullet as ShootedBubble;
+            if(bullet != undefined) {
+                bullet.update();
+            }
+        });
         if(this.isShoot) {
             this.isShoot = false;
             this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;

@@ -38,11 +38,14 @@ export class AddingBubble {
     }
 
     private toBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble|void {
-        this.bubblesBoard.positionManager.setPositionFromShooting(row,column,shootedBubble);
-        shootedBubble.resetPhysics();
-        shootedBubble.row = row;
-        shootedBubble.column = column;
-        this.bubblesBoard.board[row][column] = shootedBubble;
+        let bubble = this.bubblesBoard.gridGroup.get(0,0,'',undefined,true);
+        this.activateBubble(bubble,shootedBubble.texture.key);
+
+        this.bubblesBoard.positionManager.setPositionFromShooting(row,column,bubble);
+        // shootedBubble.resetPhysics();
+        bubble.row = row;
+        bubble.column = column;
+        this.bubblesBoard.board[row][column] = bubble;
 
         const object = this.bubblesBoard.board[row][column];
         if(object == undefined)
@@ -51,24 +54,34 @@ export class AddingBubble {
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
+
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
+
         const object = bubble;
         if(object == undefined)
             return;
         object.setDepth(0);
-        this.toContainer([object]);
+
+        if(object.visible)
+            this.toContainer([object]);
+        object.setVisible(true);
+
         this.finishedAddingBullet = true;
+        console.log(JSON.parse(JSON.stringify(this.bubblesBoard.board)));
         return bubble;
     }
 
     private activateBubble(bubble:Bubble, texture:string) {
         bubble.name = 'Bubble';
+        bubble.removeAllListeners();
         bubble.setScale(1);
         bubble.setDepth(0);
         bubble.setActive(true);
         bubble.setTexture(texture);
         bubble.resetPhysics();
+        bubble.clearTint();
+        bubble.clearAlpha();
     }
 
     public moreBubbleRows(numberOfRow:number) {

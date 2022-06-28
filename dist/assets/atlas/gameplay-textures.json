@@ -1,13 +1,5 @@
 {
-	"textures": [
-		{
-			"image": "gameplay-textures.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 1889,
-				"h": 1643
-			},
-			"scale": 1,
+
 			"frames": [
 				{
 					"filename": "animations/grey-explosive/explosive_grey_00",
@@ -2551,8 +2543,7 @@
 					}
 				}
 			]
-		}
-	],
+,
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",

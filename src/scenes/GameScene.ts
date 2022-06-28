@@ -73,12 +73,14 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.gameOverHandler.update();
         if(!this.gameOverHandler.isGameOver) {
-            if(this.highScore < this.score) {
-                this.highScore = this.score;
+            if(this.bubblesContainer.isRunning == false) {
+                if(this.highScore < this.score) {
+                    this.highScore = this.score;
+                }
+                this.addingNewBubbleRowManager.setAddSignalToGrid();
+                this.bubblesBoard.update();
+                this.shooter.update();
             }
-            this.addingNewBubbleRowManager.setAddSignalToGrid();
-            this.bubblesBoard.update();
-            this.shooter.update();
         } else {
             this.shooter.clearShotGuide();
             this.gameOverContainer.open();

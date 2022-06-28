@@ -15,8 +15,7 @@ export class AnimationCreator {
                 end:29, 
                 zeroPad: 2
             }),
-            frameRate: 45,
-            repeat: -1
+            frameRate: 60
         });
     }
 }

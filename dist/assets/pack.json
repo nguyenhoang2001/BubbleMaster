@@ -107,6 +107,16 @@
                 "key": "gamePlay32bit",
                 "textureURL": "./assets/atlas/gameplay-textures-32bit.png",
                 "atlasURL": "./assets/atlas/gameplay-textures-32bit.json"
+            },
+            {
+                "type": "image",
+                "key": "tail",
+                "url": "./assets/images/others/tail.png"
+            },
+            {
+                "type": "image",
+                "key": "backgroundDark",
+                "url": "./assets/images/backgroundDark.jpeg"
             }
         ]
     }

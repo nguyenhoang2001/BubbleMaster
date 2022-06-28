@@ -7,13 +7,12 @@ export class TintGenerator {
         this.bubble = bubble;
     }
 
-    public getTint() {
-        let textureKey = this.bubble.texture.key;
-
+    public getTint(texture:string) {
+        let textureKey = texture;
         if(textureKey == 'redBubble') {
             return 0xff0000;
         } else if(textureKey == 'yellowBubble') {
-            return 0xFFFF00;
+            return 0xffbf00;
         } else if(textureKey == 'pinkBubble') {
             return 0xFF00FF;
         } else if(textureKey == 'violetBubble') {

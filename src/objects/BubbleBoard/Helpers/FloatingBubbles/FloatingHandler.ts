@@ -35,8 +35,11 @@ export class FloatingHandler {
             
             bubble.body.checkCollision.none = true;
             var directionX = [1,-1];
-            this.scene.bubblesContainer.remove(bubble);
-            bubble.y += this.scene.bubblesContainer.y;
+
+
+            // bubble.y += this.scene.bubblesContainer.y;
+            // this.scene.bubblesContainer.remove(bubble);
+
             var randomDirection = directionX[Math.floor(Math.random() * directionX.length)];
             let gravityY = this.getRandomValue(2800,3000);
             let velocityY = this.getRandomValue(50,100);
