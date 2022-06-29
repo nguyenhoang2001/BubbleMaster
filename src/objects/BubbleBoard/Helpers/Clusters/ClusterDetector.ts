@@ -17,7 +17,7 @@ export class ClusterDetector {
         targetedBubble.processed = true;
         let foundCluster = [];
         while(toProcess.length > 0) {
-            let currentBubble = toProcess.pop();
+            let currentBubble = toProcess.shift();
             if(currentBubble == undefined) {
                 continue;
             } else {

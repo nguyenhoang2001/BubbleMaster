@@ -15,8 +15,7 @@ export class ShootedBubble extends Bubble {
         this.checkWorldBounce = false;
         this.initialX = 0;
         this.initialY = 0;
-        this.tail = this.scene.add.image(x,y,'tail').setAlpha(1).setScale(0.8).setOrigin(0.5,0);
-        // this.tail.setTintFill(this.tintGenerator.getTint(this.texture.key));
+        this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.7).setScale(1).setOrigin(0.5,0);
         this.tail.setTintFill(this.tintGenerator.getTint(this.texture.key));        
         this.tail.setVisible(false);
     }
@@ -67,7 +66,8 @@ export class ShootedBubble extends Bubble {
     }
 
     public update(...args: any[]): void {
-        let angle = this.body.velocity.angle() * Phaser.Math.RAD_TO_DEG;
+        let angle = this.body.velocity.angle() * Phaser.Math.RAD_TO_DEG;        
+        this.setRotation(this.body.velocity.angle());
         if(angle >= 270) {
             angle = 90 - (360 - angle);
         } else {
@@ -78,14 +78,14 @@ export class ShootedBubble extends Bubble {
         this.tail.y = this.y;
         if(angle >= 0 && angle <= 90) {
             let angleOffset = 90 - angle;
-            let offsetY = 28 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 28 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetY = 35 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetX = 35 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
             this.tail.x = this.tail.x + offsetX;
             this.tail.y = this.tail.y - offsetY;
         } else {
             let angleOffset = 90 - (360 - angle);
-            let offsetY = 28 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 28 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetY = 35 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetX = 35 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
             this.tail.x = this.tail.x - offsetX;
             this.tail.y = this.tail.y - offsetY;
         }

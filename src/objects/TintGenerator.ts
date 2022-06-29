@@ -12,7 +12,7 @@ export class TintGenerator {
         if(textureKey == 'redBubble') {
             return 0xff0000;
         } else if(textureKey == 'yellowBubble') {
-            return 0xffbf00;
+            return 0xffd712;
         } else if(textureKey == 'pinkBubble') {
             return 0xFF00FF;
         } else if(textureKey == 'violetBubble') {

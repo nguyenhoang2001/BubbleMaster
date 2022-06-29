@@ -124,6 +124,7 @@ export class Shooter {
             this.shootedBubble.checkWorldBounce = true;
             this.shootedBubble.initialX = this.shootedBubble.x;
             this.shootedBubble.initialY = this.shootedBubble.y;
+            this.shootedBubble.setScale(1.2,1);
             this.scene.physics.velocityFromRotation(
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                 2400,

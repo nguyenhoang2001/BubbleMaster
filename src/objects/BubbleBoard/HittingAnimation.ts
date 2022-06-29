@@ -60,7 +60,6 @@ export class HittingAnimation {
                     }
                 }
                 this.setUpPosition(coordinateOpposite,neighbor, offsetValue);
-                
                 this.scene.tweens.add({
                     targets:neighbor,
                     x:this.x,
