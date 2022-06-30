@@ -108,10 +108,7 @@ export class BubblesBoard {
     }
 
     private moveBubbles(delta:number) {
-        // this.scene.bubblesContainer.y += delta;
         this.y += delta;
-        // this.deltaY += delta;
-        /////////////////
         for(let i = 0; i < this.row; i++) {
             for(let j = 0; j < this.column; j++) {
                 const object = this.board[i][j];
@@ -134,7 +131,7 @@ export class BubblesBoard {
         if(this.colliderBubble.isCollide) {
             const bubble = this.colliderBubble.runCollide();
             if(bubble != undefined) {
-                // this.hittingAnimation.run(bubble);
+                this.hittingAnimation.run(bubble);
                 this.clusters.run(bubble,true,true);
             }
         }

@@ -62,7 +62,7 @@ export class PositionBubbleHandler {
         this.rePositionShootedBubble(hittedBubble,shootedBubble);
         for(let i = 0; i < empties.length; i++) {
             let gridPos = empties[i];
-            let emptyCoordinate = this.bubblesBoard.positionManager.getPosition(gridPos.row,gridPos.column);
+            let emptyCoordinate = this.bubblesBoard.positionManager.getCoordinate(gridPos.row,gridPos.column);
             let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y,  
                 shootedBubble.x, shootedBubble.y);
             if(i == 0) {
