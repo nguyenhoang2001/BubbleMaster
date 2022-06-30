@@ -117,6 +117,26 @@
                 "type": "image",
                 "key": "backgroundDark",
                 "url": "./assets/images/backgroundDark.jpeg"
+            },
+            {
+                "type": "image",
+                "key": "bgHole",
+                "url": "./assets/images/holes/bg-hide.png"
+            },
+            {
+                "type": "image",
+                "key": "greenHole",
+                "url": "./assets/images/holes/green-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "orangeHole",
+                "url": "./assets/images/holes/orange-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "purpleHole",
+                "url": "./assets/images/holes/purple-hole-down.png"
             }
         ]
     }

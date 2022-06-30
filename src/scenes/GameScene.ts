@@ -4,6 +4,7 @@ import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager"
 import { Bubble } from "../objects/Bubble";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { GameOverHandler } from "../objects/GameOverHandler";
+import { Hole } from "../objects/Hole/Hole";
 import { Shooter } from "../objects/Shooter/Shooter";
 import { TypeGenerator } from "../objects/TypeGenerator";
 import { BubblesContainer } from "../ui/BubblesContainer";
@@ -22,6 +23,7 @@ export class GameScene extends Phaser.Scene {
     public score!: number;
     public highScore!: number;
     private animationCreator!: AnimationCreator;
+    private hole!: Hole;
 
     constructor() {
         super({
@@ -63,6 +65,7 @@ export class GameScene extends Phaser.Scene {
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverHandler = new GameOverHandler(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
+        this.hole = new Hole(this);
         this.animationCreator.createAnimations();
         this.typeGenerator.resetCurrentType();
         this.createShooter();

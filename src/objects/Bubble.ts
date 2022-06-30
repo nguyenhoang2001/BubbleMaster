@@ -21,6 +21,8 @@ export class Bubble extends Phaser.GameObjects.Sprite {
 
     public clear() {
         this.scene.physics.world.disableBody(this.body);
+        this.body.stop();
+        this.body.setGravity(0,0);
         this.body.onWorldBounds = false;
         this.body.setCollideWorldBounds(false,undefined,undefined,false);
     }

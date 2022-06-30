@@ -66,7 +66,13 @@ export class HittingAnimation {
                     y:this.y,
                     duration:150,
                     ease: 'Sine.easeOut',
-                    yoyo:true
+                    yoyo:true,
+                    onUpdate: (tween:Phaser.Tweens.Tween, target:any, param:any) => {
+                        console.log(tween);
+                        console.log(target);
+                        console.log(param);
+                        console.log('///////////////');
+                    }
                 });
             }
         });
