@@ -44,14 +44,18 @@ export class Shooter {
 
     private updateAllowShooting() {
         if(this.checkAllowShooting) {
-            if(this.scene.bubblesContainer.isRunning) {
-                this.allowShooting = false;
-            } else {
-                if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
-                    if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
-                        this.allowShooting = true;
-                }
+            if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
+                if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
+                    this.allowShooting = true;
             }
+            // if(this.scene.bubblesContainer.isRunning) {
+            //     this.allowShooting = false;
+            // } else {
+            //     if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
+            //         if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
+            //             this.allowShooting = true;
+            //     }
+            // }
         }
     }
 

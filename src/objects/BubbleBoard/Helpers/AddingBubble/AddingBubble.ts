@@ -22,9 +22,9 @@ export class AddingBubble {
         this.bubblesBoard.gridGroup.addMultiple(bubbles)
     }
 
-    private toContainer(bubbles:Bubble[]) {
-        this.scene.bubblesContainer.add(bubbles);
-    }
+    // private toContainer(bubbles:Bubble[]) {
+    //     this.scene.bubblesContainer.add(bubbles);
+    // }
 
     public toBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
@@ -63,9 +63,9 @@ export class AddingBubble {
             return;
         object.setDepth(0);
 
-        if(object.visible)
-            this.toContainer([object]);
-        object.setVisible(true);
+        // if(object.visible)
+        //     this.toContainer([object]);
+        // object.setVisible(true);
 
         this.finishedAddingBullet = true;
         console.log(JSON.parse(JSON.stringify(this.bubblesBoard.board)));
@@ -75,9 +75,12 @@ export class AddingBubble {
     private activateBubble(bubble:Bubble, texture:string) {
         bubble.name = 'Bubble';
         bubble.removeAllListeners();
+
         bubble.setScale(1);
         bubble.setDepth(0);
         bubble.setActive(true);
+        bubble.setVisible(true);
+
         bubble.setTexture(texture);
         bubble.resetPhysics();
         bubble.clearTint();
@@ -128,11 +131,12 @@ export class AddingBubble {
                 j = 11;
             }
             let bubble = bubblesArray.pop()!;
-            if(bubble.visible) {
-                this.toContainer([bubble]);
-            } else {
-                bubble.setVisible(true);
-            }
+
+            // if(bubble.visible) {
+            //     this.toContainer([bubble]);
+            // } else {
+            //     bubble.setVisible(true);
+            // }
             bubble.row = k;
             bubble.column = j;
             this.bubblesBoard.board[k][j] = bubble;
@@ -141,8 +145,8 @@ export class AddingBubble {
         this.bubblesBoard.updateRow();
         const object = this.bubblesBoard.board[0][0];
         if(object != undefined) {
-            this.bubblesBoard.y = object.y + this.scene.bubblesContainer.y;
-            this.bubblesBoard.deltaY = 0;
+            this.bubblesBoard.y = object.y ;
+            // this.bubblesBoard.deltaY = 0;
         }
     }
 }

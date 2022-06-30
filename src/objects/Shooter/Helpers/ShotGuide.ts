@@ -43,7 +43,7 @@ export class ShotGuide {
                 const bubble = this.bubblesBoard.board[i][j];
                 if(bubble != undefined) {
                     if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        let bubbleY = bubble.y + this.scene.bubblesContainer.y;
+                        let bubbleY = bubble.y;
                         let distance = Phaser.Math.Distance.Between(x,y,bubble.x,bubbleY);
                         if(distance <= 50) {
                             hittedBubble = true;

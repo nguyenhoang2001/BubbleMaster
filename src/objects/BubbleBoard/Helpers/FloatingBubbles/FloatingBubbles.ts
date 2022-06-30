@@ -54,7 +54,7 @@ export class FloatingBubbles {
                         if(bubble.y >= this.scene.sys.canvas.height + 28) {
                             bubble.setDepth(0);
                             this.remains -= 1;
-                            this.scene.bubblesContainer.add(bubble);
+                            // this.scene.bubblesContainer.add(bubble);
                             bubble.clear();
                             this.bubblesBoard.gridGroup.killAndHide(bubble);
                             this.scene.score += 1;

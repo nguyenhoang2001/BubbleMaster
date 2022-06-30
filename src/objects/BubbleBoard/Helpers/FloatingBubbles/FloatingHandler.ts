@@ -33,8 +33,8 @@ export class FloatingHandler {
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;            
             var directionX = [1,-1];
-            bubble.y += this.scene.bubblesContainer.y;
-            this.scene.bubblesContainer.remove(bubble);
+            // bubble.y += this.scene.bubblesContainer.y;
+            // this.scene.bubblesContainer.remove(bubble);
 
             var randomDirection = directionX[Math.floor(Math.random() * directionX.length)];
             let gravityY = this.getRandomValue(2800,3000);

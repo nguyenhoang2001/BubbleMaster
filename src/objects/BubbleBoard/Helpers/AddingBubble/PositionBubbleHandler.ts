@@ -16,7 +16,8 @@ export class PositionBubbleHandler {
     }
 
     private rePositionShootedBubble(hittedBubble:Bubble, shootBubble:ShootedBubble) {
-        let hitBubbleY = hittedBubble.y + this.parent.scene.bubblesContainer.y;
+        let hitBubbleY = hittedBubble.y;
+
         let y = Math.abs(hitBubbleY - shootBubble.y);
         let x = Math.abs(hittedBubble.x - shootBubble.x);
         let distance = Phaser.Math.Distance.Between(hittedBubble.x,hitBubbleY,shootBubble.x, shootBubble.y);
@@ -62,7 +63,7 @@ export class PositionBubbleHandler {
         for(let i = 0; i < empties.length; i++) {
             let gridPos = empties[i];
             let emptyCoordinate = this.bubblesBoard.positionManager.getPosition(gridPos.row,gridPos.column);
-            let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y + this.scene.bubblesContainer.y,  
+            let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y,  
                 shootedBubble.x, shootedBubble.y);
             if(i == 0) {
                 smallestdistance = distance;
