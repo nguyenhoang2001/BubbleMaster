@@ -1,7 +1,7 @@
 import { Game } from "phaser";
-import { logicGame } from "../game";
 import { AnimationCreator } from "../helpers/AnimationCreator";
-import { LogicGame } from "../logic/LogicGame";
+import { ColorManager } from "../logic/ColorManager";
+import { ScoreManager } from "../logic/ScoreManager";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { GameOverHandler } from "../objects/GameOverHandler";
@@ -21,6 +21,8 @@ export class GameScene extends Phaser.Scene {
     public highScore!: number;
     private animationCreator!: AnimationCreator;
     private hole!: Hole;
+    public colorManager!: ColorManager;
+    public scoreManager!: ScoreManager;
 
     constructor() {
         super({
@@ -40,6 +42,9 @@ export class GameScene extends Phaser.Scene {
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
         this.registry.set('score',0);
         this.score = 0;
+        // Logic Game
+        this.colorManager = new ColorManager();
+        this.scoreManager = new ScoreManager();
         // Physics
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
@@ -57,7 +62,7 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.gameOverHandler.update();
         if(!this.gameOverHandler.isGameOver) {
-            logicGame.update(time,delta);
+            this.colorManager.update(delta);
             if(this.highScore < this.score) {
                 this.highScore = this.score;
             }

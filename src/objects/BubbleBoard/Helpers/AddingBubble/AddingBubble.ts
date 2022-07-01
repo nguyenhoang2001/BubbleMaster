@@ -3,7 +3,6 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { PositionBubbleHandler } from "./PositionBubbleHandler";
 import { ShootedBubble } from "../../../ShootedBubble";
 import { GameScene } from "../../../../scenes/GameScene";
-import { logicGame } from "../../../../game";
 
 export class AddingBubble {
     public bubblesBoard!: BubblesBoard;
@@ -108,7 +107,7 @@ export class AddingBubble {
                 bubbleX += this.bubblesBoard.x;
                 let bubbleY = bellowY - 49;
                 let bubble = this.bubblesBoard.gridGroup.get(bubbleX,bubbleY,'',undefined,true) as Bubble;
-                this.activateBubble(bubble,logicGame.getColor());
+                this.activateBubble(bubble,this.scene.colorManager.getTexture());
                 bubblesArray.push(bubble);
             }
             numberOfRow -= 1;

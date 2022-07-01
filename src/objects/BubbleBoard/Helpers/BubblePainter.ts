@@ -1,4 +1,4 @@
-import { logicGame } from "../../../game";
+// import { logicGame } from "../../../game";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bubble } from "../../Bubble";
 import { BubblesBoard } from "../BubblesBoard";
@@ -17,7 +17,7 @@ export class BubblePainter {
         if(texture != undefined) {
             bubble.setTexture(texture);
         } else {
-            let bubbleType = logicGame.getColor();
+            let bubbleType = this.scene.colorManager.getTexture();
             bubble.setTexture(bubbleType);
         }
         return bubble;
