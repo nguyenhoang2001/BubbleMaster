@@ -54,7 +54,6 @@ export class GameScene extends Phaser.Scene {
         this.gameOverContainer = new GameOverContainer(this,0,0);
         this.hole = new Hole(this);
         this.animationCreator.createAnimations();
-        this.typeGenerator.resetCurrentType();
         this.createShooter();
         this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
     }
@@ -62,6 +61,7 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.gameOverHandler.update();
         if(!this.gameOverHandler.isGameOver) {
+            this.typeGenerator.update(delta);
             if(this.highScore < this.score) {
                 this.highScore = this.score;
             }

@@ -107,7 +107,7 @@ export class AddingBubble {
                 bubbleX += this.bubblesBoard.x;
                 let bubbleY = bellowY - 49;
                 let bubble = this.bubblesBoard.gridGroup.get(bubbleX,bubbleY,'',undefined,true) as Bubble;
-                this.activateBubble(bubble,this.scene.typeGenerator.getCurrentTexture());
+                this.activateBubble(bubble,this.scene.typeGenerator.getTexture());
                 bubblesArray.push(bubble);
             }
             numberOfRow -= 1;
