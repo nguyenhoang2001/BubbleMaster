@@ -25,7 +25,6 @@ export class ShootedBubble extends Bubble {
     }
 
     public createBouncing() {
-        // this.body.setBounce(1,1);
         this.body.setCollideWorldBounds(true,1,1,true);
         this.scene.physics.world.on('worldbounds', (e:any) => {
             if(this.checkWorldBounce) {
