@@ -45,7 +45,7 @@ export class ShotGuide {
                     if(this.bubblesBoard.isBublleExisting(i,j)) {
                         let bubbleY = bubble.y;
                         let distance = Phaser.Math.Distance.Between(x,y,bubble.x,bubbleY);
-                        if(distance <= 50) {
+                        if(distance <= 38) {
                             hittedBubble = true;
                             break;
                         }
@@ -130,7 +130,7 @@ export class ShotGuide {
                     let saveOldX = x - (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = this.gameWidth - 18;
+                    x = this.gameWidth - 0;
                     y = saveOldY - (x - saveOldX)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
@@ -141,7 +141,7 @@ export class ShotGuide {
                     let saveOldX = x + (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = 18;
+                    x = 0;
                     y = saveOldY - (saveOldX - x)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
@@ -153,6 +153,14 @@ export class ShotGuide {
     public hide() {
         this.circleGuideGroup.getChildren().forEach((circle:any) => {
             this.circleGuideGroup.killAndHide(circle);
+        })
+    }
+
+    public update() {
+        this.circleGuideGroup.getChildren().forEach((circle:any) => {
+            if(this.hitBubble(circle.x,circle.y)) {
+                this.circleGuideGroup.killAndHide(circle);
+            }
         })
     }
 }

@@ -22,10 +22,6 @@ export class AddingBubble {
         this.bubblesBoard.gridGroup.addMultiple(bubbles)
     }
 
-    // private toContainer(bubbles:Bubble[]) {
-    //     this.scene.bubblesContainer.add(bubbles);
-    // }
-
     public toBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         const object = this.bubblesBoard.board[row][column];
@@ -42,7 +38,6 @@ export class AddingBubble {
         this.activateBubble(bubble,shootedBubble.texture.key);
 
         this.bubblesBoard.positionManager.setPositionFromShooting(row,column,bubble);
-        // shootedBubble.resetPhysics();
         bubble.row = row;
         bubble.column = column;
         this.bubblesBoard.board[row][column] = bubble;
@@ -62,11 +57,6 @@ export class AddingBubble {
         if(object == undefined)
             return;
         object.setDepth(0);
-
-        // if(object.visible)
-        //     this.toContainer([object]);
-        // object.setVisible(true);
-
         this.finishedAddingBullet = true;
         console.log(JSON.parse(JSON.stringify(this.bubblesBoard.board)));
         return bubble;
@@ -131,12 +121,6 @@ export class AddingBubble {
                 j = 11;
             }
             let bubble = bubblesArray.pop()!;
-
-            // if(bubble.visible) {
-            //     this.toContainer([bubble]);
-            // } else {
-            //     bubble.setVisible(true);
-            // }
             bubble.row = k;
             bubble.column = j;
             this.bubblesBoard.board[k][j] = bubble;
@@ -146,7 +130,6 @@ export class AddingBubble {
         const object = this.bubblesBoard.board[0][0];
         if(object != undefined) {
             this.bubblesBoard.y = object.y ;
-            // this.bubblesBoard.deltaY = 0;
         }
     }
 }

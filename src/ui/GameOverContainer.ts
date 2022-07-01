@@ -15,6 +15,7 @@ export class GameOverContainer extends Phaser.GameObjects.Container {
         this.scene.add.existing(this);
         this.mainZone = this.scene.mainZone;
         this.isOpened = false;
+        this.setDepth(3);
         this.drawObjects();
         this.close();
     }

@@ -39,7 +39,6 @@ export class BubblePainter {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 this.bubblesBoard.addingManager.toBoard(i,j);
             }
-            // this.scene.addBubblesToContainer(this.bubblesBoard.board[i]);
         }
     }
 }

@@ -17,7 +17,6 @@ export class ClusterHandler {
     public clearClusters(cluster:Bubble[]) {
         let delay = 50;
         for(let i = 0; i < cluster.length; i++) {
-            cluster[i].body.checkCollision.none = true;
             cluster[i].clear();
             let row = cluster[i].row;
             let column = cluster[i].column;

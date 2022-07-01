@@ -33,20 +33,9 @@ export class GameScene extends Phaser.Scene {
         this.highScore = 0;
     }
 
-    // public addBubblesToContainer(bubbles: (Bubble | undefined)[]) {
-    //     const objects = bubbles;
-    //     if(objects == undefined)
-    //         return;
-    //     this.bubblesContainer.addBubbles(objects);
-    // }
-
     private createShooter() {
         this.shooter = new Shooter(this);
     }
-
-    // private runContainer() {
-    //     this.bubblesContainer.open();
-    // }
 
     create() {
         // Variables
@@ -58,10 +47,6 @@ export class GameScene extends Phaser.Scene {
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
         this.animationCreator = new AnimationCreator(this);
-
-        // this.bubblesContainer = new BubblesContainer(this,0,0);
-        // this.add.existing(this.bubblesContainer);
-
         this.typeGenerator = new TypeGenerator(this);
         this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,49);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
@@ -71,7 +56,6 @@ export class GameScene extends Phaser.Scene {
         this.animationCreator.createAnimations();
         this.typeGenerator.resetCurrentType();
         this.createShooter();
-        // this.runContainer();
         this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
     }
 
@@ -84,14 +68,6 @@ export class GameScene extends Phaser.Scene {
             this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update();
             this.shooter.update();
-            // if(this.bubblesContainer.isRunning == false) {
-            //     if(this.highScore < this.score) {
-            //         this.highScore = this.score;
-            //     }
-            //     this.addingNewBubbleRowManager.setAddSignalToGrid();
-            //     this.bubblesBoard.update();
-            //     this.shooter.update();
-            // }
         } else {
             this.shooter.clearShotGuide();
             this.gameOverContainer.open();

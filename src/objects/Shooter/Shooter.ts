@@ -146,6 +146,7 @@ export class Shooter {
     
     public update() {
         this.rotateShooter();
+        this.shotGuide.update();
         this.bulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
             if(bullet != undefined) {

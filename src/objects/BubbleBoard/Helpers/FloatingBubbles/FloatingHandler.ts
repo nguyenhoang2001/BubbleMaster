@@ -32,18 +32,17 @@ export class FloatingHandler {
             let row = bubble.row;
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;            
-            var directionX = [1,-1];
-            // bubble.y += this.scene.bubblesContainer.y;
-            // this.scene.bubblesContainer.remove(bubble);
-
-            var randomDirection = directionX[Math.floor(Math.random() * directionX.length)];
             let gravityY = this.getRandomValue(2800,3000);
-            let velocityY = this.getRandomValue(50,100);
-            let velocityX = this.getRandomValue(350,400);
+            let velocity = this.getRandomValue(350,400);
+            let angle = this.getRandomValue(10,190);
+
             bubble.body.setGravityY(gravityY);
-            bubble.body.setVelocityX(randomDirection*velocityX);
+            this.scene.physics.velocityFromRotation(
+                angle*Phaser.Math.DEG_TO_RAD,
+                velocity,
+                bubble.body.velocity
+            );
             bubble.body.setImmovable(false);
-            bubble.body.setVelocityY(velocityY);
             bubble.body.setCollideWorldBounds(true,0.5,0.5,false);
             bubble.body.setBounce(0.5,0.5);
         })

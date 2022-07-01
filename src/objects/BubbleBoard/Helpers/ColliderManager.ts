@@ -49,20 +49,15 @@ export class ColliderManager {
     }
 
     public gridGroupAndBulletGroup() {
-        this.scene.physics.add.collider(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
-            if(!this.isCollide) {
-                this.shootedBubble = _shootedBubble as ShootedBubble;
-                this.shootedBubble.body.checkCollision.none = true;
-                
-                this.hittedBubble = _bubble as Bubble;
-                let bulletGroup = this.scene.shooter.bulletGroup;
-                let gridGroup = this.bubblesBoard.gridGroup;
-                // this.shootedBubble.body.stop();
-                this.handleWrongBubbleHit();
-                // get from the bullet group to the grid group
-                // bulletGroup.remove(this.shootedBubble);
-                // gridGroup.add(this.shootedBubble as Bubble);
-                this.isCollide = true;
+        this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
+            if(_bubble.body.gravity.y == 0) {
+                if(!this.isCollide) {
+                    this.shootedBubble = _shootedBubble as ShootedBubble;
+                    // this.shootedBubble.body.checkCollision.none = true;
+                    this.hittedBubble = _bubble as Bubble;
+                    this.handleWrongBubbleHit();
+                    this.isCollide = true;
+                }
             }
         });
     }

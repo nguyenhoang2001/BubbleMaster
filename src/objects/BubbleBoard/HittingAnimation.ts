@@ -23,7 +23,7 @@ export class HittingAnimation {
     private setUpPosition(coordinateOpposite:any,neighbor:Bubble, offset:number) {
         this.x = 0;
         this.y = 0;
-        if(Math.floor(coordinateOpposite.y) == Math.floor(neighbor.y)) {
+        if(Math.abs(Math.floor(coordinateOpposite.y) - Math.floor(neighbor.y)) <= 10) {
             this.y = neighbor.y;
             if(coordinateOpposite.x < neighbor.x) {
                 this.x = neighbor.x - offset;
@@ -49,10 +49,7 @@ export class HittingAnimation {
         neighbors.some((neighbor:Bubble) => {
             const oppositeNeighbor = this.neighborsHelper.getOppositeNeighbor(targetedBubble,neighbor);
             if(oppositeNeighbor != undefined && oppositeNeighbor != null) {
-                console.log(oppositeNeighbor.row, oppositeNeighbor.column);
                 const coordinateOpposite = this.bubblesBoard.positionManager.getCoordinate(oppositeNeighbor.row,oppositeNeighbor.column);
-                console.log(coordinateOpposite);
-                console.log(targetedBubble);
                 let offsetValue = offset;
                 if(oppositeNeighbor.row < this.bubblesBoard.row && oppositeNeighbor.row > 0) {
                     const bubble = this.bubblesBoard.board[oppositeNeighbor.row][oppositeNeighbor.column];
@@ -63,9 +60,6 @@ export class HittingAnimation {
                     }
                 }
                 this.setUpPosition(coordinateOpposite,neighbor, offsetValue);
-                console.log(neighbor.x, neighbor.y);
-                console.log(this.x, this.y);
-                console.log('########');
                 let tween = this.scene.tweens.add({
                     targets:neighbor,
                     x:this.x,
@@ -75,16 +69,8 @@ export class HittingAnimation {
                     yoyo:true
                 });
                 tween.on('update', (tween:Phaser.Tweens.Tween, target:any) => {
-                    // if(tween.data[1].start! > tween.data[1].end!) {
-                    //     tween.data[1].start! += 0.1;
-                    //     tween.data[1].end! += 0.1;
-                    // } else if(tween.data[1].start! < tween.data[1].end!) {
-
-                    // }
                     tween.data[1].start! += 0.1;
-                    // if(tween.data[1].start! > tween.data[1].end!)
-                    //     tween.data[1].end! += 0.1;
-
+                    tween.data[1].end! += 0.1;
                 });
                 tween.on('yoyo', (tween:Phaser.Tweens.Tween) => {
                     tween.removeListener('update');

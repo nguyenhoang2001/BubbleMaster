@@ -50,7 +50,7 @@ export class TypeGenerator {
     }
 
     public getTexture(): string {
-        let randomBubbleType = Phaser.Math.Between(this.textureKeys.length - 4, this.textureKeys.length - 1);
+        let randomBubbleType = Phaser.Math.Between(this.textureKeys.length - 3, this.textureKeys.length - 1);
         let bubbleType = this.textureKeys[randomBubbleType];
         return bubbleType;
     }

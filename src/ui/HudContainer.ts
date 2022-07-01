@@ -91,7 +91,6 @@ export class HudContainer extends Phaser.GameObjects.Container {
             y: 0,
             ease: 'Power1',
             duration: 500,
-            delay: 2000,
             onComplete: () => {
                 this.runProgressBar = true;
             }

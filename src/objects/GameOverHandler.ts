@@ -24,9 +24,7 @@ export class GameOverHandler {
         this.enableOverlapRope();
     }
 
-
     private enableOverlapRope() {
-        // this.rope.body.checkCollision.none = true;
         this.scene.physics.add.overlap(this.gridGroup,this.rope, (_bubble:any) => {
             let bubble = _bubble as Bubble;
             if(bubble.body.gravity.y == 0) {
