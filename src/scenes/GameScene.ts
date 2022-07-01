@@ -1,20 +1,17 @@
 import { Game } from "phaser";
+import { logicGame } from "../game";
 import { AnimationCreator } from "../helpers/AnimationCreator";
+import { LogicGame } from "../logic/LogicGame";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
-import { Bubble } from "../objects/Bubble";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { GameOverHandler } from "../objects/GameOverHandler";
 import { Hole } from "../objects/Hole/Hole";
 import { Shooter } from "../objects/Shooter/Shooter";
-import { TypeGenerator } from "../objects/TypeGenerator";
-import { BubblesContainer } from "../ui/BubblesContainer";
 import { GameOverContainer } from "../ui/GameOverContainer";
 
 export class GameScene extends Phaser.Scene {
     public bubblesBoard!: BubblesBoard;
-    // public bubblesContainer!: BubblesContainer;
     public shooter!: Shooter;
-    public typeGenerator!: TypeGenerator;
     private addingNewBubbleRowManager!: AddingNewBubbleRowManager;
     private background!: Phaser.GameObjects.Image;
     private gameOverHandler!: GameOverHandler;
@@ -47,7 +44,6 @@ export class GameScene extends Phaser.Scene {
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Game Objects
         this.animationCreator = new AnimationCreator(this);
-        this.typeGenerator = new TypeGenerator(this);
         this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,49);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverHandler = new GameOverHandler(this);
@@ -61,7 +57,7 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
         this.gameOverHandler.update();
         if(!this.gameOverHandler.isGameOver) {
-            this.typeGenerator.update(delta);
+            logicGame.update(time,delta);
             if(this.highScore < this.score) {
                 this.highScore = this.score;
             }

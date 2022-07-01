@@ -1,13 +1,9 @@
-import { GameScene } from "../scenes/GameScene";
-
-export class TypeGenerator {
+export class ColorManager {
     protected textureKeys: string[];
-    public scene!: GameScene;
     private currentTexture!: string[];
     private timeAddTexture:number;
 
-    constructor(scene:GameScene) {
-        this.scene = scene;
+    constructor() {
         this.timeAddTexture = 0;
         this.textureKeys = ['redBubble','yellowBubble','pinkBubble','violetBubble','greenBubble','blueBubble',
         'cyanBubble','grayBubble','blackBubble'];
