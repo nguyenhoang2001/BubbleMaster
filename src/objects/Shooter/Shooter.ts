@@ -103,39 +103,9 @@ export class Shooter {
             },this);
     }
 
-    // private createAnimationForCircle() {
-    //     let arrows = this.scene.add.image(0,0,'arrows').setAlpha(0);
-    //     Phaser.Display.Align.In.Center(arrows,this.circle);
-    //     this.scene.tweens.add({
-    //         targets:arrows,
-    //         angle: '-= 160',
-    //         repeatDelay: 4000,
-    //         duration: 2000,
-    //         ease: 'Sine',
-    //         repeat: -1,
-    //         onRepeat: () => {
-    //             let timeline = this.scene.tweens.createTimeline();
-    //             timeline.add({
-    //                 targets:arrows,
-    //                 duration: 1000,
-    //                 ease: 'Sine',
-    //                 alpha: 1
-    //             });
-    //             timeline.add({
-    //                 targets:arrows,
-    //                 duration: 1000,
-    //                 ease: 'Sine',
-    //                 alpha: 0
-    //             });
-    //             timeline.play();
-    //         }
-    //     });
-    // }
-
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-100);
-        // this.createAnimationForCircle();
         this.animation.createAnimationForCircle();
     }
 
