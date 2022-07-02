@@ -1,5 +1,6 @@
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
+import { AnimationShooter } from "./Helpers/AnimationShooter";
 import { BulletCreator } from "./Helpers/BulletCreator";
 import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
@@ -17,6 +18,10 @@ export class Shooter {
     private isShoot!: boolean;
     public checkAllowShooting!: boolean;
     private shotGuide!: ShotGuide;
+    public lineShootedBubble!: Phaser.GameObjects.Line;
+    public lineSecondBubble!: Phaser.GameObjects.Line;
+    public animation!: AnimationShooter;
+
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -27,15 +32,34 @@ export class Shooter {
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
+        this.animation = new AnimationShooter(this,this.scene);
+        this.drawCircle();
         this.bulletCreator.run();
-        this.drawLineAndCircle();
+        this.drawLine();
         this.enableInput();
         this.InputChangeBubble();
     }
 
-    public drawLineAndCircle() {
+    private drawLine() {
+        this.lineShootedBubble = this.scene.add.line(this.circle.x,this.circle.y,0,0,this.shootedBubble.x - this.circle.x,
+            this.shootedBubble.y - this.circle.y,0xff0000).setOrigin(0,0).setVisible(false);
+        this.lineSecondBubble = this.scene.add.line(this.circle.x,this.circle.y,0,0,this.secondBubllet.x - this.circle.x,
+            this.secondBubllet.y - this.circle.y,0xff0000).setOrigin(0,0).setVisible(false);
         this.createLine();
-        this.drawCircle();
+    }
+
+    public setUpPositionSecond() {
+        let line = new Phaser.Geom.Line(this.circle.x - 65,this.circle.y,this.circle.x + 65, this.circle.y);
+        Phaser.Geom.Line.Rotate(line, 60 * Phaser.Math.DEG_TO_RAD);
+        this.secondBubllet.x = line.x2;
+        this.secondBubllet.y = line.y2;
+    }
+
+    public setUpPositionFirst() {
+        let line = new Phaser.Geom.Line(this.circle.x - 65,this.circle.y,this.circle.x + 65, this.circle.y);
+        Phaser.Geom.Line.Rotate(line, -90 * Phaser.Math.DEG_TO_RAD);
+        this.shootedBubble.x = line.x2;
+        this.shootedBubble.y = line.y2;
     }
 
     public clearShotGuide() {
@@ -60,7 +84,8 @@ export class Shooter {
     }
 
     private InputChangeBubble() {
-        this.scene.input.keyboard.on('keydown-F', (event:any) => {
+        this.circle.setInteractive();
+        this.circle.on('pointerdown', () => {
             if(this.bulletSwaper.finished) {
                 this.checkAllowShooting = false;
                 this.allowShooting = false;
@@ -78,18 +103,40 @@ export class Shooter {
             },this);
     }
 
+    // private createAnimationForCircle() {
+    //     let arrows = this.scene.add.image(0,0,'arrows').setAlpha(0);
+    //     Phaser.Display.Align.In.Center(arrows,this.circle);
+    //     this.scene.tweens.add({
+    //         targets:arrows,
+    //         angle: '-= 160',
+    //         repeatDelay: 4000,
+    //         duration: 2000,
+    //         ease: 'Sine',
+    //         repeat: -1,
+    //         onRepeat: () => {
+    //             let timeline = this.scene.tweens.createTimeline();
+    //             timeline.add({
+    //                 targets:arrows,
+    //                 duration: 1000,
+    //                 ease: 'Sine',
+    //                 alpha: 1
+    //             });
+    //             timeline.add({
+    //                 targets:arrows,
+    //                 duration: 1000,
+    //                 ease: 'Sine',
+    //                 alpha: 0
+    //             });
+    //             timeline.play();
+    //         }
+    //     });
+    // }
+
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
-        this.circle.setScale(0.6);
-        Phaser.Display.Align.In.Center(this.circle,this.shootedBubble);
-        this.scene.tweens.add({
-            targets:this.circle,
-            scale: 0.7,
-            yoyo: true,
-            duration:1000,
-            repeat: -1,
-            ease:'Power1'
-        });
+        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-100);
+        // this.createAnimationForCircle();
+        this.animation.createAnimationForCircle();
     }
 
     private createLine() {

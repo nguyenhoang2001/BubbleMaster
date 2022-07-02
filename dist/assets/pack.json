@@ -137,6 +137,11 @@
                 "type": "image",
                 "key": "purpleHole",
                 "url": "./assets/images/holes/purple-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "arrows",
+                "url": "./assets/images/arrows.png"
             }
         ]
     }

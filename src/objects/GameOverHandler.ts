@@ -15,11 +15,10 @@ export class GameOverHandler {
         this.drawRope();
     }
 
-
     private drawRope() {
         let zone = new Phaser.GameObjects.Zone(this.scene,0,0,this.scene.sys.canvas.width,this.scene.sys.canvas.height);
         zone.setOrigin(0,0);
-        Phaser.Display.Align.In.BottomCenter(this.rope,zone,0,-250);
+        Phaser.Display.Align.In.BottomCenter(this.rope,zone,0,-290);
         this.rope.setDisplaySize(this.rope.width + 204, this.rope.height);
         this.enableOverlapRope();
     }
@@ -37,9 +36,6 @@ export class GameOverHandler {
     }
 
     public update() {
-        // this.rope.body.checkCollision.none = false;
 
-        // if(!this.scene.bubblesContainer.isRunning) {
-        // }
     }
 }
