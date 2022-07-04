@@ -19,22 +19,17 @@ export class BulletCreator {
 
     private createShootedBubble() {
         this.shooter.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
-
-        Phaser.Display.Align.In.BottomCenter(this.shooter.shootedBubble,this.scene.mainZone, 0, -140);
         this.scene.add.existing(this.shooter.shootedBubble);
-        // this.shooter.shootedBubble.body.checkCollision.none = true;
+        this.shooter.setUpPositionFirst();
         this.shooter.shootedBubble.checkWorldBounce = false;
         this.shooter.bulletGroup.add(this.shooter.shootedBubble);
     }
 
     public createSecondBullet() {
         this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
-
-        Phaser.Display.Align.In.BottomCenter(this.shooter.secondBubllet,this.scene.mainZone, 0, -140);
-        Phaser.Display.Align.To.LeftCenter(this.shooter.secondBubllet,this.shooter.shootedBubble, -12, 20);
-        this.shooter.secondBubllet.setScale(0.5);
+        this.shooter.secondBubllet.setScale(0.8);
         this.scene.add.existing(this.shooter.secondBubllet);
-        // this.shooter.secondBubllet.body.checkCollision.none = true;
+        this.shooter.setUpPositionSecond();
         this.shooter.secondBubllet.checkWorldBounce = false;
         this.shooter.bulletGroup.add(this.shooter.secondBubllet);
     }

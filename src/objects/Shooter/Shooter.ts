@@ -1,5 +1,6 @@
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
+import { AnimationShooter } from "./Helpers/AnimationShooter";
 import { BulletCreator } from "./Helpers/BulletCreator";
 import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
@@ -17,6 +18,8 @@ export class Shooter {
     private isShoot!: boolean;
     public checkAllowShooting!: boolean;
     private shotGuide!: ShotGuide;
+    public animation!: AnimationShooter;
+
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -27,15 +30,30 @@ export class Shooter {
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
+        this.animation = new AnimationShooter(this,this.scene);
+        this.drawCircle();
         this.bulletCreator.run();
-        this.drawLineAndCircle();
+        this.drawLine();
         this.enableInput();
-        this.InputChangeBubble();
+        this.enableChangeBubble();
     }
 
-    public drawLineAndCircle() {
+    private drawLine() {
         this.createLine();
-        this.drawCircle();
+    }
+
+    public setUpPositionSecond() {
+        let x = 65*Math.cos(60*Phaser.Math.DEG_TO_RAD) + this.circle.x;
+        let y = 65*Math.sin(60*Phaser.Math.DEG_TO_RAD) + this.circle.y;
+        this.secondBubllet.x = x;
+        this.secondBubllet.y = y;
+    }
+
+    public setUpPositionFirst() {
+        let x = 65*Math.cos(-90*Phaser.Math.DEG_TO_RAD) + this.circle.x;
+        let y = 65*Math.sin(-90*Phaser.Math.DEG_TO_RAD) + this.circle.y;
+        this.shootedBubble.x = x;
+        this.shootedBubble.y = y;
     }
 
     public clearShotGuide() {
@@ -59,12 +77,13 @@ export class Shooter {
         }
     }
 
-    private InputChangeBubble() {
-        this.scene.input.keyboard.on('keydown-F', (event:any) => {
+    private enableChangeBubble() {
+        this.circle.setInteractive();
+        this.circle.on('pointerdown', () => {
             if(this.bulletSwaper.finished) {
                 this.checkAllowShooting = false;
                 this.allowShooting = false;
-                this.bulletSwaper.run();
+                this.bulletSwaper.startSwaping();
             }
         });
     }
@@ -80,16 +99,8 @@ export class Shooter {
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
-        this.circle.setScale(0.6);
-        Phaser.Display.Align.In.Center(this.circle,this.shootedBubble);
-        this.scene.tweens.add({
-            targets:this.circle,
-            scale: 0.7,
-            yoyo: true,
-            duration:1000,
-            repeat: -1,
-            ease:'Power1'
-        });
+        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-100);
+        this.animation.createAnimationForCircle();
     }
 
     private createLine() {
@@ -136,7 +147,7 @@ export class Shooter {
             );
             this.shootedBubble.tail.setVisible(true);
             this.checkAllowShooting = false;
-            this.bulletSwaper.afterShooting();
+            this.bulletSwaper.swapBulletAfterShooting();
         }
     }
 
@@ -158,7 +169,6 @@ export class Shooter {
             this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
             this.shootBubble();
         }
-        this.bulletSwaper.update();
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }
