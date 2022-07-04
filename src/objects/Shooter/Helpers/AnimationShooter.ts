@@ -20,23 +20,16 @@ export class AnimationShooter {
             repeatDelay: 4000,
             duration: 2000,
             ease: 'Sine',
+            repeat: -1
+        });
+        this.scene.tweens.add({
+            targets: arrows,
             repeat: -1,
-            onRepeat: () => {
-                let timeline = this.scene.tweens.createTimeline();
-                timeline.add({
-                    targets:arrows,
-                    duration: 1000,
-                    ease: 'Sine',
-                    alpha: 1
-                });
-                timeline.add({
-                    targets:arrows,
-                    duration: 1000,
-                    ease: 'Sine',
-                    alpha: 0
-                });
-                timeline.play();
-            }
+            repeatDelay: 4000,
+            yoyo:true,
+            alpha: 1,
+            ease:'Sine',
+            duration: 1000
         });
     }
 }

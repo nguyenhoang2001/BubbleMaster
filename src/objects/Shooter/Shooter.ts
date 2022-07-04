@@ -18,8 +18,6 @@ export class Shooter {
     private isShoot!: boolean;
     public checkAllowShooting!: boolean;
     private shotGuide!: ShotGuide;
-    public lineShootedBubble!: Phaser.GameObjects.Line;
-    public lineSecondBubble!: Phaser.GameObjects.Line;
     public animation!: AnimationShooter;
 
 
@@ -37,29 +35,25 @@ export class Shooter {
         this.bulletCreator.run();
         this.drawLine();
         this.enableInput();
-        this.InputChangeBubble();
+        this.enableChangeBubble();
     }
 
     private drawLine() {
-        this.lineShootedBubble = this.scene.add.line(this.circle.x,this.circle.y,0,0,this.shootedBubble.x - this.circle.x,
-            this.shootedBubble.y - this.circle.y,0xff0000).setOrigin(0,0).setVisible(false);
-        this.lineSecondBubble = this.scene.add.line(this.circle.x,this.circle.y,0,0,this.secondBubllet.x - this.circle.x,
-            this.secondBubllet.y - this.circle.y,0xff0000).setOrigin(0,0).setVisible(false);
         this.createLine();
     }
 
     public setUpPositionSecond() {
-        let line = new Phaser.Geom.Line(this.circle.x - 65,this.circle.y,this.circle.x + 65, this.circle.y);
-        Phaser.Geom.Line.Rotate(line, 60 * Phaser.Math.DEG_TO_RAD);
-        this.secondBubllet.x = line.x2;
-        this.secondBubllet.y = line.y2;
+        let x = 65*Math.cos(60*Phaser.Math.DEG_TO_RAD) + this.circle.x;
+        let y = 65*Math.sin(60*Phaser.Math.DEG_TO_RAD) + this.circle.y;
+        this.secondBubllet.x = x;
+        this.secondBubllet.y = y;
     }
 
     public setUpPositionFirst() {
-        let line = new Phaser.Geom.Line(this.circle.x - 65,this.circle.y,this.circle.x + 65, this.circle.y);
-        Phaser.Geom.Line.Rotate(line, -90 * Phaser.Math.DEG_TO_RAD);
-        this.shootedBubble.x = line.x2;
-        this.shootedBubble.y = line.y2;
+        let x = 65*Math.cos(-90*Phaser.Math.DEG_TO_RAD) + this.circle.x;
+        let y = 65*Math.sin(-90*Phaser.Math.DEG_TO_RAD) + this.circle.y;
+        this.shootedBubble.x = x;
+        this.shootedBubble.y = y;
     }
 
     public clearShotGuide() {
@@ -83,13 +77,13 @@ export class Shooter {
         }
     }
 
-    private InputChangeBubble() {
+    private enableChangeBubble() {
         this.circle.setInteractive();
         this.circle.on('pointerdown', () => {
             if(this.bulletSwaper.finished) {
                 this.checkAllowShooting = false;
                 this.allowShooting = false;
-                this.bulletSwaper.run();
+                this.bulletSwaper.startSwaping();
             }
         });
     }
@@ -153,7 +147,7 @@ export class Shooter {
             );
             this.shootedBubble.tail.setVisible(true);
             this.checkAllowShooting = false;
-            this.bulletSwaper.afterShooting();
+            this.bulletSwaper.swapBulletAfterShooting();
         }
     }
 
@@ -175,7 +169,7 @@ export class Shooter {
             this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
             this.shootBubble();
         }
-        this.bulletSwaper.update();
+        this.bulletSwaper.updateAnimationFinish();
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }
