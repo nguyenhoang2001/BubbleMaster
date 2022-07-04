@@ -169,7 +169,6 @@ export class Shooter {
             this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
             this.shootBubble();
         }
-        this.bulletSwaper.updateAnimationFinish();
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }

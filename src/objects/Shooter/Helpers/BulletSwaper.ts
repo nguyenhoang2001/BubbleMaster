@@ -5,22 +5,18 @@ export class BulletSwaper {
     private shooter!: Shooter;
     private scene!: GameScene;
     public finished!: boolean;
-    private countingFinish!: number;
 
     constructor(shooter:Shooter) {
         this.shooter = shooter;
         this.scene = this.shooter.scene;
         this.finished = true;
-        this.countingFinish = 0;
     }
 
     public startSwaping() {
         this.finished = false;
 
-        const secondBullet = this.shooter.secondBubllet;
-        const shootBullet = this.shooter.shootedBubble;
-        let saveCurrentBullet = shootBullet;
-        this.shooter.shootedBubble = secondBullet;
+        let saveCurrentBullet = this.shooter.shootedBubble;
+        this.shooter.shootedBubble = this.shooter.secondBubllet;
         this.shooter.secondBubllet = saveCurrentBullet;
 
         this.tweenSecondBubble();
@@ -57,7 +53,7 @@ export class BulletSwaper {
                 target.y = y;
             },
             onComplete: () => {
-                this.countingFinish += 1;
+                this.finished = true;
             }
         });
     }
@@ -90,12 +86,5 @@ export class BulletSwaper {
             duration: 500,
             ease: 'Power2'
         });
-    }
-
-    public updateAnimationFinish() {
-        if(this.countingFinish >= 1) {
-            this.countingFinish = 0;
-            this.finished = true;
-        }
     }
 }
