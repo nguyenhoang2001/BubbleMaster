@@ -16,20 +16,16 @@ export class AnimationShooter {
         Phaser.Display.Align.In.Center(arrows,this.shooter.circle);
         this.scene.tweens.add({
             targets:arrows,
+            alpha: {
+                value: '1',
+                duration: 1000,
+                yoyo:true,
+            },
             angle: '-= 160',
             repeatDelay: 4000,
             duration: 2000,
             ease: 'Sine',
             repeat: -1
-        });
-        this.scene.tweens.add({
-            targets: arrows,
-            repeat: -1,
-            repeatDelay: 4000,
-            yoyo:true,
-            alpha: 1,
-            ease:'Sine',
-            duration: 1000
         });
     }
 }
