@@ -45,6 +45,7 @@ export class HittingAnimation {
     }
 
     private setUpAnimation(array:Bubble[], targetedBubble:Bubble, offset:number) {
+        console.log(array);
         const neighbors = array;
         neighbors.some((neighbor:Bubble) => {
             const oppositeNeighbor = this.neighborsHelper.getOppositeNeighbor(targetedBubble,neighbor);
@@ -60,20 +61,37 @@ export class HittingAnimation {
                     }
                 }
                 this.setUpPosition(coordinateOpposite,neighbor, offsetValue);
-                let tween = this.scene.tweens.add({
+                let deltaX = (this.x - neighbor.x) / 5;
+                let deltaY = (this.y - neighbor.y) / 5;
+                let count = 0;
+                this.scene.tweens.add({
                     targets:neighbor,
-                    x:this.x,
-                    y:this.y,
+                    runYoyo: 0,
                     duration:150,
                     ease: 'Sine.easeOut',
-                    yoyo:true
-                });
-                tween.on('update', (tween:Phaser.Tweens.Tween, target:any) => {
-                    tween.data[1].start! += 0.1;
-                    tween.data[1].end! += 0.1;
-                });
-                tween.on('yoyo', (tween:Phaser.Tweens.Tween) => {
-                    tween.removeListener('update');
+                    yoyo:true,
+                    onUpdate: (tween:Phaser.Tweens.Tween, target:any, param:any[]) => {
+                        if(tween.data[0].end == 0) {
+                            target.x += deltaX;
+                            target.y += deltaY;
+                            count += 1;
+                        } else {
+                            if(count > 0) {
+                                target.x -= deltaX;
+                                target.y -= deltaY;
+                                count -= 1;
+                            }
+                        }
+                    },
+                    onYoyo: (tween: Phaser.Tweens.Tween, target: any) => {
+                        tween.data[0].end = 1;
+                    },
+                    onComplete: (tween: Phaser.Tweens.Tween, target: any) => {
+                        if(count > 0) {
+                            target.x -= count*deltaX;
+                            target.y -= count*deltaY;
+                        }
+                    }
                 });
             }
         });
@@ -94,6 +112,8 @@ export class HittingAnimation {
                 neighbors = [];
                 let targetedBubble = toWork.pop();
                 if(targetedBubble != undefined) {
+                    console.log('targget');
+                    console.log(targetedBubble);
                     const rawNeighbors = this.neighborsHelper.getNeighbors(targetedBubble);
                     rawNeighbors.some((bubble:Bubble) => {
                         if(!bubble.processed) {

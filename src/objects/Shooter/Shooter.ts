@@ -99,7 +99,7 @@ export class Shooter {
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
-        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-100);
+        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-50);
         this.animation.createAnimationForCircle();
     }
 

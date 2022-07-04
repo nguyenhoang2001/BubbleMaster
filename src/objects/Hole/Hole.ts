@@ -20,7 +20,7 @@ export class Hole {
 
     private create() {
         this.backgroundHole = this.scene.add.image(0,0,'bgHole').setDepth(2);
-        Phaser.Display.Align.In.BottomCenter(this.backgroundHole,this.scene.mainZone);
+        Phaser.Display.Align.In.BottomCenter(this.backgroundHole,this.scene.mainZone,0,25);
 
         this.greenHoles.push(this.scene.add.image(0,0,'greenHole').setDepth(0));
         Phaser.Display.Align.To.TopLeft(this.greenHoles[0],this.backgroundHole,-13,-22);

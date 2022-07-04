@@ -70,6 +70,8 @@ export class BubbleNeighbors {
 
 
     public getOppositeNeighbor(targetedBubble:Bubble, centerBubble:Bubble):any {
+        console.log('the targeted bubble is: ');
+        console.log(targetedBubble);
         const neighbors = this.getNeighbors(centerBubble);
         let isNeighbor = false;
         neighbors.some((_neighbor:Bubble) => {

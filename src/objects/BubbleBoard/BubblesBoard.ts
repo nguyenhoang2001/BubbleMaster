@@ -107,20 +107,10 @@ export class BubblesBoard {
         }
     }
 
-    private moveBubbles(delta:number) {
-        this.y += delta;
-        for(let i = 0; i < this.row; i++) {
-            for(let j = 0; j < this.column; j++) {
-                const object = this.board[i][j];
-                if(object != undefined) {
-                    if(this.isBublleExisting(i,j))
-                        object.y += delta;
-                }
-            }
-        }
-    }
-
     public update() {
+        let topBubble = this.board[0].find(n=>n)!;
+        this.y = topBubble.y;
+
         if(this.addSignal) {
             this.updateRow();
             this.addingManager.moreBubbleRows(1);
@@ -132,12 +122,11 @@ export class BubblesBoard {
             const bubble = this.colliderBubble.runCollide();
             if(bubble != undefined) {
                 this.hittingAnimation.run(bubble);
-                this.clusters.run(bubble,true,true);
+                let clusters = this.clusters.run(bubble,true,true);
             }
         }
         this.clusters.update();
         this.floatingBubbles.update();
         this.checkingClusters();
-        this.moveBubbles(0.1);
     }
 }

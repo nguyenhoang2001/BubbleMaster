@@ -10,7 +10,8 @@ export class AddingNewBubbleRowManager {
     }
 
     private checkToAdd() {
-        if(this.scene.bubblesBoard.y >= 0) {
+        let topBubble = this.scene.bubblesBoard.board[0].find(n=>n)!;
+        if(topBubble.y >= 0) {
             this.needToAdd = true;
         }
     }
