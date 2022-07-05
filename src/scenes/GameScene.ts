@@ -54,6 +54,7 @@ export class GameScene extends Phaser.Scene {
         this.gameOverContainer.setDepth(DEPTH.GAMEOVERCONTAINER);
         this.hole = new Hole(this);
         this.animationCreator.createAnimations();
+        this.colorManager.setBubblesBoard(this.bubblesBoard);
         this.createShooter();
         this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
 

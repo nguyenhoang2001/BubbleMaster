@@ -19,7 +19,7 @@ export class BulletCreator {
     }
 
     private createShootedBubble() {
-        this.shooter.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
+        this.shooter.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getColorToShoot());
         this.shooter.shootedBubble.setDepth(DEPTH.BULLET);
         this.scene.add.existing(this.shooter.shootedBubble);
         this.shooter.setUpPositionFirst();
@@ -28,7 +28,7 @@ export class BulletCreator {
     }
 
     public createSecondBullet() {
-        this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
+        this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getColorToShoot());
         this.shooter.secondBubllet.setDepth(DEPTH.BULLET);
         this.shooter.secondBubllet.setScale(0.8);
         this.scene.add.existing(this.shooter.secondBubllet);

@@ -17,9 +17,13 @@ export class ScoreManager {
         this.bubblesBoard = bubblesBoard;
     }
 
-    public increaseCombo() {
-        this.combo += 1;
+    public getCombo():number {
+        return this.combo;
+    }
 
+    public increaseCombo() {
+        if(this.combo < 15)
+            this.combo += 1;
     }
 
     public getScore() {
