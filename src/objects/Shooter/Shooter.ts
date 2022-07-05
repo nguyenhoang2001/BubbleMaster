@@ -20,7 +20,6 @@ export class Shooter {
     private shotGuide!: ShotGuide;
     public animation!: AnimationShooter;
 
-
     constructor(scene:GameScene) {
         this.scene = scene;
         this.allowShooting = false;
@@ -139,11 +138,12 @@ export class Shooter {
 
     private shootBubble() {
         if(this.arrowShoot.angle != 0) {
+            this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
             this.shootedBubble.initialX = this.shootedBubble.x;
             this.shootedBubble.initialY = this.shootedBubble.y;
-            this.shootedBubble.setScale(1.2,1);
+            // this.shootedBubble.setScale(1.2,1);
             this.scene.physics.velocityFromRotation (
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                 2400,

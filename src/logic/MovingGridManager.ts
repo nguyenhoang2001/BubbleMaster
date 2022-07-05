@@ -7,6 +7,7 @@ export class MovingGridManager {
     private velocityPerSecond!: number;
     private scene!: GameScene;
     private initialTimeMoving!: number;
+    private shooted!:boolean;
 
 
     constructor(scene:GameScene, bubblesBoard:BubblesBoard) {
@@ -14,19 +15,23 @@ export class MovingGridManager {
         this.bubblesBoard = bubblesBoard;
         this.velocityPerSecond = 0;
         this.initialTimeMoving = 0;
+        this.shooted = false;
+        this.scene.events.once('shooted', ()=>{this.shooted = true;});
     }
 
     private updateVelocity(delta:number) {
         if(this.initialTimeMoving < 5000) {
             this.initialTimeMoving += delta;
-            this.velocityPerSecond = 5;
+            this.velocityPerSecond = 10;
             return;
         }
         let gridHeight = this.bubblesBoard.y + this.bubblesBoard.rowHeight*(this.bubblesBoard.row - 1) + 28;
         if(gridHeight <= 250*2) {
             this.velocityPerSecond = 40;
-        } else if(gridHeight > 250*2 && gridHeight <= 298*2 +  250*2) {
+        } else if(gridHeight > 250*2 && gridHeight <= 149*2 + 250*2) {
             this.velocityPerSecond = 20;
+        } else if(gridHeight > 149*2 + 250*2 && gridHeight <= 298*2 + 250*2) {
+            this.velocityPerSecond = 10;
         } else {
             this.velocityPerSecond = 0;
             this.scene.registry.set('isGameOver', true);
@@ -34,26 +39,17 @@ export class MovingGridManager {
     }
 
     public moveDownBubbles(time:number,delta:number) {
-        this.bubblesBoard.updateRow();
-        this.updateVelocity(delta);
-
-        // this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {
-        //     let bubble = _bubble as Bubble;
-        //     if(bubble.visible == true) {
-        //         if(bubble.body.gravity.y == 0 && bubble.body.velocity.y == 0) {
-        //             let deltaY = (delta * this.velocityPerSecond)/ 1000;
-        //             bubble.y += deltaY;
-        //         }
-        //     }
-        // });
-
-        for(let i = 0; i < this.bubblesBoard.row; i++) {
-            for(let j = 0; j < this.bubblesBoard.column; j++) {
-                const bubble = this.bubblesBoard.board[i][j];
-                if(bubble != undefined) {
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        let deltaY = (delta * this.velocityPerSecond)/ 1000;
-                        bubble.y += deltaY;
+        if(this.shooted) {
+            this.bubblesBoard.updateRow();
+            this.updateVelocity(delta);
+            for(let i = 0; i < this.bubblesBoard.row; i++) {
+                for(let j = 0; j < this.bubblesBoard.column; j++) {
+                    const bubble = this.bubblesBoard.board[i][j];
+                    if(bubble != undefined) {
+                        if(this.bubblesBoard.isBublleExisting(i,j)) {
+                            let deltaY = (delta * this.velocityPerSecond)/ 1000;
+                            bubble.y += deltaY;
+                        }
                     }
                 }
             }
