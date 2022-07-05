@@ -102,7 +102,7 @@ export class Shooter {
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
-                if(this.allowShooting && !this.pointerOnCircle) {
+                if(this.allowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                     this.isShoot = true;
                     this.allowShooting = false;
                 }
