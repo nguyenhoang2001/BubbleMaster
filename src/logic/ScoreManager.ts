@@ -1,4 +1,5 @@
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
+import { GameScene } from "../scenes/GameScene";
 
 export class ScoreManager {
     private score: number;
@@ -7,14 +8,16 @@ export class ScoreManager {
     private multiplierCombo:number;
     private bubblesBoard:BubblesBoard;
     private combo:number;
+    private scene:GameScene;
 
-    constructor(bubblesBoard:BubblesBoard) {
+    constructor(bubblesBoard:BubblesBoard, scene:GameScene) {
         this.score = 0;
         this.baseScore0 = 10;
         this.baseScore1 = 10;
         this.multiplierCombo = 1;
         this.combo = 0;
         this.bubblesBoard = bubblesBoard;
+        this.scene = scene;
     }
 
     public getCombo():number {
@@ -46,30 +49,8 @@ export class ScoreManager {
         this.baseScore1 = 10;
     }
 
-    private countCurrentColor():number {
-        let currentColor = 0;
-        let colors:string[] = [];
-        for(let i = 0; i < this.bubblesBoard.row; i++) {
-            for(let j = 0; j <this.bubblesBoard.column; j++) {
-                const bubble = this.bubblesBoard.board[i][j];
-                if(bubble != undefined) {
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        let color = bubble.texture.key;
-                        if(color.endsWith('Bubble')) {
-                            if(colors.indexOf(color) == -1) {
-                                colors.push(color);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        currentColor = colors.length;
-        return currentColor;
-    }
-
     public calculateScore() {
-        let numberOfColors = this.countCurrentColor();
+        let numberOfColors = this.scene.colorManager.countCurrentColor();
         this.resetBaseScore();
         let count = numberOfColors - 3;
         while(count > 0) {

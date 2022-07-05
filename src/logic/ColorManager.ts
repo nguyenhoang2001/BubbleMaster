@@ -49,6 +49,28 @@ export class ColorManager {
         return this.getTexture();
     }
 
+    public countCurrentColor():number {
+        let currentColor = 0;
+        let colors:string[] = [];
+        for(let i = 0; i < this.bubblesBoard.row; i++) {
+            for(let j = 0; j <this.bubblesBoard.column; j++) {
+                const bubble = this.bubblesBoard.board[i][j];
+                if(bubble != undefined) {
+                    if(this.bubblesBoard.isBublleExisting(i,j)) {
+                        let color = bubble.texture.key;
+                        if(color.endsWith('Bubble')) {
+                            if(colors.indexOf(color) == -1) {
+                                colors.push(color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        currentColor = colors.length;
+        return currentColor;
+    }
+
     public addTexture() {
         this.textureKeys.some((texture:string) => {
             let index = this.currentTexture.indexOf(texture);

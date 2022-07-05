@@ -62,7 +62,7 @@ export class GameScene extends Phaser.Scene {
         rope.setDepth(DEPTH.GAMEPLAY);
         rope.setDisplaySize(rope.width + 210, rope.height);
         // Logic Game
-        this.scoreManager = new ScoreManager(this.bubblesBoard);
+        this.scoreManager = new ScoreManager(this.bubblesBoard,this);
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
     }
 

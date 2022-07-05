@@ -41,6 +41,7 @@ export class Clusters {
             this.clustersFinish = false;
             this.checkingFinish = false;
             this.scene.scoreManager.calculateScore();
+            this.scene.scoreManager.increaseCombo();
             this.handler.clearClusters(this.clusters);
         } else {
             this.scene.scoreManager.resetCombo();
@@ -58,7 +59,6 @@ export class Clusters {
             if(this.remains == 0) {
                 this.clustersFinish = true;
                 if(this.checkingFinish) {
-                    this.scene.scoreManager.increaseCombo();
                     this.resetState();
                 }
             } else {
