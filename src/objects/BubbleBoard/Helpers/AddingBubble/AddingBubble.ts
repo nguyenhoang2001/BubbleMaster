@@ -3,6 +3,7 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { PositionBubbleHandler } from "./PositionBubbleHandler";
 import { ShootedBubble } from "../../../ShootedBubble";
 import { GameScene } from "../../../../scenes/GameScene";
+import DEPTH from "../../../../game/constant/Depth";
 
 export class AddingBubble {
     public bubblesBoard: BubblesBoard;
@@ -67,7 +68,7 @@ export class AddingBubble {
         bubble.removeAllListeners();
 
         bubble.setScale(1);
-        bubble.setDepth(0);
+        bubble.setDepth(DEPTH.GRIDBALL);
         bubble.setActive(true);
         bubble.setVisible(true);
 

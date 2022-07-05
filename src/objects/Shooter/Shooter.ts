@@ -1,3 +1,4 @@
+import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { AnimationShooter } from "./Helpers/AnimationShooter";
@@ -111,6 +112,7 @@ export class Shooter {
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
+        this.circle.setDepth(DEPTH.GAMEPLAY);
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-50);
         this.animation.createAnimationForCircle();
     }
@@ -119,8 +121,6 @@ export class Shooter {
         this.arrowShoot = this.scene.add.line(this.shootedBubble.x,this.shootedBubble.y,0,0,100,0,0xff0000);
         this.arrowShoot.setOrigin(0,0);
         this.arrowShoot.setVisible(false);
-        this.shootedBubble.setDepth(1);
-        this.secondBubllet.setDepth(1);
     }
 
     private rotateShooter() {

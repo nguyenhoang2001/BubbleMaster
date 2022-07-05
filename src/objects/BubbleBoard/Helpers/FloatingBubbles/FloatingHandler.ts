@@ -28,7 +28,6 @@ export class FloatingHandler {
         let array = this.floatingBubbles.array;
         console.log(JSON.parse(JSON.stringify(array)));
         array.forEach((bubble: Bubble) => {
-            bubble.setDepth(1);
             let row = bubble.row;
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;            

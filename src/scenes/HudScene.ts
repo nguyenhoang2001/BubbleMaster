@@ -1,3 +1,4 @@
+import DEPTH from "../game/constant/Depth";
 import { HudContainer } from "../ui/HudContainer";
 import { GameScene } from "./GameScene";
 
@@ -13,6 +14,7 @@ export class HudScene extends Phaser.Scene {
     public create() {
         this.container = new HudContainer(this,0,0);
         this.score = 0;
+        this.container.setDepth(DEPTH.HUDCONTAINER);
         this.container.run();
     }
 

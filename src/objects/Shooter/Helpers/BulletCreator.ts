@@ -1,4 +1,5 @@
 // import { logicGame } from "../../../game";
+import DEPTH from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { ShootedBubble } from "../../ShootedBubble";
 import { Shooter } from "../Shooter";
@@ -19,6 +20,7 @@ export class BulletCreator {
 
     private createShootedBubble() {
         this.shooter.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
+        this.shooter.shootedBubble.setDepth(DEPTH.BULLET);
         this.scene.add.existing(this.shooter.shootedBubble);
         this.shooter.setUpPositionFirst();
         this.shooter.shootedBubble.checkWorldBounce = false;
@@ -27,6 +29,7 @@ export class BulletCreator {
 
     public createSecondBullet() {
         this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getTexture());
+        this.shooter.secondBubllet.setDepth(DEPTH.BULLET);
         this.shooter.secondBubllet.setScale(0.8);
         this.scene.add.existing(this.shooter.secondBubllet);
         this.shooter.setUpPositionSecond();
