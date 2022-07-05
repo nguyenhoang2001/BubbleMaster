@@ -45,7 +45,6 @@ export class HittingAnimation {
     }
 
     private setUpAnimation(array:Bubble[], targetedBubble:Bubble, offset:number) {
-        console.log(array);
         const neighbors = array;
         neighbors.some((neighbor:Bubble) => {
             const oppositeNeighbor = this.neighborsHelper.getOppositeNeighbor(targetedBubble,neighbor);
@@ -112,8 +111,6 @@ export class HittingAnimation {
                 neighbors = [];
                 let targetedBubble = toWork.pop();
                 if(targetedBubble != undefined) {
-                    console.log('targget');
-                    console.log(targetedBubble);
                     const rawNeighbors = this.neighborsHelper.getNeighbors(targetedBubble);
                     rawNeighbors.some((bubble:Bubble) => {
                         if(!bubble.processed) {

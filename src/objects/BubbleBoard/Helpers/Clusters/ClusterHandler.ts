@@ -18,9 +18,6 @@ export class ClusterHandler {
         let delay = 50;
         for(let i = 0; i < cluster.length; i++) {
             cluster[i].clear();
-            let row = cluster[i].row;
-            let column = cluster[i].column;
-            this.bubblesBoard.board[row][column] = undefined;
 
             let tintColor = cluster[i].texture.key;
 
@@ -30,13 +27,15 @@ export class ClusterHandler {
             })
             cluster[i].on('animationupdate', () => {
                 if(cluster[i].frame.name == 'animations/grey-explosive/explosive_grey_10') {
+                    let row = cluster[i].row;
+                    let column = cluster[i].column;
+                    this.bubblesBoard.board[row][column] = undefined;   
                     this.clusters.remains -= 1;
                     this.scene.score += 1;
                 }
-            })
+            });
 
             cluster[i].on('animationcomplete-explode', () => {
-                console.log('finish animations');
                 cluster[i].removeAllListeners();
                 cluster[i].anims.remove('explode');
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);

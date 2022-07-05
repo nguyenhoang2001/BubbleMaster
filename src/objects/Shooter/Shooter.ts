@@ -60,6 +60,10 @@ export class Shooter {
         this.shotGuide.hide();
     }
 
+    public removeInput() {
+        this.circle.removeInteractive();
+    }
+
     private updateAllowShooting() {
         if(this.checkAllowShooting) {
             if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {

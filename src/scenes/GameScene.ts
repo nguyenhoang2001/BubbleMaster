@@ -1,7 +1,6 @@
 import { Game } from "phaser";
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
-import { GameOverManager } from "../logic/GameOverManager";
 import { MovingGridManager } from "../logic/MovingGridManager";
 import { ScoreManager } from "../logic/ScoreManager";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
@@ -24,7 +23,6 @@ export class GameScene extends Phaser.Scene {
     // Logic Game Managers
     public colorManager!: ColorManager;
     public scoreManager!: ScoreManager;
-    private gameOverManager!: GameOverManager;
     private movingGridManager!: MovingGridManager;
 
     constructor() {
@@ -63,7 +61,6 @@ export class GameScene extends Phaser.Scene {
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
         rope.setDisplaySize(rope.width + 210, rope.height);
         // Logic Game
-        this.gameOverManager = new GameOverManager(this,this.bubblesBoard);
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
     }
 
@@ -78,9 +75,11 @@ export class GameScene extends Phaser.Scene {
             this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update();
             this.shooter.update();
-            this.gameOverManager.checkGameOver();
         } else {
             this.shooter.clearShotGuide();
+            this.shooter.removeInput();
+            this.bubblesBoard.y = 0;
+            this.bubblesBoard.row = 6;
             this.gameOverContainer.open();
         }
     }
