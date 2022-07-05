@@ -3,8 +3,8 @@ import { GameScene } from "../scenes/GameScene";
 
 export class ScoreManager {
     private score: number;
-    private baseScore0:number;
-    private baseScore1:number;
+    private baseScore: number[];
+    private indexBaseScore:number;
     private multiplierCombo:number;
     private bubblesBoard:BubblesBoard;
     private combo:number;
@@ -12,9 +12,9 @@ export class ScoreManager {
 
     constructor(bubblesBoard:BubblesBoard, scene:GameScene) {
         this.score = 0;
-        this.baseScore0 = 10;
-        this.baseScore1 = 10;
+        this.baseScore = [10,20,30,50,80,130,210];
         this.multiplierCombo = 1;
+        this.indexBaseScore = 0;
         this.combo = 0;
         this.bubblesBoard = bubblesBoard;
         this.scene = scene;
@@ -38,27 +38,14 @@ export class ScoreManager {
         this.multiplierCombo = 1;
     }
 
-    private increaseBaseScore() {
-        let saveBase = this.baseScore1;
-        this.baseScore1 = this.baseScore1 + this.baseScore0;
-        this.baseScore0 = saveBase;
-    }
-
-    private resetBaseScore() {
-        this.baseScore0 = 10;
-        this.baseScore1 = 10;
-    }
-
     public calculateScore() {
         let numberOfColors = this.scene.colorManager.countCurrentColor();
-        this.resetBaseScore();
-        let count = numberOfColors - 3;
-        while(count > 0) {
-            this.increaseBaseScore();
-            count--;
-        }
+        this.indexBaseScore = numberOfColors - 3;
+        if(this.indexBaseScore < 0)
+            this.indexBaseScore = 0;
         console.log('The current combo: '+ this.combo);
-        console.log('BaseScore is: ' + this.baseScore1);
+        console.log('the base score: ' + this.baseScore[this.indexBaseScore]);
+
         if(this.combo < 3)
             this.multiplierCombo = 1;
         else if(this.combo < 8)
@@ -71,9 +58,9 @@ export class ScoreManager {
             this.multiplierCombo = 5;
     }
 
-    public updateScore() {
-        this.score += this.baseScore1*this.multiplierCombo;
-        console.log(this.baseScore1*this.multiplierCombo);
+    public increaseScore() {
+        this.score += this.baseScore[this.indexBaseScore]*this.multiplierCombo;
+        console.log(this.baseScore[this.indexBaseScore]*this.multiplierCombo);
     }
 
 }
