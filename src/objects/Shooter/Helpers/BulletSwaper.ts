@@ -2,9 +2,9 @@ import { GameScene } from "../../../scenes/GameScene";
 import { Shooter } from "../Shooter";
 
 export class BulletSwaper {
-    private shooter!: Shooter;
-    private scene!: GameScene;
-    public finished!: boolean;
+    private shooter: Shooter;
+    private scene: GameScene;
+    public finished: boolean;
 
     constructor(shooter:Shooter) {
         this.shooter = shooter;

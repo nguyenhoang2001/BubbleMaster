@@ -3,11 +3,11 @@ import { BounceRegion } from "./BounceRegion";
 
 export class Hole {
     public scene: GameScene;
-    private backgroundHole!: Phaser.GameObjects.Image;
-    private greenHoles!: Phaser.GameObjects.Image[];
-    private purpleHoles!: Phaser.GameObjects.Image[];
-    private orangeHoles!: Phaser.GameObjects.Image[];
-    private bounceRegions!: BounceRegion[];
+    private backgroundHole: Phaser.GameObjects.Image;
+    private greenHoles: Phaser.GameObjects.Image[];
+    private purpleHoles: Phaser.GameObjects.Image[];
+    private orangeHoles: Phaser.GameObjects.Image[];
+    private bounceRegions: BounceRegion[];
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -20,7 +20,7 @@ export class Hole {
 
     private create() {
         this.backgroundHole = this.scene.add.image(0,0,'bgHole').setDepth(2);
-        Phaser.Display.Align.In.BottomCenter(this.backgroundHole,this.scene.mainZone);
+        Phaser.Display.Align.In.BottomCenter(this.backgroundHole,this.scene.mainZone,0,25);
 
         this.greenHoles.push(this.scene.add.image(0,0,'greenHole').setDepth(0));
         Phaser.Display.Align.To.TopLeft(this.greenHoles[0],this.backgroundHole,-13,-22);

@@ -12,26 +12,26 @@ import { HittingAnimation } from "./HittingAnimation";
 
 export class BubblesBoard {
     // Helpers
-    public addingManager!: AddingBubble;
-    public colliderBubble!: ColliderManager;
-    public clusters!: Clusters;
-    public floatingBubbles!: FloatingBubbles;
-    public positionManager!: BubblePositionManager;
-    public painter!: BubblePainter;
+    public addingManager: AddingBubble;
+    public colliderBubble: ColliderManager;
+    public clusters: Clusters;
+    public floatingBubbles: FloatingBubbles;
+    public positionManager: BubblePositionManager;
+    public painter: BubblePainter;
     public neighbors: BubbleNeighbors;
-    public hittingAnimation!: HittingAnimation;
+    public hittingAnimation: HittingAnimation;
     // Variables
-    public board!: (Bubble | undefined)[][];
-    public gridGroup!: Phaser.GameObjects.Group;
-    public row!: number; // 27 is max
-    public column!:number; // 12 is max
-    public rowOffSet!:number;
-    public rowHeight!:number;
-    public scene!: GameScene;
-    public x!: number;
-    public y!:number;
-    public addSignal!: boolean;
-    public isUpdating!: boolean;
+    public board: (Bubble | undefined)[][];
+    public gridGroup: Phaser.GameObjects.Group;
+    public row: number; // 27 is max
+    public column:number; // 12 is max
+    public rowOffSet:number;
+    public rowHeight:number;
+    public scene: GameScene;
+    public x: number;
+    public y:number;
+    public addSignal: boolean;
+    public isUpdating: boolean;
     // public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
@@ -107,20 +107,11 @@ export class BubblesBoard {
         }
     }
 
-    private moveBubbles(delta:number) {
-        this.y += delta;
-        for(let i = 0; i < this.row; i++) {
-            for(let j = 0; j < this.column; j++) {
-                const object = this.board[i][j];
-                if(object != undefined) {
-                    if(this.isBublleExisting(i,j))
-                        object.y += delta;
-                }
-            }
-        }
-    }
-
     public update() {
+        let topBubble = this.board[0].find(n=>n);
+        if(topBubble != undefined)
+            this.y = topBubble.y;
+
         if(this.addSignal) {
             this.updateRow();
             this.addingManager.moreBubbleRows(1);
@@ -132,12 +123,11 @@ export class BubblesBoard {
             const bubble = this.colliderBubble.runCollide();
             if(bubble != undefined) {
                 this.hittingAnimation.run(bubble);
-                this.clusters.run(bubble,true,true);
+                let clusters = this.clusters.run(bubble,true,true);
             }
         }
         this.clusters.update();
         this.floatingBubbles.update();
         this.checkingClusters();
-        this.moveBubbles(0.1);
     }
 }

@@ -1,6 +1,6 @@
 export class CircleGuide extends Phaser.GameObjects.Sprite {
-    public body!: Phaser.Physics.Arcade.Body;
-    public isOverlap!: boolean;
+    public body: Phaser.Physics.Arcade.Body;
+    public isOverlap: boolean;
 
     constructor(scene:Phaser.Scene,x:number,y:number,texture:string) {
         super(scene,x,y,texture);

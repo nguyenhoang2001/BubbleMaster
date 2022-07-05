@@ -1,6 +1,6 @@
 export class ColorManager {
     protected textureKeys: string[];
-    private currentTexture!: string[];
+    private currentTexture: string[];
     private timeAddTexture:number;
 
     constructor() {

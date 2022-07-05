@@ -2,8 +2,8 @@ import { HudContainer } from "../ui/HudContainer";
 import { GameScene } from "./GameScene";
 
 export class HudScene extends Phaser.Scene {
-    private container!: HudContainer;
-    public score!: number;
+    private container: HudContainer;
+    public score: number;
 
     constructor() {
         super({key:'HudScene'});

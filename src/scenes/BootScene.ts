@@ -1,6 +1,6 @@
 export class BootScene extends Phaser.Scene {
-    private loadingBar!: Phaser.GameObjects.Graphics;
-    private progressBar!: Phaser.GameObjects.Graphics;
+    private loadingBar: Phaser.GameObjects.Graphics;
+    private progressBar: Phaser.GameObjects.Graphics;
 
     constructor() {
         super({

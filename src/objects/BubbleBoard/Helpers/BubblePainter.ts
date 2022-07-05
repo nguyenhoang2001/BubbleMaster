@@ -4,8 +4,8 @@ import { Bubble } from "../../Bubble";
 import { BubblesBoard } from "../BubblesBoard";
 
 export class BubblePainter {
-    private bubblesBoard!: BubblesBoard;
-    public scene!: GameScene;
+    private bubblesBoard: BubblesBoard;
+    public scene: GameScene;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;

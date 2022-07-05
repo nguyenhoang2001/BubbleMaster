@@ -5,11 +5,11 @@ import { ShootedBubble } from "../../../ShootedBubble";
 import { GameScene } from "../../../../scenes/GameScene";
 
 export class AddingBubble {
-    public bubblesBoard!: BubblesBoard;
-    public fixedPos!: any;
-    private positionHandler!: PositionBubbleHandler;
-    public scene!: GameScene;
-    public finishedAddingBullet!: boolean;
+    public bubblesBoard: BubblesBoard;
+    public fixedPos: any;
+    private positionHandler: PositionBubbleHandler;
+    public scene: GameScene;
+    public finishedAddingBullet: boolean;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
@@ -82,7 +82,9 @@ export class AddingBubble {
         if(numberOfRow <= 0)
             return;
         let saveNumberRowAdd = numberOfRow;
-        let bellowBubble = this.bubblesBoard.board[0].find(n=>n)!
+        let bellowBubble = this.bubblesBoard.board[0].find(n=>n);
+        if(bellowBubble == undefined)
+            return;
         let bellowY = bellowBubble.y;
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {

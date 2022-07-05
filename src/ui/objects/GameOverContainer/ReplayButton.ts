@@ -3,13 +3,13 @@ import { GameScene } from "../../../scenes/GameScene";
 import { GameOverContainer } from "../../GameOverContainer";
 
 export class ReplayButton {
-    private mid!: Phaser.GameObjects.Image;
-    private left!: Phaser.GameObjects.Image;
-    private right!: Phaser.GameObjects.Image;
-    private text!: Phaser.GameObjects.Text;
-    private parentContainer!: GameOverContainer;
-    public container!: Phaser.GameObjects.Container;
-    private scene!: GameScene;
+    private mid: Phaser.GameObjects.Image;
+    private left: Phaser.GameObjects.Image;
+    private right: Phaser.GameObjects.Image;
+    private text: Phaser.GameObjects.Text;
+    private parentContainer: GameOverContainer;
+    public container: Phaser.GameObjects.Container;
+    private scene: GameScene;
     
     constructor(parentContainer:GameOverContainer, scene: GameScene) {
         this.parentContainer = parentContainer;

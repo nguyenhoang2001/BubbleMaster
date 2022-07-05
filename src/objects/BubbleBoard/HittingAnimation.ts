@@ -4,9 +4,9 @@ import { BubblesBoard } from "./BubblesBoard";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
 
 export class HittingAnimation {
-    private bubblesBoard!: BubblesBoard;
-    private scene!: GameScene;
-    private neighborsHelper!: BubbleNeighbors;
+    private bubblesBoard: BubblesBoard;
+    private scene: GameScene;
+    private neighborsHelper: BubbleNeighbors;
     private x: number;
     private y: number;
     private offsetBounce: number;
@@ -60,20 +60,37 @@ export class HittingAnimation {
                     }
                 }
                 this.setUpPosition(coordinateOpposite,neighbor, offsetValue);
-                let tween = this.scene.tweens.add({
+                let deltaX = (this.x - neighbor.x) / 5;
+                let deltaY = (this.y - neighbor.y) / 5;
+                let count = 0;
+                this.scene.tweens.add({
                     targets:neighbor,
-                    x:this.x,
-                    y:this.y,
+                    runYoyo: 0,
                     duration:150,
                     ease: 'Sine.easeOut',
-                    yoyo:true
-                });
-                tween.on('update', (tween:Phaser.Tweens.Tween, target:any) => {
-                    tween.data[1].start! += 0.1;
-                    tween.data[1].end! += 0.1;
-                });
-                tween.on('yoyo', (tween:Phaser.Tweens.Tween) => {
-                    tween.removeListener('update');
+                    yoyo:true,
+                    onUpdate: (tween:Phaser.Tweens.Tween, target:any, param:any[]) => {
+                        if(tween.data[0].end == 0) {
+                            target.x += deltaX;
+                            target.y += deltaY;
+                            count += 1;
+                        } else {
+                            if(count > 0) {
+                                target.x -= deltaX;
+                                target.y -= deltaY;
+                                count -= 1;
+                            }
+                        }
+                    },
+                    onYoyo: (tween: Phaser.Tweens.Tween, target: any) => {
+                        tween.data[0].end = 1;
+                    },
+                    onComplete: (tween: Phaser.Tweens.Tween, target: any) => {
+                        if(count > 0) {
+                            target.x -= count*deltaX;
+                            target.y -= count*deltaY;
+                        }
+                    }
                 });
             }
         });

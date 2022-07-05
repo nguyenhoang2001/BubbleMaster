@@ -5,9 +5,9 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { GameScene } from "../../../../scenes/GameScene";
 
 export class PositionBubbleHandler {
-    private parent!: AddingBubble;
+    private parent: AddingBubble;
     private bubblesBoard: BubblesBoard;
-    private scene!: GameScene;
+    private scene: GameScene;
 
     constructor(parent: AddingBubble) {
         this.parent = parent;
@@ -63,6 +63,8 @@ export class PositionBubbleHandler {
         for(let i = 0; i < empties.length; i++) {
             let gridPos = empties[i];
             let emptyCoordinate = this.bubblesBoard.positionManager.getCoordinate(gridPos.row,gridPos.column);
+            if(emptyCoordinate == undefined)
+                return;
             let distance = distanceCalculator.Between(emptyCoordinate.x,emptyCoordinate.y,  
                 shootedBubble.x, shootedBubble.y);
             if(i == 0) {

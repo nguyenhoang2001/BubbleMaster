@@ -4,15 +4,15 @@ import { CircleGuide } from "../CircleGuide";
 import { Shooter } from "../Shooter";
 
 export class ShotGuide {
-    private shooter!: Shooter;
-    private scene!: GameScene;
-    public circleGuideGroup!: Phaser.GameObjects.Group;
-    private distance!: number;
-    private offsetDistance!:number;
-    private gameWidth!:number;
-    private gameHeight!:number;
-    public stopGenrate!: boolean;
-    private bubblesBoard!: BubblesBoard;
+    private shooter: Shooter;
+    private scene: GameScene;
+    public circleGuideGroup: Phaser.GameObjects.Group;
+    private distance: number;
+    private offsetDistance:number;
+    private gameWidth:number;
+    private gameHeight:number;
+    public stopGenrate: boolean;
+    private bubblesBoard: BubblesBoard;
 
     constructor(shooter:Shooter, scene:GameScene) {
         this.shooter = shooter;
@@ -132,6 +132,8 @@ export class ShotGuide {
                     // update x and y
                     x = this.gameWidth - 0;
                     y = saveOldY - (x - saveOldX)*Math.tan(angle);
+                    let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
+                    this.activateCircle(circle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
                 } else if(x <= 25) {
@@ -143,6 +145,8 @@ export class ShotGuide {
                     // update x and y
                     x = 0;
                     y = saveOldY - (saveOldX - x)*Math.tan(angle);
+                    let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
+                    this.activateCircle(circle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
                 }

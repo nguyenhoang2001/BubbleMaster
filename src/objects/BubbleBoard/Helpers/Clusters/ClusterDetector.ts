@@ -3,7 +3,7 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { BubbleNeighbors } from "../BubbleNeighbors";
 
 export class ClusterDetector {
-    private parent!: BubblesBoard;
+    private parent: BubblesBoard;
 
     constructor(parent:BubblesBoard) {
         this.parent = parent;

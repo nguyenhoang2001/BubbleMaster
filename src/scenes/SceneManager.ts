@@ -1,5 +1,5 @@
 export class SceneManager extends Phaser.Scene {
-    private scenes!: Phaser.Scene[];
+    private scenes: Phaser.Scene[];
 
     constructor() {
         super('SceneManger');

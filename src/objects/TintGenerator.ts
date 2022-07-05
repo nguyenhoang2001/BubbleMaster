@@ -1,7 +1,7 @@
 import { Bubble } from "./Bubble";
 
 export class TintGenerator {
-    bubble!: Bubble;
+    bubble: Bubble;
 
     constructor(bubble:Bubble) {
         this.bubble = bubble;
@@ -22,7 +22,7 @@ export class TintGenerator {
         } else if(textureKey == 'cyanBubble') {
             return 0x00FFFF;
         } else if(textureKey == 'blueBubble') {
-            return 0x0000FF;
+            return 0x2f6aeb;
         } else if(textureKey == 'grayBubble') {
             return 0xD3D3D3;
         } else if(textureKey == 'blackBubble') {

@@ -3,12 +3,12 @@ import { ReplayButton } from "./objects/GameOverContainer/ReplayButton";
 import { TextContainer } from "./objects/GameOverContainer/TextContainer";
 
 export class GameOverContainer extends Phaser.GameObjects.Container {
-    public scene!: GameScene;
-    private replayButton!: ReplayButton;
-    private blackBackground!: Phaser.GameObjects.Rectangle;
-    public mainZone!: Phaser.GameObjects.Zone;
-    private textContainer!: TextContainer;
-    private isOpened!: boolean;
+    public scene: GameScene;
+    private replayButton: ReplayButton;
+    private blackBackground: Phaser.GameObjects.Rectangle;
+    public mainZone: Phaser.GameObjects.Zone;
+    private textContainer: TextContainer;
+    private isOpened: boolean;
 
     constructor(scene:GameScene,x:number,y:number) {
         super(scene,x,y);

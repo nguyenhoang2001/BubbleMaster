@@ -59,7 +59,7 @@
             {
                 "type": "image",
                 "key": "background",
-                "url": "./assets/images/background-image.jpg"
+                "url": "./assets/images/background-image.png"
             },
             {
                 "type": "image",
@@ -112,11 +112,6 @@
                 "type": "image",
                 "key": "tail",
                 "url": "./assets/images/others/tail.png"
-            },
-            {
-                "type": "image",
-                "key": "backgroundDark",
-                "url": "./assets/images/backgroundDark.jpeg"
             },
             {
                 "type": "image",

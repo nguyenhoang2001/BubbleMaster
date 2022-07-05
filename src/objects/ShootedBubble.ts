@@ -1,11 +1,11 @@
 import { Bubble } from "./Bubble";
 
 export class ShootedBubble extends Bubble {
-    public body!: Phaser.Physics.Arcade.Body;
-    public checkWorldBounce!: boolean;
-    public initialX!:number;
-    public initialY!:number;
-    public tail!: Phaser.GameObjects.Image;
+    public body: Phaser.Physics.Arcade.Body;
+    public checkWorldBounce: boolean;
+    public initialX:number;
+    public initialY:number;
+    public tail: Phaser.GameObjects.Image;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
@@ -15,8 +15,8 @@ export class ShootedBubble extends Bubble {
         this.checkWorldBounce = false;
         this.initialX = 0;
         this.initialY = 0;
-        this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.7).setScale(1).setOrigin(0.5,0);
-        this.tail.setTintFill(this.tintGenerator.getTint(this.texture.key));        
+        this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
+        this.tail.setTint(this.tintGenerator.getTint(this.texture.key));        
         this.tail.setVisible(false);
     }
 
@@ -77,14 +77,14 @@ export class ShootedBubble extends Bubble {
         this.tail.y = this.y;
         if(angle >= 0 && angle <= 90) {
             let angleOffset = 90 - angle;
-            let offsetY = 35 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 35 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetX = 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
             this.tail.x = this.tail.x + offsetX;
             this.tail.y = this.tail.y - offsetY;
         } else {
             let angleOffset = 90 - (360 - angle);
-            let offsetY = 35 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 35 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
+            let offsetX = 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
             this.tail.x = this.tail.x - offsetX;
             this.tail.y = this.tail.y - offsetY;
         }

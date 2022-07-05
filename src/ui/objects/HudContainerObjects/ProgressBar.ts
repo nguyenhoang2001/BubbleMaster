@@ -2,12 +2,12 @@ import { HudScene } from "../../../scenes/HudScene";
 import { HudContainer } from "../../HudContainer";
 
 export class ProgressBar {
-    private scene!: HudScene;
-    private container!: HudContainer;
-    private holder!: Phaser.GameObjects.Image;
-    private left!: Phaser.GameObjects.Image;
-    private mid!: Phaser.GameObjects.Image;
-    private right!: Phaser.GameObjects.Image;
+    private scene: HudScene;
+    private container: HudContainer;
+    private holder: Phaser.GameObjects.Image;
+    private left: Phaser.GameObjects.Image;
+    private mid: Phaser.GameObjects.Image;
+    private right: Phaser.GameObjects.Image;
 
     constructor(scene:HudScene,container:HudContainer) {
         this.container = container;

@@ -2,8 +2,8 @@ import { GameScene } from "../../../scenes/GameScene";
 import { Shooter } from "../Shooter";
 
 export class AnimationShooter {
-    public scene!: GameScene;
-    private shooter!: Shooter;
+    public scene: GameScene;
+    private shooter: Shooter;
 
 
     constructor(shooter:Shooter, scene:GameScene) {
