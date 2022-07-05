@@ -30,8 +30,8 @@ export class ClusterHandler {
                     let row = cluster[i].row;
                     let column = cluster[i].column;
                     this.bubblesBoard.board[row][column] = undefined;
+                    this.scene.scoreManager.updateScore();
                     this.clusters.remains -= 1;
-                    this.scene.score += 1;
                 }
             });
 

@@ -8,7 +8,6 @@ export class HudContainer extends Phaser.GameObjects.Container {
     //
     private scoreText: Phaser.GameObjects.Text;
     private scoreContainer: Phaser.GameObjects.Image;
-    private threeBubbles: Phaser.GameObjects.Image;
     //
     private rectangle: Phaser.GameObjects.Rectangle;
     //
@@ -43,7 +42,6 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.rectangle.setOrigin(0,0);
 
         this.scoreContainer = this.scene.add.image(0,0,'scoreContainer');
-        this.threeBubbles = this.scene.add.image(0,0,'threeBubbles');
         this.scoreText = this.scene.add.text(0,0,'0');
         this.scoreText.style.setFontSize('30px');
         this.scoreText.style.setFontFamily('Arial');
@@ -60,7 +58,6 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.add(this.rectangle);
 
         this.add(this.scoreContainer);
-        this.add(this.threeBubbles);
         this.add(this.scoreText);
 
         this.add(this.progressBar);
@@ -68,8 +65,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.add(this.progressBarMid);
         this.add(this.progressBarRight);
         Phaser.Display.Align.In.TopLeft(this.scoreContainer,this.rectangle, -20, -20);
-        Phaser.Display.Align.In.LeftCenter(this.threeBubbles,this.scoreContainer,-25);
-        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer, 10);
+        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer,-10);
         
         Phaser.Display.Align.To.RightCenter(this.progressBar,this.scoreContainer, 15);
         Phaser.Display.Align.In.LeftCenter(this.progressBarLeft,this.progressBar, -10);

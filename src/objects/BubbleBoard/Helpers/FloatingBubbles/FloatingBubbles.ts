@@ -55,7 +55,6 @@ export class FloatingBubbles {
                             bubble.setDepth(0);
                             bubble.clear();
                             this.bubblesBoard.gridGroup.killAndHide(bubble);
-                            this.scene.score += 1;
                         }
                     }
                 });

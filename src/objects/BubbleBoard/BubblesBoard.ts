@@ -123,7 +123,7 @@ export class BubblesBoard {
             const bubble = this.colliderBubble.runCollide();
             if(bubble != undefined) {
                 this.hittingAnimation.run(bubble);
-                let clusters = this.clusters.run(bubble,true,true);
+                this.clusters.run(bubble,true,true);
             }
         }
         this.clusters.update();

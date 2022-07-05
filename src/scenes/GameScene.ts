@@ -16,7 +16,6 @@ export class GameScene extends Phaser.Scene {
     private background: Phaser.GameObjects.Image;
     public mainZone: Phaser.GameObjects.Zone;
     private gameOverContainer: GameOverContainer;
-    public score: number;
     public highScore: number;
     private animationCreator: AnimationCreator;
     private hole: Hole;
@@ -29,7 +28,6 @@ export class GameScene extends Phaser.Scene {
         super({
             key:'GameScene'
         });
-        this.score = 0;
         this.highScore = 0;
     }
 
@@ -42,12 +40,10 @@ export class GameScene extends Phaser.Scene {
         this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
         this.registry.set('score',0);
-        this.score = 0;
         // Physics
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Logic Game
         this.colorManager = new ColorManager();
-        this.scoreManager = new ScoreManager();
         // Game Objects
         this.animationCreator = new AnimationCreator(this);
         this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,49);
@@ -61,6 +57,7 @@ export class GameScene extends Phaser.Scene {
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
         rope.setDisplaySize(rope.width + 210, rope.height);
         // Logic Game
+        this.scoreManager = new ScoreManager(this.bubblesBoard);
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
     }
 
@@ -68,8 +65,8 @@ export class GameScene extends Phaser.Scene {
         let isGameOver = this.registry.get('isGameOver');
         if(!isGameOver) {
             this.colorManager.update(delta);
-            if(this.highScore < this.score) {
-                this.highScore = this.score;
+            if(this.highScore < this.scoreManager.getScore()) {
+                this.highScore = this.scoreManager.getScore();
             }
             this.movingGridManager.moveDownBubbles(time,delta);
             this.addingNewBubbleRowManager.setAddSignalToGrid();

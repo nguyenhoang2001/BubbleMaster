@@ -33,7 +33,7 @@ export class TextContainer extends Phaser.GameObjects.Container {
     public appear() {
         this.setVisible(true);
         this.setAlpha(0);
-        this.score.setText('score: ' + this.scene.score);
+        this.score.setText('score: ' + this.scene.scoreManager.getScore());
         this.highScore.setText('high score: ' + this.scene.highScore);
         let tween = {
             targets:this,

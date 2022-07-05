@@ -20,7 +20,7 @@ export class HudScene extends Phaser.Scene {
         let isGameOver = this.registry.get('isGameOver');
         if(!isGameOver) {
             let gameScene = this.scene.get('GameScene') as GameScene;
-            this.score = gameScene.score;
+            this.score = gameScene.scoreManager.getScore();
             this.container.update(time,delta);
         }
     }

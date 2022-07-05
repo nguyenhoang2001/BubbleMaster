@@ -50,7 +50,7 @@ export class ColliderManager {
 
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
-            if(_bubble.body.velocity.y == 0) {
+            if(_bubble.body.velocity.y == 0 && _bubble.body.velocity.x == 0) {
                 if(!this.isCollide) {
                     this.shootedBubble = _shootedBubble as ShootedBubble;
                     // this.shootedBubble.body.checkCollision.none = true;

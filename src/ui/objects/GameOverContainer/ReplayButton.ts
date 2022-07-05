@@ -19,7 +19,6 @@ export class ReplayButton {
         this.create();
     }
 
-
     private create() {
 
         this.mid = this.scene.add.image(0,0,'progressMid').setOrigin(0,0);
