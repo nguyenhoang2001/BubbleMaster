@@ -6,25 +6,27 @@ import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
-    public shootedBubble!: ShootedBubble;
-    public scene!: GameScene;
-    public arrowShoot!: Phaser.GameObjects.Line
-    public circle!: Phaser.GameObjects.Image;
-    public allowShooting!: boolean;
-    public bulletGroup!: Phaser.GameObjects.Group;
-    public secondBubllet!: ShootedBubble;
-    private bulletCreator!: BulletCreator;
-    private bulletSwaper!: BulletSwaper;
-    private isShoot!: boolean;
-    public checkAllowShooting!: boolean;
-    private shotGuide!: ShotGuide;
-    public animation!: AnimationShooter;
+    public shootedBubble: ShootedBubble;
+    public scene: GameScene;
+    public arrowShoot: Phaser.GameObjects.Line
+    public circle: Phaser.GameObjects.Image;
+    public allowShooting: boolean;
+    public bulletGroup: Phaser.GameObjects.Group;
+    public secondBubllet: ShootedBubble;
+    private bulletCreator: BulletCreator;
+    private bulletSwaper: BulletSwaper;
+    private isShoot: boolean;
+    public checkAllowShooting: boolean;
+    private shotGuide: ShotGuide;
+    public animation: AnimationShooter;
+    private pointerOnCircle: boolean;
 
     constructor(scene:GameScene) {
         this.scene = scene;
         this.allowShooting = false;
         this.isShoot = false;
         this.checkAllowShooting = true;
+        this.pointerOnCircle = false;
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
@@ -61,6 +63,7 @@ export class Shooter {
 
     public removeInput() {
         this.circle.removeInteractive();
+        this.allowShooting = false;
     }
 
     private updateAllowShooting() {
@@ -89,11 +92,17 @@ export class Shooter {
                 this.bulletSwaper.startSwaping();
             }
         });
+        this.circle.on('pointerover', () => {
+            this.pointerOnCircle = true;
+        });
+        this.circle.on('pointerout', () => {
+            this.pointerOnCircle = false;
+        });
     }
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
-                if(this.allowShooting) {
+                if(this.allowShooting && !this.pointerOnCircle) {
                     this.isShoot = true;
                     this.allowShooting = false;
                 }

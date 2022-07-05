@@ -3,11 +3,11 @@ import { BounceRegion } from "./BounceRegion";
 
 export class Hole {
     public scene: GameScene;
-    private backgroundHole!: Phaser.GameObjects.Image;
-    private greenHoles!: Phaser.GameObjects.Image[];
-    private purpleHoles!: Phaser.GameObjects.Image[];
-    private orangeHoles!: Phaser.GameObjects.Image[];
-    private bounceRegions!: BounceRegion[];
+    private backgroundHole: Phaser.GameObjects.Image;
+    private greenHoles: Phaser.GameObjects.Image[];
+    private purpleHoles: Phaser.GameObjects.Image[];
+    private orangeHoles: Phaser.GameObjects.Image[];
+    private bounceRegions: BounceRegion[];
 
     constructor(scene:GameScene) {
         this.scene = scene;

@@ -1,11 +1,11 @@
 import { Bubble } from "./Bubble";
 
 export class ShootedBubble extends Bubble {
-    public body!: Phaser.Physics.Arcade.Body;
-    public checkWorldBounce!: boolean;
-    public initialX!:number;
-    public initialY!:number;
-    public tail!: Phaser.GameObjects.Image;
+    public body: Phaser.Physics.Arcade.Body;
+    public checkWorldBounce: boolean;
+    public initialX:number;
+    public initialY:number;
+    public tail: Phaser.GameObjects.Image;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);

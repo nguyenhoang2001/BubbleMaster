@@ -4,9 +4,9 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { Clusters } from "./Cluster";
 
 export class ClusterHandler {
-    private scene!: GameScene;
-    private clusters!: Clusters;
-    private bubblesBoard!: BubblesBoard;
+    private scene: GameScene;
+    private clusters: Clusters;
+    private bubblesBoard: BubblesBoard;
 
     constructor(scene:GameScene, clusters: Clusters, bubblesBoard: BubblesBoard) {
         this.scene = scene;
@@ -29,7 +29,7 @@ export class ClusterHandler {
                 if(cluster[i].frame.name == 'animations/grey-explosive/explosive_grey_10') {
                     let row = cluster[i].row;
                     let column = cluster[i].column;
-                    this.bubblesBoard.board[row][column] = undefined;   
+                    this.bubblesBoard.board[row][column] = undefined;
                     this.clusters.remains -= 1;
                     this.scene.score += 1;
                 }

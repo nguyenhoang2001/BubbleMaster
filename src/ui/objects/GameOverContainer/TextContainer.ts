@@ -2,10 +2,10 @@ import { GameScene } from "../../../scenes/GameScene";
 import { GameOverContainer } from "../../GameOverContainer";
 
 export class TextContainer extends Phaser.GameObjects.Container {
-    private parent!: GameOverContainer;
-    private score!: Phaser.GameObjects.Text;
-    private highScore!: Phaser.GameObjects.Text;
-    public scene!: GameScene;
+    private parent: GameOverContainer;
+    private score: Phaser.GameObjects.Text;
+    private highScore: Phaser.GameObjects.Text;
+    public scene: GameScene;
 
     constructor(parent: GameOverContainer, scene:GameScene, x:number, y:number) {
        super(scene,x,y) ;

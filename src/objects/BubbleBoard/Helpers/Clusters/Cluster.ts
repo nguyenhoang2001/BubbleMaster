@@ -5,15 +5,15 @@ import { ClusterDetector } from "./ClusterDetector";
 import { ClusterHandler } from "./ClusterHandler";
 
 export class Clusters {
-    private clusters!: Bubble[];
-    private bubblesBoard!: BubblesBoard;
-    public scene!: GameScene;
-    public detector!: ClusterDetector;
-    private handler!: ClusterHandler;
-    public remains!: number;
-    public isHavingClusters!: boolean;
-    public clustersFinish!: boolean;
-    public checkingFinish!: boolean;
+    private clusters: Bubble[];
+    private bubblesBoard: BubblesBoard;
+    public scene: GameScene;
+    public detector: ClusterDetector;
+    private handler: ClusterHandler;
+    public remains: number;
+    public isHavingClusters: boolean;
+    public clustersFinish: boolean;
+    public checkingFinish: boolean;
 
     constructor(scene:GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;

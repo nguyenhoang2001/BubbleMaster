@@ -4,9 +4,9 @@ import { BubblesBoard } from "./BubblesBoard";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
 
 export class HittingAnimation {
-    private bubblesBoard!: BubblesBoard;
-    private scene!: GameScene;
-    private neighborsHelper!: BubbleNeighbors;
+    private bubblesBoard: BubblesBoard;
+    private scene: GameScene;
+    private neighborsHelper: BubbleNeighbors;
     private x: number;
     private y: number;
     private offsetBounce: number;

@@ -4,8 +4,8 @@ import { ShootedBubble } from "../../ShootedBubble";
 import { GameScene } from "../../../scenes/GameScene";
 
 export class BubblePositionManager {
-    private bubblesBoard!: BubblesBoard;
-    public scene!: GameScene;
+    private bubblesBoard: BubblesBoard;
+    public scene: GameScene;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
@@ -23,7 +23,10 @@ export class BubblePositionManager {
     }
 
     public setPositionFromShooting(row:number,column:number,bubble:Bubble) {
-        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
+        let firstBubble = this.bubblesBoard.board[0].find(n => n);
+        if(firstBubble == undefined)
+            return;
+        
         let bubbleX = column * bubble.displayWidth;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += bubble.displayWidth/2;
@@ -35,7 +38,9 @@ export class BubblePositionManager {
     }
 
     public getCoordinate(row:number, column:number) {
-        let firstBubble = this.bubblesBoard.board[0].find(n => n)!;
+        let firstBubble = this.bubblesBoard.board[0].find(n => n);
+        if(firstBubble == undefined) 
+            return;
         let bubbleX = column * 56;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += 28;

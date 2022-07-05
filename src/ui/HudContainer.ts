@@ -1,25 +1,25 @@
 import { HudScene } from "../scenes/HudScene";
 
 export class HudContainer extends Phaser.GameObjects.Container {
-    public scene!: HudScene;
-    private gameWidth!: number;
-    private gameHeight!: number;
-    private gameZone!: Phaser.GameObjects.Zone;
+    public scene: HudScene;
+    private gameWidth: number;
+    private gameHeight: number;
+    private gameZone: Phaser.GameObjects.Zone;
     //
-    private scoreText!: Phaser.GameObjects.Text;
-    private scoreContainer!: Phaser.GameObjects.Image;
-    private threeBubbles!: Phaser.GameObjects.Image;
+    private scoreText: Phaser.GameObjects.Text;
+    private scoreContainer: Phaser.GameObjects.Image;
+    private threeBubbles: Phaser.GameObjects.Image;
     //
-    private rectangle!: Phaser.GameObjects.Rectangle;
+    private rectangle: Phaser.GameObjects.Rectangle;
     //
-    private progressBar!: Phaser.GameObjects.Image;
-    private progressBarLeft!: Phaser.GameObjects.Image;
-    private progressBarRight!: Phaser.GameObjects.Image;
-    private progressBarMid!: Phaser.GameObjects.Image;
+    private progressBar: Phaser.GameObjects.Image;
+    private progressBarLeft: Phaser.GameObjects.Image;
+    private progressBarRight: Phaser.GameObjects.Image;
+    private progressBarMid: Phaser.GameObjects.Image;
     //
-    private timeLimit!:number;
-    private timeCounter!: number;
-    private runProgressBar!: boolean;
+    private timeLimit:number;
+    private timeCounter: number;
+    private runProgressBar: boolean;
 
     constructor(scene:HudScene, x:number,y:number) {
         super(scene,x,y);

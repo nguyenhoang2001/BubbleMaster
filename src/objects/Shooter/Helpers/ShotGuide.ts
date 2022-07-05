@@ -4,15 +4,15 @@ import { CircleGuide } from "../CircleGuide";
 import { Shooter } from "../Shooter";
 
 export class ShotGuide {
-    private shooter!: Shooter;
-    private scene!: GameScene;
-    public circleGuideGroup!: Phaser.GameObjects.Group;
-    private distance!: number;
-    private offsetDistance!:number;
-    private gameWidth!:number;
-    private gameHeight!:number;
-    public stopGenrate!: boolean;
-    private bubblesBoard!: BubblesBoard;
+    private shooter: Shooter;
+    private scene: GameScene;
+    public circleGuideGroup: Phaser.GameObjects.Group;
+    private distance: number;
+    private offsetDistance:number;
+    private gameWidth:number;
+    private gameHeight:number;
+    public stopGenrate: boolean;
+    private bubblesBoard: BubblesBoard;
 
     constructor(shooter:Shooter, scene:GameScene) {
         this.shooter = shooter;

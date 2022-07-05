@@ -10,20 +10,20 @@ import { Shooter } from "../objects/Shooter/Shooter";
 import { GameOverContainer } from "../ui/GameOverContainer";
 
 export class GameScene extends Phaser.Scene {
-    public bubblesBoard!: BubblesBoard;
-    public shooter!: Shooter;
-    private addingNewBubbleRowManager!: AddingNewBubbleRowManager;
-    private background!: Phaser.GameObjects.Image;
-    public mainZone!: Phaser.GameObjects.Zone;
-    private gameOverContainer!: GameOverContainer;
-    public score!: number;
-    public highScore!: number;
-    private animationCreator!: AnimationCreator;
-    private hole!: Hole;
+    public bubblesBoard: BubblesBoard;
+    public shooter: Shooter;
+    private addingNewBubbleRowManager: AddingNewBubbleRowManager;
+    private background: Phaser.GameObjects.Image;
+    public mainZone: Phaser.GameObjects.Zone;
+    private gameOverContainer: GameOverContainer;
+    public score: number;
+    public highScore: number;
+    private animationCreator: AnimationCreator;
+    private hole: Hole;
     // Logic Game Managers
-    public colorManager!: ColorManager;
-    public scoreManager!: ScoreManager;
-    private movingGridManager!: MovingGridManager;
+    public colorManager: ColorManager;
+    public scoreManager: ScoreManager;
+    private movingGridManager: MovingGridManager;
 
     constructor() {
         super({

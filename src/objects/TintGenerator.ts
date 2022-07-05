@@ -1,7 +1,7 @@
 import { Bubble } from "./Bubble";
 
 export class TintGenerator {
-    bubble!: Bubble;
+    bubble: Bubble;
 
     constructor(bubble:Bubble) {
         this.bubble = bubble;

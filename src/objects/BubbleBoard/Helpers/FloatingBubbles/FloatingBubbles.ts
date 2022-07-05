@@ -5,14 +5,14 @@ import { FloatingDetector } from "./FloatingDetector";
 import { FloatingHandler } from "./FloatingHandler";
 
 export class FloatingBubbles {
-    public array!: Bubble[];
-    public bubblesBoard!: BubblesBoard;
-    private scene!: GameScene;
-    private detector!: FloatingDetector;
-    private handler!: FloatingHandler;
-    public remains!: number;
-    public isFloating!: boolean;
-    public floatingFinish!: boolean;
+    public array: Bubble[];
+    public bubblesBoard: BubblesBoard;
+    private scene: GameScene;
+    private detector: FloatingDetector;
+    private handler: FloatingHandler;
+    public remains: number;
+    public isFloating: boolean;
+    public floatingFinish: boolean;
 
     constructor(scene: GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
@@ -53,7 +53,6 @@ export class FloatingBubbles {
                     if(bubble.visible) {
                         if(bubble.y >= this.scene.sys.canvas.height + 28) {
                             bubble.setDepth(0);
-                            this.remains -= 1;
                             bubble.clear();
                             this.bubblesBoard.gridGroup.killAndHide(bubble);
                             this.scene.score += 1;

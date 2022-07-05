@@ -4,8 +4,8 @@ import { ShootedBubble } from "../../ShootedBubble";
 import { Shooter } from "../Shooter";
 
 export class BulletCreator {
-    private shooter!: Shooter;
-    private scene!: GameScene;
+    private shooter: Shooter;
+    private scene: GameScene;
 
     constructor(shooter:Shooter) {
         this.shooter = shooter;

@@ -1,6 +1,6 @@
 export class ScoreManager {
-    private score!: number;
-    private highScore!: number;
+    private score: number;
+    private highScore: number;
 
     constructor() {
         this.score = 0;

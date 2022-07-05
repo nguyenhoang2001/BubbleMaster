@@ -3,11 +3,11 @@ import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { GameScene } from "../scenes/GameScene";
 
 export class MovingGridManager {
-    private bubblesBoard!: BubblesBoard;
-    private velocityPerSecond!: number;
-    private scene!: GameScene;
-    private initialTimeMoving!: number;
-    private shooted!:boolean;
+    private bubblesBoard: BubblesBoard;
+    private velocityPerSecond: number;
+    private scene: GameScene;
+    private initialTimeMoving: number;
+    private shooted:boolean;
 
 
     constructor(scene:GameScene, bubblesBoard:BubblesBoard) {
@@ -27,11 +27,11 @@ export class MovingGridManager {
         }
         let gridHeight = this.bubblesBoard.y + this.bubblesBoard.rowHeight*(this.bubblesBoard.row - 1) + 28;
         if(gridHeight <= 250*2) {
-            this.velocityPerSecond = 40;
-        } else if(gridHeight > 250*2 && gridHeight <= 149*2 + 250*2) {
             this.velocityPerSecond = 20;
-        } else if(gridHeight > 149*2 + 250*2 && gridHeight <= 298*2 + 250*2) {
+        } else if(gridHeight > 250*2 && gridHeight <= 149*2 + 250*2) {
             this.velocityPerSecond = 10;
+        } else if(gridHeight > 149*2 + 250*2 && gridHeight <= 298*2 + 250*2) {
+            this.velocityPerSecond = 5;
         } else {
             this.velocityPerSecond = 0;
             this.scene.registry.set('isGameOver', true);

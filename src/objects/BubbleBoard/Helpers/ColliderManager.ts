@@ -5,12 +5,12 @@ import { BubblesBoard } from "../BubblesBoard";
 import { BubbleNeighbors } from "./BubbleNeighbors";
 
 export class ColliderManager {
-    public bubblesBoard!: BubblesBoard;
-    public scene!: GameScene;
-    public isCollide!: boolean;
-    private shootedBubble!: ShootedBubble;
-    private hittedBubble!: Bubble;
-    private neighborsHelper!: BubbleNeighbors;
+    public bubblesBoard: BubblesBoard;
+    public scene: GameScene;
+    public isCollide: boolean;
+    private shootedBubble: ShootedBubble;
+    private hittedBubble: Bubble;
+    private neighborsHelper: BubbleNeighbors;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
@@ -50,7 +50,7 @@ export class ColliderManager {
 
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
-            if(_bubble.body.gravity.y == 0) {
+            if(_bubble.body.velocity.y == 0) {
                 if(!this.isCollide) {
                     this.shootedBubble = _shootedBubble as ShootedBubble;
                     // this.shootedBubble.body.checkCollision.none = true;

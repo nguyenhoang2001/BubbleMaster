@@ -12,26 +12,26 @@ import { HittingAnimation } from "./HittingAnimation";
 
 export class BubblesBoard {
     // Helpers
-    public addingManager!: AddingBubble;
-    public colliderBubble!: ColliderManager;
-    public clusters!: Clusters;
-    public floatingBubbles!: FloatingBubbles;
-    public positionManager!: BubblePositionManager;
-    public painter!: BubblePainter;
+    public addingManager: AddingBubble;
+    public colliderBubble: ColliderManager;
+    public clusters: Clusters;
+    public floatingBubbles: FloatingBubbles;
+    public positionManager: BubblePositionManager;
+    public painter: BubblePainter;
     public neighbors: BubbleNeighbors;
-    public hittingAnimation!: HittingAnimation;
+    public hittingAnimation: HittingAnimation;
     // Variables
-    public board!: (Bubble | undefined)[][];
-    public gridGroup!: Phaser.GameObjects.Group;
-    public row!: number; // 27 is max
-    public column!:number; // 12 is max
-    public rowOffSet!:number;
-    public rowHeight!:number;
-    public scene!: GameScene;
-    public x!: number;
-    public y!:number;
-    public addSignal!: boolean;
-    public isUpdating!: boolean;
+    public board: (Bubble | undefined)[][];
+    public gridGroup: Phaser.GameObjects.Group;
+    public row: number; // 27 is max
+    public column:number; // 12 is max
+    public rowOffSet:number;
+    public rowHeight:number;
+    public scene: GameScene;
+    public x: number;
+    public y:number;
+    public addSignal: boolean;
+    public isUpdating: boolean;
     // public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
@@ -108,8 +108,9 @@ export class BubblesBoard {
     }
 
     public update() {
-        let topBubble = this.board[0].find(n=>n)!;
-        this.y = topBubble.y;
+        let topBubble = this.board[0].find(n=>n);
+        if(topBubble != undefined)
+            this.y = topBubble.y;
 
         if(this.addSignal) {
             this.updateRow();
