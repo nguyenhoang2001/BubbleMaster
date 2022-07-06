@@ -52,7 +52,7 @@ export class MovingGridManager {
                 let bubble = _bubble as Bubble;
                 if(bubble.visible && bubble.isOutGrid == false) {
                     let deltaY = (delta * this.velocityPerSecond)/ 1000;
-                    bubble.body.y += deltaY;
+                    bubble.y += deltaY;
                 }
             })
         }

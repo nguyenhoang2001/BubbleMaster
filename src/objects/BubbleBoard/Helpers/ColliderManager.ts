@@ -17,7 +17,6 @@ export class ColliderManager {
         this.neighborsHelper = this.bubblesBoard.neighbors;
     }
 
-
     private handleWrongBubbleHit() {
         if((this.hittedBubble.row + this.bubblesBoard.rowOffSet) % 2) {
             if(this.hittedBubble.column == 11) {

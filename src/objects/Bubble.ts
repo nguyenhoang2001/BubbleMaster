@@ -1,6 +1,6 @@
 import { TintGenerator } from "./TintGenerator";
 
-export class Bubble extends Phaser.GameObjects.Sprite {
+export class Bubble extends Phaser.Physics.Arcade.Sprite {
     public body: Phaser.Physics.Arcade.Body;
     public processed: boolean;
     public row:number;
