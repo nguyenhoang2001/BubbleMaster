@@ -19,18 +19,11 @@ export class AddingBubble {
         this.finishedAddingBullet = true;
     }
 
-    private addingToGridGroup(bubbles:Bubble[]) {
-        this.bubblesBoard.gridGroup.addMultiple(bubbles)
-    }
-
     public toBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         const object = this.bubblesBoard.board[row][column];
         if(object == undefined)
             return;
-        // this.scene.add.existing(object);
-        // adding to the grid group
-        // this.addingToGridGroup([object]);
         return object;
     }
 
