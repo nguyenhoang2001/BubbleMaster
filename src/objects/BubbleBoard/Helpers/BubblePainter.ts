@@ -14,7 +14,6 @@ export class BubblePainter {
     }
 
     private createBubble(row:number, column:number, texture?:string):Bubble {
-        // let bubble = new Bubble(this.scene,0,0,'',row,column);
         let bubble = this.bubblesBoard.gridGroup.get(0,0,'',undefined,true);
         bubble.row = row;
         bubble.column = column;

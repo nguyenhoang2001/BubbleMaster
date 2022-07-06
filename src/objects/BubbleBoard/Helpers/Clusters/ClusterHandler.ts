@@ -36,6 +36,7 @@ export class ClusterHandler {
                 this.clusters.remains -= 1;
                 cluster[i].removeAllListeners();
                 cluster[i].anims.remove('explode');
+                cluster[i].clear();
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
             });
             cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
@@ -47,7 +48,7 @@ export class ClusterHandler {
 
     public clearClusters(cluster:Bubble[]) {
         for(let i = 0; i < cluster.length; i++) {
-            cluster[i].clear();
+            cluster[i].body.checkCollision.none = true;
             let row = cluster[i].row;
             let column = cluster[i].column;
             this.bubblesBoard.board[row][column] = undefined;
