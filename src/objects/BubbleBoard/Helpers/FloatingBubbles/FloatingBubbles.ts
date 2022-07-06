@@ -23,6 +23,10 @@ export class FloatingBubbles {
         this.remains = 0;
     }
 
+    public showAnimation() {
+        this.handler.runAnimation();
+    }
+
     public checkFloating() {
         this.array = this.detector.find();
         if( this.array.length > 0) {
@@ -30,7 +34,7 @@ export class FloatingBubbles {
             this.isFloating = true;
             this.remains = this.array.length;
             this.handler.clearFloating();
-            this.handler.runAnimation();
+            // this.handler.runAnimation();
         }
     }
 

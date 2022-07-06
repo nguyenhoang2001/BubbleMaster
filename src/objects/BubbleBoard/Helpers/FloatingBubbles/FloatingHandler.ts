@@ -7,11 +7,13 @@ export class FloatingHandler {
     private scene: GameScene;
     private floatingBubbles: FloatingBubbles;
     private bubblesBoard: BubblesBoard;
+    private floatings: Bubble[][];
 
     constructor(scene:GameScene,floatingBubbles:FloatingBubbles, bubblesBoard:BubblesBoard) {
         this.scene = scene;
         this.floatingBubbles = floatingBubbles;
         this.bubblesBoard = bubblesBoard;
+        this.floatings = [];
     }
 
     private getRandomValue(min:number, max:number):number {
@@ -25,9 +27,11 @@ export class FloatingHandler {
 
 
     public runAnimation() {
-        let array = this.floatingBubbles.array;
-        array.forEach((bubble: Bubble) => {
-            this.scene.time.addEvent({delay:500,callback:() => {
+        let array = this.floatings.shift();
+        if(array != undefined) {
+            array.forEach((bubble: Bubble) => {
+                bubble.isOutGrid = true;
+                bubble.body.checkCollision.none = false;
                 let gravityY = this.getRandomValue(2800,3000);
                 let velocity = this.getRandomValue(350,400);
                 let angle = this.getRandomValue(10,190);
@@ -37,20 +41,21 @@ export class FloatingHandler {
                     velocity,
                     bubble.body.velocity
                 );
-            },callbackScope:this});
-            bubble.body.setImmovable(false);
-            bubble.body.setBounce(0.6,0.6);
-            bubble.body.setCollideWorldBounds(true,0.6,0.6,false);
-        });
+                bubble.body.setImmovable(false);
+                bubble.body.setBounce(0.6,0.6);
+                bubble.body.setCollideWorldBounds(true,0.6,0.6,false);
+            });
+        }
     }
 
     public clearFloating() {
         let array = this.floatingBubbles.array;
+        this.floatings.push(array);
         array.forEach((bubble: Bubble) => {
             let row = bubble.row;
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;
-            bubble.isOutGrid = true;
+            bubble.body.checkCollision.none = true;
         });
     }
 }
