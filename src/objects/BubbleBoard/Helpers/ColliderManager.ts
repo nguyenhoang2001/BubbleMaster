@@ -48,13 +48,13 @@ export class ColliderManager {
 
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
-            if(_bubble.body.velocity.y == 0 && _bubble.body.velocity.x == 0 && _bubble.isOutGrid == false) {
+            if(_bubble.isOutGrid == false) {
                 this.shootedBubble = _shootedBubble as ShootedBubble;
                 this.hittedBubble = _bubble as Bubble;
                 this.handleWrongBubbleHit();
                 let bubble = this.runCollide();
                 if(bubble != undefined) {
-                    // this.bubblesBoard.hittingAnimation.run(bubble);
+                    this.bubblesBoard.hittingAnimation.showAnimation(bubble);
                     this.bubblesBoard.clusters.checkClusters(bubble,true,true);
                 }
             }

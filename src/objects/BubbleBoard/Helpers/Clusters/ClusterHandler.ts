@@ -16,7 +16,7 @@ export class ClusterHandler {
     }
 
     public runAnimation(cluster:Bubble[]) {
-        let delay = 50;
+        let delay = 100;
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
@@ -27,7 +27,6 @@ export class ClusterHandler {
                 if(frame.index == 10) {
                     this.scene.scoreManager.increaseScore(cluster[i].score);
                 }
-
             });
 
             cluster[i].on('animationcomplete-explode', () => {

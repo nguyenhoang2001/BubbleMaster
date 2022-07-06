@@ -119,13 +119,6 @@ export class BubblesBoard {
             this.updateRow();
             console.log(JSON.parse(JSON.stringify(this.board)));
         }
-        // if(this.colliderBubble.isCollide) {
-        //     const bubble = this.colliderBubble.runCollide();
-        //     if(bubble != undefined) {
-        //         this.hittingAnimation.run(bubble);
-        //         this.clusters.run(bubble,true,true);
-        //     }
-        // }
         this.clusters.update(delta);
         this.floatingBubbles.update();
         this.updateRow();

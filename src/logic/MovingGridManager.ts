@@ -44,17 +44,6 @@ export class MovingGridManager {
             this.delta = delta;
             this.bubblesBoard.updateRow();
             this.updateVelocity(delta);
-            // for(let i = 0; i < this.bubblesBoard.row; i++) {
-            //     for(let j = 0; j < this.bubblesBoard.column; j++) {
-            //         const bubble = this.bubblesBoard.board[i][j];
-            //         if(bubble != undefined) {
-            //             if(this.bubblesBoard.isBublleExisting(i,j)) {
-            //                 let deltaY = (delta * this.velocityPerSecond)/ 1000;
-            //                 bubble.y += deltaY;
-            //             }
-            //         }
-            //     }
-            // }
             this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {
                 let bubble = _bubble as Bubble;
                 if(bubble.visible && bubble.isOutGrid == false) {
@@ -64,10 +53,4 @@ export class MovingGridManager {
             })
         }
     }
-
-    // public moveDownOneBubble(bubble:Bubble) {
-    //     this.updateVelocity(this.delta);
-    //     let deltaY = (this.delta * this.velocityPerSecond)/ 1000;
-    //     bubble.y += deltaY;
-    // }
 }

@@ -31,8 +31,6 @@ export class FloatingBubbles {
             this.remains = this.array.length;
             this.handler.clearFloating();
             this.handler.runAnimation();
-            // this.scene.time.addEvent({delay:50,callback:() => {this.handler.runAnimation},callbackScope:this});
-            // this.scene.time.delayedCall(100,() => {this.handler.runAnimation()});
         }
     }
 
