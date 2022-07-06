@@ -3,6 +3,7 @@ import { BubblesBoard } from "../../BubblesBoard";
 import { PositionBubbleHandler } from "./PositionBubbleHandler";
 import { ShootedBubble } from "../../../ShootedBubble";
 import { GameScene } from "../../../../scenes/GameScene";
+import DEPTH from "../../../../game/constant/Depth";
 
 export class AddingBubble {
     public bubblesBoard: BubblesBoard;
@@ -18,18 +19,11 @@ export class AddingBubble {
         this.finishedAddingBullet = true;
     }
 
-    private addingToGridGroup(bubbles:Bubble[]) {
-        this.bubblesBoard.gridGroup.addMultiple(bubbles)
-    }
-
     public toBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         const object = this.bubblesBoard.board[row][column];
         if(object == undefined)
             return;
-        this.scene.add.existing(object);
-        // adding to the grid group
-        this.addingToGridGroup([object]);
         return object;
     }
 
@@ -67,7 +61,7 @@ export class AddingBubble {
         bubble.removeAllListeners();
 
         bubble.setScale(1);
-        bubble.setDepth(0);
+        bubble.setDepth(DEPTH.GRIDBALL);
         bubble.setActive(true);
         bubble.setVisible(true);
 

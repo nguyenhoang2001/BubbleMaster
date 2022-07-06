@@ -1,0 +1,14 @@
+const DEPTH = {
+    BACKGROUND: 0,
+    GAMEPLAY: 5,
+    GRIDBALL: 6,
+    FALLBALL: 7,
+    TAIL: 8,
+    BULLET: 10,
+    HOLES: 11,
+    ANIMATIONEXPLODE: 12,
+    HUDCONTAINER: 13,
+    GAMEOVERCONTAINER:14
+}
+
+export default DEPTH;

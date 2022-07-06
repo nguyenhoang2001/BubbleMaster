@@ -7,7 +7,6 @@ import { BubbleNeighbors } from "./BubbleNeighbors";
 export class ColliderManager {
     public bubblesBoard: BubblesBoard;
     public scene: GameScene;
-    public isCollide: boolean;
     private shootedBubble: ShootedBubble;
     private hittedBubble: Bubble;
     private neighborsHelper: BubbleNeighbors;
@@ -15,10 +14,8 @@ export class ColliderManager {
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
-        this.isCollide = false;
         this.neighborsHelper = this.bubblesBoard.neighbors;
     }
-
 
     private handleWrongBubbleHit() {
         if((this.hittedBubble.row + this.bubblesBoard.rowOffSet) % 2) {
@@ -50,13 +47,14 @@ export class ColliderManager {
 
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
-            if(_bubble.body.velocity.y == 0) {
-                if(!this.isCollide) {
-                    this.shootedBubble = _shootedBubble as ShootedBubble;
-                    // this.shootedBubble.body.checkCollision.none = true;
-                    this.hittedBubble = _bubble as Bubble;
-                    this.handleWrongBubbleHit();
-                    this.isCollide = true;
+            if(_bubble.isOutGrid == false) {
+                this.shootedBubble = _shootedBubble as ShootedBubble;
+                this.hittedBubble = _bubble as Bubble;
+                this.handleWrongBubbleHit();
+                let bubble = this.runCollide();
+                if(bubble != undefined) {
+                    this.bubblesBoard.hittingAnimation.showAnimation(bubble);
+                    this.bubblesBoard.clusters.checkClusters(bubble,true,true);
                 }
             }
         });
@@ -69,7 +67,6 @@ export class ColliderManager {
         this.bubblesBoard.updateRow();
         this.shootedBubble.removeVisualEffect();
         this.shootedBubble.destroy();
-        this.isCollide = false;
         if(newBubble == undefined)
             return;
         return newBubble;

@@ -1,14 +1,13 @@
+import { GameScene } from "../scenes/GameScene";
 import { HudScene } from "../scenes/HudScene";
 
 export class HudContainer extends Phaser.GameObjects.Container {
     public scene: HudScene;
     private gameWidth: number;
     private gameHeight: number;
-    private gameZone: Phaser.GameObjects.Zone;
     //
     private scoreText: Phaser.GameObjects.Text;
     private scoreContainer: Phaser.GameObjects.Image;
-    private threeBubbles: Phaser.GameObjects.Image;
     //
     private rectangle: Phaser.GameObjects.Rectangle;
     //
@@ -20,6 +19,8 @@ export class HudContainer extends Phaser.GameObjects.Container {
     private timeLimit:number;
     private timeCounter: number;
     private runProgressBar: boolean;
+    //
+    private maxPointProgressBar:number;
 
     constructor(scene:HudScene, x:number,y:number) {
         super(scene,x,y);
@@ -30,20 +31,16 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.timeLimit = 30000;
         this.runProgressBar = false;
         this.timeCounter = 0;
+        this.maxPointProgressBar = 1000;
     }
 
     private create() {
         this.timeCounter = 0;
-        console.log('came to create');
-        this.gameZone = this.scene.add.zone(0,0,this.scene.sys.canvas.width, this.scene.sys.canvas.height);
-        this.gameZone.setOrigin(0,0);
-
         this.rectangle = this.scene.add.rectangle(0,0,this.gameWidth, this.gameHeight/5 - 150,0x000000);
         this.rectangle.setAlpha(0.5);
         this.rectangle.setOrigin(0,0);
 
         this.scoreContainer = this.scene.add.image(0,0,'scoreContainer');
-        this.threeBubbles = this.scene.add.image(0,0,'threeBubbles');
         this.scoreText = this.scene.add.text(0,0,'0');
         this.scoreText.style.setFontSize('30px');
         this.scoreText.style.setFontFamily('Arial');
@@ -56,25 +53,26 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.progressBarRight = this.scene.add.image(0,0,'progressRight');
         this.progressBarRight.setOrigin(0,0);
 
-        this.add(this.gameZone);
         this.add(this.rectangle);
 
         this.add(this.scoreContainer);
-        this.add(this.threeBubbles);
         this.add(this.scoreText);
 
         this.add(this.progressBar);
         this.add(this.progressBarLeft);
         this.add(this.progressBarMid);
         this.add(this.progressBarRight);
+
         Phaser.Display.Align.In.TopLeft(this.scoreContainer,this.rectangle, -20, -20);
-        Phaser.Display.Align.In.LeftCenter(this.threeBubbles,this.scoreContainer,-25);
-        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer, 10);
+        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer);
         
         Phaser.Display.Align.To.RightCenter(this.progressBar,this.scoreContainer, 15);
         Phaser.Display.Align.In.LeftCenter(this.progressBarLeft,this.progressBar, -10);
         Phaser.Display.Align.To.RightCenter(this.progressBarMid,this.progressBarLeft);
         Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid , this.progressBarMid.displayWidth - this.progressBarMid.width);
+        this.progressBarMid.setDisplaySize(431*0,25);
+        Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid, 
+            this.progressBarMid.displayWidth - this.progressBarMid.width);
         this.close();
     }
 
@@ -99,16 +97,16 @@ export class HudContainer extends Phaser.GameObjects.Container {
 
     public update(time:number, delta:number) {
         this.scoreText.setText(this.scene.score.toString());
+        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer);
         if(this.runProgressBar) {
-            this.timeCounter += delta;
-            let scaleBar = this.timeCounter / this.timeLimit;
-            if(scaleBar > 1) {
-                this.timeCounter = 0;
-            } else {
-                this.progressBarMid.setDisplaySize(431*(1-scaleBar),25);
-                Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid , 
-                    this.progressBarMid.displayWidth - this.progressBarMid.width);
+            let gameScene = this.scene.scene.get('GameScene') as GameScene;
+            if(gameScene.scoreManager.getScore() > this.maxPointProgressBar) {
+                this.maxPointProgressBar = this.maxPointProgressBar*10;
             }
+            let scaleBar = gameScene.scoreManager.getScore() / this.maxPointProgressBar;
+            this.progressBarMid.setDisplaySize(431*scaleBar,25);
+            Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid, 
+                this.progressBarMid.displayWidth - this.progressBarMid.width);
         }
     }
 }

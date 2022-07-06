@@ -1,3 +1,4 @@
+import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { AnimationShooter } from "./Helpers/AnimationShooter";
@@ -66,23 +67,6 @@ export class Shooter {
         this.allowShooting = false;
     }
 
-    private updateAllowShooting() {
-        if(this.checkAllowShooting) {
-            if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
-                if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
-                    this.allowShooting = true;
-            }
-            // if(this.scene.bubblesContainer.isRunning) {
-            //     this.allowShooting = false;
-            // } else {
-            //     if(this.scene.bubblesBoard.addingManager.finishedAddingBullet) {
-            //         if(!this.scene.bubblesBoard.clusters.isHavingClusters && !this.scene.bubblesBoard.floatingBubbles.isFloating)
-            //             this.allowShooting = true;
-            //     }
-            // }
-        }
-    }
-
     private enableChangeBubble() {
         this.circle.setInteractive();
         this.circle.on('pointerdown', () => {
@@ -102,15 +86,15 @@ export class Shooter {
 
     public enableInput() {
             this.scene.input.on('pointerup',() => {
-                if(this.allowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                     this.isShoot = true;
-                    this.allowShooting = false;
                 }
             },this);
     }
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
+        this.circle.setDepth(DEPTH.GAMEPLAY);
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-50);
         this.animation.createAnimationForCircle();
     }
@@ -119,12 +103,10 @@ export class Shooter {
         this.arrowShoot = this.scene.add.line(this.shootedBubble.x,this.shootedBubble.y,0,0,100,0,0xff0000);
         this.arrowShoot.setOrigin(0,0);
         this.arrowShoot.setVisible(false);
-        this.shootedBubble.setDepth(1);
-        this.secondBubllet.setDepth(1);
     }
 
     private rotateShooter() {
-        if(this.allowShooting) {
+        if(this.checkAllowShooting) {
             let angle = Phaser.Math.RAD_TO_DEG * 
             Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
             if (angle < 0) {
@@ -158,7 +140,6 @@ export class Shooter {
                 2400,
                 this.shootedBubble.body.velocity
             );
-            this.shootedBubble.tail.setVisible(true);
             this.checkAllowShooting = false;
             this.bulletSwaper.swapBulletAfterShooting();
         }
@@ -179,15 +160,13 @@ export class Shooter {
         });
         if(this.isShoot) {
             this.isShoot = false;
-            this.scene.bubblesBoard.addingManager.finishedAddingBullet = false;
             this.shootBubble();
         }
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }
-        if(!this.allowShooting) {
+        if(!this.checkAllowShooting) {
             this.shotGuide.hide();
-            this.updateAllowShooting();
         }
     }
 }

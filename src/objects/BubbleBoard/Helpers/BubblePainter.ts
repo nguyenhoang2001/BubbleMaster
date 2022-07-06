@@ -1,4 +1,5 @@
 // import { logicGame } from "../../../game";
+import DEPTH from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bubble } from "../../Bubble";
 import { BubblesBoard } from "../BubblesBoard";
@@ -13,7 +14,10 @@ export class BubblePainter {
     }
 
     private createBubble(row:number, column:number, texture?:string):Bubble {
-        let bubble = new Bubble(this.scene,0,0,'',row,column);
+        let bubble = this.bubblesBoard.gridGroup.get(0,0,'',undefined,true);
+        bubble.row = row;
+        bubble.column = column;
+        bubble.setDepth(DEPTH.GRIDBALL);
         if(texture != undefined) {
             bubble.setTexture(texture);
         } else {
