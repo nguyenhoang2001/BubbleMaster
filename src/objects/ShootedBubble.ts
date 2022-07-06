@@ -18,8 +18,11 @@ export class ShootedBubble extends Bubble {
         this.initialY = 0;
         this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
         this.tail.setDepth(DEPTH.TAIL);
-        this.tail.setTint(this.tintGenerator.getTint(this.texture.key));        
         this.tail.setVisible(false);
+    }
+
+    public setTailTint() {
+        this.tail.setTint(this.tintGenerator.getTint(this.texture.key));
     }
 
     public removeVisualEffect() {
@@ -90,5 +93,7 @@ export class ShootedBubble extends Bubble {
             this.tail.x = this.tail.x - offsetX;
             this.tail.y = this.tail.y - offsetY;
         }
+        if(this.body.velocity.y != 0 && this.tail.visible == false)
+            this.tail.setVisible(true);
     }
 }

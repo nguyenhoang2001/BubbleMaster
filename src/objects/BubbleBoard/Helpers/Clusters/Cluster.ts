@@ -32,7 +32,7 @@ export class Clusters {
         return foundClusters;
     }
 
-    public run(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
+    public checkClusters(targetedBubble: Bubble, reset: boolean, matchType: boolean):Bubble[] {
         this.clusters = this.findClusters(targetedBubble,reset,matchType);
         console.log(JSON.parse(JSON.stringify(this.clusters)));
         if(this.clusters.length >= 3) {
@@ -43,6 +43,7 @@ export class Clusters {
             this.scene.scoreManager.calculateScore();
             this.scene.scoreManager.increaseCombo();
             this.handler.clearClusters(this.clusters);
+            this.handler.runAnimation(this.clusters);
         } else {
             this.scene.scoreManager.resetCombo();
         }
@@ -52,9 +53,10 @@ export class Clusters {
     public resetState() {
         this.isHavingClusters = false;
         this.clustersFinish = true;
+        this.clusters = [];
     }
 
-    public update() {
+    public update(delta:number) {
         if(this.isHavingClusters) {
             if(this.remains == 0) {
                 this.clustersFinish = true;

@@ -101,13 +101,13 @@ export class BubblesBoard {
 
     private checkingClusters() {
         if(this.clusters.isHavingClusters && this.clusters.clustersFinish) {
-            this.floatingBubbles.run();
+            // this.floatingBubbles.run();
             this.clusters.checkingFinish = true;
-            this.updateRow();
+            // this.updateRow();
         }
     }
 
-    public update() {
+    public update(time:number,delta:number) {
         let topBubble = this.board[0].find(n=>n);
         if(topBubble != undefined)
             this.y = topBubble.y;
@@ -119,15 +119,16 @@ export class BubblesBoard {
             this.updateRow();
             console.log(JSON.parse(JSON.stringify(this.board)));
         }
-        if(this.colliderBubble.isCollide) {
-            const bubble = this.colliderBubble.runCollide();
-            if(bubble != undefined) {
-                this.hittingAnimation.run(bubble);
-                this.clusters.run(bubble,true,true);
-            }
-        }
-        this.clusters.update();
+        // if(this.colliderBubble.isCollide) {
+        //     const bubble = this.colliderBubble.runCollide();
+        //     if(bubble != undefined) {
+        //         this.hittingAnimation.run(bubble);
+        //         this.clusters.run(bubble,true,true);
+        //     }
+        // }
+        this.clusters.update(delta);
         this.floatingBubbles.update();
+        this.updateRow();
         this.checkingClusters();
     }
 }

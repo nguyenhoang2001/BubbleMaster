@@ -15,28 +15,23 @@ export class ClusterHandler {
         this.bubblesBoard = bubblesBoard;
     }
 
-    public clearClusters(cluster:Bubble[]) {
+    public runAnimation(cluster:Bubble[]) {
         let delay = 50;
         for(let i = 0; i < cluster.length; i++) {
-            cluster[i].clear();
-
             let tintColor = cluster[i].texture.key;
-
             cluster[i].on('animationstart', () => {
                 cluster[i].setTintColor(tintColor);
+            });
 
-            })
-            cluster[i].on('animationupdate', () => {
-                if(cluster[i].frame.name == 'animations/grey-explosive/explosive_grey_10') {
-                    let row = cluster[i].row;
-                    let column = cluster[i].column;
-                    this.bubblesBoard.board[row][column] = undefined;
-                    this.scene.scoreManager.increaseScore();
-                    this.clusters.remains -= 1;
+            cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
+                if(frame.index == 10) {
+                    this.scene.scoreManager.increaseScore(cluster[i].score);
                 }
+
             });
 
             cluster[i].on('animationcomplete-explode', () => {
+                this.clusters.remains -= 1;
                 cluster[i].removeAllListeners();
                 cluster[i].anims.remove('explode');
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
@@ -45,6 +40,16 @@ export class ClusterHandler {
             cluster[i].anims.playAfterDelay('explode',delay);
 
             delay += 50;
+        }
+    }
+
+    public clearClusters(cluster:Bubble[]) {
+        for(let i = 0; i < cluster.length; i++) {
+            cluster[i].clear();
+            let row = cluster[i].row;
+            let column = cluster[i].column;
+            this.bubblesBoard.board[row][column] = undefined;
+            cluster[i].score = this.scene.scoreManager.getBallClusterScore();
         }
     }
 }

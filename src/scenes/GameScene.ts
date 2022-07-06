@@ -23,17 +23,13 @@ export class GameScene extends Phaser.Scene {
     // Logic Game Managers
     public colorManager: ColorManager;
     public scoreManager: ScoreManager;
-    private movingGridManager: MovingGridManager;
+    public movingGridManager: MovingGridManager;
 
     constructor() {
         super({
             key:'GameScene'
         });
         this.highScore = 0;
-    }
-
-    private createShooter() {
-        this.shooter = new Shooter(this);
     }
 
     create() {
@@ -55,7 +51,7 @@ export class GameScene extends Phaser.Scene {
         this.hole = new Hole(this);
         this.animationCreator.createAnimations();
         this.colorManager.setBubblesBoard(this.bubblesBoard);
-        this.createShooter();
+        this.shooter = new Shooter(this);
         this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
 
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
@@ -75,7 +71,7 @@ export class GameScene extends Phaser.Scene {
             }
             this.movingGridManager.moveDownBubbles(time,delta);
             this.addingNewBubbleRowManager.setAddSignalToGrid();
-            this.bubblesBoard.update();
+            this.bubblesBoard.update(time,delta);
             this.shooter.update();
         } else {
             this.shooter.clearShotGuide();

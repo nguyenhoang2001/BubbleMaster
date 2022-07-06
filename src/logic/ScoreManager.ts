@@ -39,10 +39,10 @@ export class ScoreManager {
     }
 
     public calculateScore() {
-        let numberOfColors = this.scene.colorManager.countCurrentColor();
-        this.indexBaseScore = numberOfColors - 3;
-        if(this.indexBaseScore < 0)
-            this.indexBaseScore = 0;
+        // let numberOfColors = this.scene.colorManager.countCurrentColor();
+        this.indexBaseScore = this.scene.colorManager.getLevel();
+        if(this.indexBaseScore > 6)
+            this.indexBaseScore = 6;
         console.log('The current combo: '+ this.combo);
         console.log('the base score: ' + this.baseScore[this.indexBaseScore]);
 
@@ -58,9 +58,13 @@ export class ScoreManager {
             this.multiplierCombo = 5;
     }
 
-    public increaseScore() {
-        this.score += this.baseScore[this.indexBaseScore]*this.multiplierCombo;
+    public increaseScore(score:number) {
+        this.score += score;
         console.log(this.baseScore[this.indexBaseScore]*this.multiplierCombo);
+    }
+
+    public getBallClusterScore():number {
+        return this.baseScore[this.indexBaseScore]*this.multiplierCombo;
     }
 
 }

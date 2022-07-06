@@ -19,11 +19,9 @@ export class AddingNewBubbleRowManager {
 
     public setAddSignalToGrid() {
         if(this.needToAdd) {
-            if(this.scene.shooter.allowShooting) {
-                this.scene.bubblesBoard.addSignal = true;
-                this.needToAdd = false;
-            }
-        }else {
+            this.scene.bubblesBoard.addSignal = true;
+            this.needToAdd = false;
+        } else {
             this.checkToAdd();
         }
     }

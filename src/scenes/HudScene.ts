@@ -34,7 +34,7 @@ export class HudScene extends Phaser.Scene {
             if(combo == 0) {
                 this.comboText.setText('')
             } else {
-                this.comboText.setText('x'+combo);
+                this.comboText.setText('x'+ combo);
             }
             Phaser.Display.Align.In.Center(this.comboText,gameScene.shooter.circle);
             this.container.update(time,delta);

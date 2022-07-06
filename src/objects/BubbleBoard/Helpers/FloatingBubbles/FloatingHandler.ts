@@ -23,28 +23,34 @@ export class FloatingHandler {
         return answer;
     }
 
-    public clearFloating() {
-        console.log('floating are');
+
+    public runAnimation() {
         let array = this.floatingBubbles.array;
-        console.log(JSON.parse(JSON.stringify(array)));
+        array.forEach((bubble: Bubble) => {
+            this.scene.time.addEvent({delay:500,callback:() => {
+                bubble.isOutGrid = true;
+                let gravityY = this.getRandomValue(2800,3000);
+                let velocity = this.getRandomValue(350,400);
+                let angle = this.getRandomValue(10,190);
+                bubble.body.setGravityY(gravityY);
+                this.scene.physics.velocityFromRotation (
+                    angle*Phaser.Math.DEG_TO_RAD,
+                    velocity,
+                    bubble.body.velocity
+                );
+            },callbackScope:this});
+            bubble.body.setImmovable(false);
+            bubble.body.setBounce(0.6,0.6);
+            bubble.body.setCollideWorldBounds(true,0.6,0.6,false);
+        });
+    }
+
+    public clearFloating() {
+        let array = this.floatingBubbles.array;
         array.forEach((bubble: Bubble) => {
             let row = bubble.row;
             let column = bubble.column;
-            this.bubblesBoard.board[row][column] = undefined;            
-            let gravityY = this.getRandomValue(2800,3000);
-            let velocity = this.getRandomValue(350,400);
-            let angle = this.getRandomValue(10,190);
-            this.floatingBubbles.remains -= 1;
-
-            bubble.body.setGravityY(gravityY);
-            this.scene.physics.velocityFromRotation (
-                angle*Phaser.Math.DEG_TO_RAD,
-                velocity,
-                bubble.body.velocity
-            );
-            bubble.body.setImmovable(false);
-            bubble.body.setCollideWorldBounds(true,0.5,0.5,false);
-            bubble.body.setBounce(0.5,0.5);
-        })
+            this.bubblesBoard.board[row][column] = undefined;
+        });
     }
 }

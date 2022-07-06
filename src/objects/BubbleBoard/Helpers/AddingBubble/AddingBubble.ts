@@ -28,9 +28,9 @@ export class AddingBubble {
         const object = this.bubblesBoard.board[row][column];
         if(object == undefined)
             return;
-        this.scene.add.existing(object);
+        // this.scene.add.existing(object);
         // adding to the grid group
-        this.addingToGridGroup([object]);
+        // this.addingToGridGroup([object]);
         return object;
     }
 

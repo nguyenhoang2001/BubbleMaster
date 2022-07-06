@@ -28,7 +28,7 @@ export class BulletSwaper {
             targets: this.shooter.secondBubllet,
             angleRotate: {from: -90, to: -300},
             scale: 0.8,
-            duration: 500,
+            duration: 200,
             ease: 'Power2',
             onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
                 let x = 65*Math.cos(target.angleRotate*Phaser.Math.DEG_TO_RAD) + this.shooter.circle.x;
@@ -44,7 +44,7 @@ export class BulletSwaper {
             targets: this.shooter.shootedBubble,
             angleRotate: {from: 60, to: -90},
             scale: 1,
-            duration: 500,
+            duration: 200,
             ease: 'Power2',
             onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
                 let x = 65*Math.cos(target.angleRotate*Phaser.Math.DEG_TO_RAD) + this.shooter.circle.x;
@@ -67,7 +67,7 @@ export class BulletSwaper {
         this.scene.tweens.add({
             targets: this.shooter.shootedBubble,
             angleRotate: {from: 60, to: -90},
-            duration: 500,
+            duration: 200,
             scale: 1,
             ease: 'Power2',
             onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
@@ -83,7 +83,7 @@ export class BulletSwaper {
         this.scene.tweens.add({
             targets:this.shooter.secondBubllet,
             scale: 0.8,
-            duration: 500,
+            duration: 200,
             ease: 'Power2'
         });
     }

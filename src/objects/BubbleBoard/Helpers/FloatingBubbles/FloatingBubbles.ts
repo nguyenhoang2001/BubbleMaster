@@ -12,7 +12,6 @@ export class FloatingBubbles {
     private handler: FloatingHandler;
     public remains: number;
     public isFloating: boolean;
-    public floatingFinish: boolean;
 
     constructor(scene: GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
@@ -21,44 +20,52 @@ export class FloatingBubbles {
         this.array = [];
         this.detector = new FloatingDetector(this.bubblesBoard);
         this.handler = new FloatingHandler(this.scene,this,this.bubblesBoard);
-        this.remains = 1;
-        this.floatingFinish = true;
-    }
-
-    public resetRemains() {
-        this.floatingFinish = true;
         this.remains = 0;
     }
 
-    public run() {
+    public checkFloating() {
         this.array = this.detector.find();
         if( this.array.length > 0) {
-            this.floatingFinish = false;
+            console.log('there is floating');
             this.isFloating = true;
             this.remains = this.array.length;
-            this.handler.clearFloating();         
+            this.handler.clearFloating();
+            this.handler.runAnimation();
+            // this.scene.time.addEvent({delay:50,callback:() => {this.handler.runAnimation},callbackScope:this});
+            // this.scene.time.delayedCall(100,() => {this.handler.runAnimation()});
         }
     }
 
     public update() {
-        if(this.isFloating) {
-            if(this.remains == 0) {
-                console.log('finish floating');
-                this.isFloating = false;
-                this.floatingFinish = true;
-                this.array = [];
-            } else {
-                this.floatingFinish = false;
-                this.array.some((bubble:Bubble) => {
-                    if(bubble.visible) {
-                        if(bubble.y >= this.scene.sys.canvas.height + 28) {
-                            bubble.setDepth(0);
-                            bubble.clear();
-                            this.bubblesBoard.gridGroup.killAndHide(bubble);
-                        }
-                    }
-                });
-            }
-        }
+        this.checkFloating();
+        this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {
+            let bubble = _bubble as Bubble;
+            if(bubble.visible && bubble.isOutGrid == true) {
+                if(bubble.y >= this.scene.sys.canvas.height + 28) {
+                    console.log('out the game scene');
+                    bubble.clear();
+                    this.remains -= 1;
+                    this.bubblesBoard.gridGroup.killAndHide(bubble);
+                }
+            }   
+        })
+        // if(this.isFloating) {
+        //     if(this.remains == 0) {
+        //         console.log('finish floating');
+        //         this.isFloating = false;
+        //         this.array = [];
+        //     } else {
+        //         this.array.some((bubble:Bubble) => {
+        //             if(bubble.visible) {
+        //                 if(bubble.y >= this.scene.sys.canvas.height + 28) {
+        //                     bubble.clear();
+        //                     this.remains -= 1;
+        //                     this.bubblesBoard.gridGroup.killAndHide(bubble);
+        //                 }
+        //             }
+        //         });
+        //     }
+        // }
+
     }
 }

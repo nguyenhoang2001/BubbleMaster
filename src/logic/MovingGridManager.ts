@@ -8,6 +8,7 @@ export class MovingGridManager {
     private scene: GameScene;
     private initialTimeMoving: number;
     private shooted:boolean;
+    private delta:number;
 
 
     constructor(scene:GameScene, bubblesBoard:BubblesBoard) {
@@ -40,19 +41,33 @@ export class MovingGridManager {
 
     public moveDownBubbles(time:number,delta:number) {
         if(this.shooted) {
+            this.delta = delta;
             this.bubblesBoard.updateRow();
             this.updateVelocity(delta);
-            for(let i = 0; i < this.bubblesBoard.row; i++) {
-                for(let j = 0; j < this.bubblesBoard.column; j++) {
-                    const bubble = this.bubblesBoard.board[i][j];
-                    if(bubble != undefined) {
-                        if(this.bubblesBoard.isBublleExisting(i,j)) {
-                            let deltaY = (delta * this.velocityPerSecond)/ 1000;
-                            bubble.y += deltaY;
-                        }
-                    }
+            // for(let i = 0; i < this.bubblesBoard.row; i++) {
+            //     for(let j = 0; j < this.bubblesBoard.column; j++) {
+            //         const bubble = this.bubblesBoard.board[i][j];
+            //         if(bubble != undefined) {
+            //             if(this.bubblesBoard.isBublleExisting(i,j)) {
+            //                 let deltaY = (delta * this.velocityPerSecond)/ 1000;
+            //                 bubble.y += deltaY;
+            //             }
+            //         }
+            //     }
+            // }
+            this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {
+                let bubble = _bubble as Bubble;
+                if(bubble.visible && bubble.isOutGrid == false) {
+                    let deltaY = (delta * this.velocityPerSecond)/ 1000;
+                    bubble.y += deltaY;
                 }
-            }
+            })
         }
     }
+
+    // public moveDownOneBubble(bubble:Bubble) {
+    //     this.updateVelocity(this.delta);
+    //     let deltaY = (this.delta * this.velocityPerSecond)/ 1000;
+    //     bubble.y += deltaY;
+    // }
 }

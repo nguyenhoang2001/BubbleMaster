@@ -5,9 +5,11 @@ export class ColorManager {
     private currentTexture: string[];
     private timeAddTexture:number;
     private bubblesBoard:BubblesBoard;
+    private level:number;
 
     constructor() {
         this.timeAddTexture = 0;
+        this.level = 0;
         this.textureKeys = ['redBubble','yellowBubble','pinkBubble','violetBubble','greenBubble','blueBubble',
         'cyanBubble','grayBubble','blackBubble'];
         this.currentTexture = ['redBubble','greenBubble','blueBubble'];
@@ -49,26 +51,8 @@ export class ColorManager {
         return this.getTexture();
     }
 
-    public countCurrentColor():number {
-        let currentColor = 0;
-        let colors:string[] = [];
-        for(let i = 0; i < this.bubblesBoard.row; i++) {
-            for(let j = 0; j <this.bubblesBoard.column; j++) {
-                const bubble = this.bubblesBoard.board[i][j];
-                if(bubble != undefined) {
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        let color = bubble.texture.key;
-                        if(color.endsWith('Bubble')) {
-                            if(colors.indexOf(color) == -1) {
-                                colors.push(color);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        currentColor = colors.length;
-        return currentColor;
+    public getLevel() {
+        return this.level;
     }
 
     public addTexture() {
@@ -76,6 +60,7 @@ export class ColorManager {
             let index = this.currentTexture.indexOf(texture);
             if(index === -1) {
                 this.currentTexture.push(texture);
+                this.level += 1;
                 return true;
             }
         });
