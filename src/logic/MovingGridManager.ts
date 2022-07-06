@@ -20,6 +20,10 @@ export class MovingGridManager {
         this.scene.events.once('shooted', ()=>{this.shooted = true;});
     }
 
+    public getIsShooted(): boolean {
+        return this.shooted;
+    }
+
     private updateVelocity(delta:number) {
         if(this.initialTimeMoving < 5000) {
             this.initialTimeMoving += delta;

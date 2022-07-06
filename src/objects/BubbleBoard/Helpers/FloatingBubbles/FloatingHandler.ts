@@ -28,7 +28,6 @@ export class FloatingHandler {
         let array = this.floatingBubbles.array;
         array.forEach((bubble: Bubble) => {
             this.scene.time.addEvent({delay:500,callback:() => {
-                bubble.isOutGrid = true;
                 let gravityY = this.getRandomValue(2800,3000);
                 let velocity = this.getRandomValue(350,400);
                 let angle = this.getRandomValue(10,190);
@@ -51,6 +50,7 @@ export class FloatingHandler {
             let row = bubble.row;
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;
+            bubble.isOutGrid = true;
         });
     }
 }

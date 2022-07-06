@@ -1,3 +1,4 @@
+import { GameScene } from "../scenes/GameScene";
 import { HudScene } from "../scenes/HudScene";
 
 export class HudContainer extends Phaser.GameObjects.Container {
@@ -18,6 +19,8 @@ export class HudContainer extends Phaser.GameObjects.Container {
     private timeLimit:number;
     private timeCounter: number;
     private runProgressBar: boolean;
+    //
+    private maxPointProgressBar:number;
 
     constructor(scene:HudScene, x:number,y:number) {
         super(scene,x,y);
@@ -28,6 +31,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.timeLimit = 30000;
         this.runProgressBar = false;
         this.timeCounter = 0;
+        this.maxPointProgressBar = 1000;
     }
 
     private create() {
@@ -66,7 +70,9 @@ export class HudContainer extends Phaser.GameObjects.Container {
         Phaser.Display.Align.In.LeftCenter(this.progressBarLeft,this.progressBar, -10);
         Phaser.Display.Align.To.RightCenter(this.progressBarMid,this.progressBarLeft);
         Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid , this.progressBarMid.displayWidth - this.progressBarMid.width);
-        
+        this.progressBarMid.setDisplaySize(431*0,25);
+        Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid, 
+            this.progressBarMid.displayWidth - this.progressBarMid.width);
         this.close();
     }
 
@@ -93,15 +99,14 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.scoreText.setText(this.scene.score.toString());
         Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer);
         if(this.runProgressBar) {
-            this.timeCounter += delta;
-            let scaleBar = this.timeCounter / this.timeLimit;
-            if(scaleBar > 1) {
-                this.timeCounter = 0;
-            } else {
-                this.progressBarMid.setDisplaySize(431*(1-scaleBar),25);
-                Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid , 
-                    this.progressBarMid.displayWidth - this.progressBarMid.width);
+            let gameScene = this.scene.scene.get('GameScene') as GameScene;
+            if(gameScene.scoreManager.getScore() > this.maxPointProgressBar) {
+                this.maxPointProgressBar = this.maxPointProgressBar*10;
             }
+            let scaleBar = gameScene.scoreManager.getScore() / this.maxPointProgressBar;
+            this.progressBarMid.setDisplaySize(431*scaleBar,25);
+            Phaser.Display.Align.To.RightCenter(this.progressBarRight,this.progressBarMid, 
+                this.progressBarMid.displayWidth - this.progressBarMid.width);
         }
     }
 }
