@@ -33,9 +33,7 @@ export class FloatingHandler {
             array.forEach((bubble: Bubble) => {
                 bubble.isOutGrid = true;
                 bubble.body.checkCollision.none = false;
-                if(bubble.tween != undefined) {
-                    bubble.tween.stop();
-                }
+                bubble.tween?.stop();
                 let velocityY = this.getRandomValue(-150*2,-75*2);
                 let velocityX = this.getRandomValue(-250*2,250*2);
                 bubble.body.setGravityY(1800);
