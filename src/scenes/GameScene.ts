@@ -6,7 +6,7 @@ import { MovingGridManager } from "../logic/MovingGridManager";
 import { ScoreManager } from "../logic/ScoreManager";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
-import { Hole } from "../objects/Hole/Hole";
+import { HolesManager } from "../objects/Hole/HolesManager";
 import { Shooter } from "../objects/Shooter/Shooter";
 import { GameOverContainer } from "../ui/GameOverContainer";
 
@@ -19,7 +19,7 @@ export class GameScene extends Phaser.Scene {
     private gameOverContainer: GameOverContainer;
     public highScore: number;
     private animationCreator: AnimationCreator;
-    private hole: Hole;
+    public holes: HolesManager;
     // Logic Game Managers
     public colorManager: ColorManager;
     public scoreManager: ScoreManager;
@@ -48,7 +48,6 @@ export class GameScene extends Phaser.Scene {
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
         this.gameOverContainer.setDepth(DEPTH.GAMEOVERCONTAINER);
-        this.hole = new Hole(this);
         this.animationCreator.createAnimations();
         this.colorManager.setBubblesBoard(this.bubblesBoard);
         this.shooter = new Shooter(this);
@@ -60,6 +59,9 @@ export class GameScene extends Phaser.Scene {
         // Logic Game
         this.scoreManager = new ScoreManager(this.bubblesBoard,this);
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
+        // hole score
+        this.holes = new HolesManager(this);
+
     }
 
     update(time: number, delta: number): void {

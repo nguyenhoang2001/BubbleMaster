@@ -8,7 +8,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Bubble Master',
   version: '1.0.0',
   width: 375 * 2 - 40,
-  height: 667 * 2,
+  height: 667 * 2 + 40,
   type: Phaser.AUTO,
   scale: {
     autoCenter: Phaser.Scale.CENTER_BOTH

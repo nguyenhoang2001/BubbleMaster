@@ -20,7 +20,7 @@ export class HudScene extends Phaser.Scene {
         this.container.run();
         this.gameZone = this.add.zone(0,0,this.sys.canvas.width, this.sys.canvas.height);
         this.gameZone.setOrigin(0,0);
-        this.comboText = this.add.text(0,0,'22');
+        this.comboText = this.add.text(0,0,'');
         this.comboText.style.setFontSize('40px');
         this.comboText.style.setFontFamily('Arial');
     }
