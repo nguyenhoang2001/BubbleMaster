@@ -48,12 +48,12 @@ export class BubbleNeighbors {
         let bubbleRow = (bubble.row + this.bubblesBoard.rowOffSet) % 2;
         let empty = [];
         let offset = this.neighborOffsets[bubbleRow];
-        console.log(bubble);
+        // console.log(bubble.row, bubble.column);
         for(let i = 0; i < offset.length; i++) {
             console.log('we actually cam to this');
             let emptyRow = bubble.row + offset[i][0];
             let emptyColumn = bubble.column + offset[i][1];
-            console.log(emptyRow,emptyColumn);
+            // console.log(emptyRow,emptyColumn);
             if(emptyRow >= 0 && emptyRow < this.bubblesBoard.row && emptyColumn >= 0 && emptyColumn < this.bubblesBoard.column) {
                 const neighborBubble = this.bubblesBoard.board[emptyRow][emptyColumn];
                 if(neighborBubble == undefined) {

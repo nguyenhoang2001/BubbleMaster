@@ -43,14 +43,11 @@ export class AddingBubble {
     }
     
     public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
-
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
         let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
-
         const object = bubble;
         if(object == undefined)
             return;
-        object.setDepth(0);
         this.finishedAddingBullet = true;
         console.log(JSON.parse(JSON.stringify(this.bubblesBoard.board)));
         return bubble;

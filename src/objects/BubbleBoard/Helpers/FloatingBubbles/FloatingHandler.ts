@@ -33,15 +33,12 @@ export class FloatingHandler {
             array.forEach((bubble: Bubble) => {
                 bubble.isOutGrid = true;
                 bubble.body.checkCollision.none = false;
-                let gravityY = this.getRandomValue(2800,3000);
-                let velocity = this.getRandomValue(350,400);
-                let angle = this.getRandomValue(10,190);
-                bubble.body.setGravityY(gravityY);
-                this.scene.physics.velocityFromRotation (
-                    angle*Phaser.Math.DEG_TO_RAD,
-                    velocity,
-                    bubble.body.velocity
-                );
+                bubble.tween?.stop();
+                let velocityY = this.getRandomValue(-150*2,-75*2);
+                let velocityX = this.getRandomValue(-250*2,250*2);
+                bubble.body.setGravityY(1800);
+
+                bubble.body.setVelocity(velocityX,velocityY);
                 bubble.body.setImmovable(false);
                 bubble.body.setBounce(0.6,0.6);
                 bubble.body.setCollideWorldBounds(true,0.6,0.6,false);

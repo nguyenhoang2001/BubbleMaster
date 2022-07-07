@@ -50,6 +50,7 @@ export class ColliderManager {
             if(_bubble.isOutGrid == false) {
                 this.shootedBubble = _shootedBubble as ShootedBubble;
                 this.hittedBubble = _bubble as Bubble;
+                
                 this.handleWrongBubbleHit();
                 let bubble = this.runCollide();
                 if(bubble != undefined) {

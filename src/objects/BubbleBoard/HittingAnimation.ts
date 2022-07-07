@@ -20,7 +20,7 @@ export class HittingAnimation {
             let deltaX = Math.cos(angle) * 0.7;
             let deltaY = Math.sin(angle) * 0.7;
             let count = 0;
-            this.scene.tweens.add({
+            let tween = this.scene.tweens.add({
                 targets:bubble,
                 runYoyo: 0,
                 duration:150,
@@ -66,6 +66,7 @@ export class HittingAnimation {
                     }
                 }
             });
+            bubble.tween = tween;
         })
     }
 

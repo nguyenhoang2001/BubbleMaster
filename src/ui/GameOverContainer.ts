@@ -23,7 +23,6 @@ export class GameOverContainer extends Phaser.GameObjects.Container {
         this.blackBackground = this.scene.add.rectangle(0,0,this.scene.sys.canvas.width,this.scene.sys.canvas.height,0x000000);
         this.blackBackground.setOrigin(0,0);
         this.blackBackground.setAlpha(0);
-        this.blackBackground.setDepth(2);
         this.add(this.blackBackground);
         this.replayButton = new ReplayButton(this,this.scene);
         this.textContainer = new TextContainer(this,this.scene,0,0);
