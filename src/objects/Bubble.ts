@@ -8,6 +8,7 @@ export class Bubble extends Phaser.Physics.Arcade.Sprite {
     public tintGenerator: TintGenerator;
     public isOutGrid:boolean;
     public score:number;
+    public tween:Phaser.Tweens.Tween;
 
     constructor(scene:Phaser.Scene, x:number, y:number,texture:string,row?:number,column?:number) {
         super(scene,x,y,texture);
