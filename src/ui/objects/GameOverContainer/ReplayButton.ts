@@ -44,14 +44,23 @@ export class ReplayButton {
     }
 
     public enableButtonFunction() {
-        this.mid.on('pointerup', () => {
-            this.scene.registry.set('restart', true);
+        this.mid.on('pointerup', (pointer:Phaser.Input.Pointer) => {
+            if(pointer.leftButtonReleased())
+            {
+                this.scene.registry.set('restart', true);
+            }
         });
-        this.left.on('pointerup', () => {
-            this.scene.registry.set('restart', true);
+        this.left.on('pointerup', (pointer:Phaser.Input.Pointer) => {
+            if(pointer.leftButtonReleased())
+            {
+                this.scene.registry.set('restart', true);
+            }
         });
-        this.right.on('pointerup', () => {
-            this.scene.registry.set('restart', true);
+        this.right.on('pointerup', (pointer:Phaser.Input.Pointer) => {
+            if(pointer.leftButtonReleased())
+            {
+                this.scene.registry.set('restart', true);
+            }
         });
     }
 

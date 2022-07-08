@@ -11,7 +11,6 @@ export class Shooter {
     public scene: GameScene;
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
-    public allowShooting: boolean;
     public bulletGroup: Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
@@ -21,10 +20,10 @@ export class Shooter {
     private shotGuide: ShotGuide;
     public animation: AnimationShooter;
     private pointerOnCircle: boolean;
+    public inputFireBullet: Phaser.Input.InputPlugin;
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.allowShooting = false;
         this.isShoot = false;
         this.checkAllowShooting = true;
         this.pointerOnCircle = false;
@@ -64,16 +63,17 @@ export class Shooter {
 
     public removeInput() {
         this.circle.removeInteractive();
-        this.allowShooting = false;
+        this.inputFireBullet.removeAllListeners();
     }
 
     private enableChangeBubble() {
         this.circle.setInteractive();
-        this.circle.on('pointerdown', () => {
-            if(this.bulletSwaper.finished) {
-                this.checkAllowShooting = false;
-                this.allowShooting = false;
-                this.bulletSwaper.startSwaping();
+        this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
+            if(pointer.leftButtonDown()) {
+                if(this.bulletSwaper.finished) {
+                    this.checkAllowShooting = false;
+                    this.bulletSwaper.startSwaping();
+                }
             }
         });
         this.circle.on('pointerover', () => {
@@ -85,9 +85,17 @@ export class Shooter {
     }
 
     public enableInput() {
-            this.scene.input.on('pointerup',() => {
-                if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
-                    this.isShoot = true;
+            this.inputFireBullet = this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
+                if(pointer.leftButtonReleased()) {
+                    if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                        this.isShoot = true;
+                    }
+                } 
+                else if (pointer.rightButtonReleased()) {
+                    if(this.bulletSwaper.finished) {
+                        this.checkAllowShooting = false;
+                        this.bulletSwaper.startSwaping();
+                    }
                 }
             },this);
     }
@@ -95,7 +103,7 @@ export class Shooter {
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
         this.circle.setDepth(DEPTH.GAMEPLAY);
-        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-50);
+        Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-85);
         this.animation.createAnimationForCircle();
     }
 
@@ -154,7 +162,7 @@ export class Shooter {
         this.shotGuide.update();
         this.bulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
-            if(bullet != undefined) {
+            if(bullet?.body.speed > 0) {
                 bullet.update();
             }
         });

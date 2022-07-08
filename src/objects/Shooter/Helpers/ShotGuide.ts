@@ -1,3 +1,4 @@
+import DEPTH from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { BubblesBoard } from "../../BubbleBoard/BubblesBoard";
 import { CircleGuide } from "../CircleGuide";
@@ -30,6 +31,7 @@ export class ShotGuide {
         this.scene.physics.world.enable(circle);
         circle.body.checkCollision.none = false;
         circle.setTexture('circleGuide');
+        circle.setDepth(DEPTH.GAMEPLAY);
         circle.setActive(true);
         circle.setVisible(true);
         circle.setScale(1);
