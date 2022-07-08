@@ -67,7 +67,7 @@ export class BulletSwaper {
         this.scene.tweens.add({
             targets: this.shooter.shootedBubble,
             angleRotate: {from: 60, to: -90},
-            duration: 200,
+            duration: 500,
             scale: 1,
             ease: 'Power2',
             onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
@@ -83,7 +83,7 @@ export class BulletSwaper {
         this.scene.tweens.add({
             targets:this.shooter.secondBubllet,
             scale: 0.8,
-            duration: 200,
+            duration: 500,
             ease: 'Power2'
         });
     }

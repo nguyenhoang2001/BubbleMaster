@@ -1,6 +1,5 @@
 import { Game } from "phaser";
 import DEPTH from "../game/constant/Depth";
-const dat = require('dat.gui');
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
 import { MovingGridManager } from "../logic/MovingGridManager";

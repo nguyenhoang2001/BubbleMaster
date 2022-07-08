@@ -9,7 +9,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   version: '1.0.0',
   width: 375 * 2 - 40,
   height: 667 * 2 + 40,
-  zoom: 0.5,
+  zoom: 1,
   type: Phaser.AUTO,
   scale: {
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -19,10 +19,11 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     keyboard: true,
     mouse:true
   },
+  disableContextMenu: true,
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true
+      debug: false
     }
   },
   scene: [BootScene,MenuScene,GameScene,HudScene,SceneManager]
