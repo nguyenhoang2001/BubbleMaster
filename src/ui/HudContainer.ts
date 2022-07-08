@@ -96,8 +96,17 @@ export class HudContainer extends Phaser.GameObjects.Container {
     }
 
     public update(time:number, delta:number) {
-        this.scoreText.setText(this.scene.score.toString());
-        Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer);
+        if(parseInt(this.scoreText.text) != this.scene.score) {
+            this.scene.tweens.addCounter({
+                from: parseInt(this.scoreText.text),
+                to: this.scene.score,
+                duration: 50,
+                onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
+                    this.scoreText.setText(Math.floor(tween.getValue()).toString());
+                    Phaser.Display.Align.In.Center(this.scoreText,this.scoreContainer);
+                }
+            });
+        }        
         if(this.runProgressBar) {
             let gameScene = this.scene.scene.get('GameScene') as GameScene;
             if(gameScene.scoreManager.getScore() > this.maxPointProgressBar) {
