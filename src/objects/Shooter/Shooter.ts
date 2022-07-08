@@ -11,7 +11,6 @@ export class Shooter {
     public scene: GameScene;
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
-    public allowShooting: boolean;
     public bulletGroup: Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
@@ -24,7 +23,6 @@ export class Shooter {
 
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.allowShooting = false;
         this.isShoot = false;
         this.checkAllowShooting = true;
         this.pointerOnCircle = false;
@@ -64,16 +62,16 @@ export class Shooter {
 
     public removeInput() {
         this.circle.removeInteractive();
-        this.allowShooting = false;
     }
 
     private enableChangeBubble() {
         this.circle.setInteractive();
-        this.circle.on('pointerdown', () => {
-            if(this.bulletSwaper.finished) {
-                this.checkAllowShooting = false;
-                this.allowShooting = false;
-                this.bulletSwaper.startSwaping();
+        this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
+            if(pointer.leftButtonDown()) {
+                if(this.bulletSwaper.finished) {
+                    this.checkAllowShooting = false;
+                    this.bulletSwaper.startSwaping();
+                }
             }
         });
         this.circle.on('pointerover', () => {
@@ -85,9 +83,17 @@ export class Shooter {
     }
 
     public enableInput() {
-            this.scene.input.on('pointerup',() => {
-                if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
-                    this.isShoot = true;
+            this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
+                if(pointer.leftButtonReleased()) {
+                    if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                        this.isShoot = true;
+                    }
+                } 
+                else if (pointer.rightButtonReleased()) {
+                    if(this.bulletSwaper.finished) {
+                        this.checkAllowShooting = false;
+                        this.bulletSwaper.startSwaping();
+                    }
                 }
             },this);
     }
