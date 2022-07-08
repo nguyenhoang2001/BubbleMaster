@@ -1,5 +1,6 @@
 import { Game } from "phaser";
 import DEPTH from "../game/constant/Depth";
+const dat = require('dat.gui');
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
 import { MovingGridManager } from "../logic/MovingGridManager";
@@ -39,6 +40,7 @@ export class GameScene extends Phaser.Scene {
         this.background.setDepth(DEPTH.BACKGROUND);
         this.registry.set('score',0);
         // Physics
+        this.physics.world.setFPS(120);
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Logic Game
         this.colorManager = new ColorManager();
@@ -61,7 +63,6 @@ export class GameScene extends Phaser.Scene {
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
         // hole score
         this.holes = new HolesManager(this);
-
     }
 
     update(time: number, delta: number): void {

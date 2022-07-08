@@ -154,7 +154,7 @@ export class Shooter {
         this.shotGuide.update();
         this.bulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
-            if(bullet != undefined) {
+            if(bullet?.body.speed > 0) {
                 bullet.update();
             }
         });
