@@ -20,6 +20,7 @@ export class Shooter {
     private shotGuide: ShotGuide;
     public animation: AnimationShooter;
     private pointerOnCircle: boolean;
+    public inputFireBullet: Phaser.Input.InputPlugin;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -62,6 +63,7 @@ export class Shooter {
 
     public removeInput() {
         this.circle.removeInteractive();
+        this.inputFireBullet.removeAllListeners();
     }
 
     private enableChangeBubble() {
@@ -83,7 +85,7 @@ export class Shooter {
     }
 
     public enableInput() {
-            this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
+            this.inputFireBullet = this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
                     if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                         this.isShoot = true;
