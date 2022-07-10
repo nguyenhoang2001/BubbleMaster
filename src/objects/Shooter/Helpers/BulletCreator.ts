@@ -26,25 +26,19 @@ export class BulletCreator {
     }
 
     private createShootedBubble() {
-        // this.shooter.shootedBubble = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getColorToShoot());
         this.shooter.shootedBubble = this.shooter.bulletGroup.get(28,28,'',undefined,true);
-        this.activateBullet(this.shooter.shootedBubble,this.scene.colorManager.getColorToShoot());
+        this.activateBullet(this.shooter.shootedBubble ,this.scene.colorManager.getColorToShoot());
         this.shooter.shootedBubble.setDepth(DEPTH.BULLET);
-        // this.scene.add.existing(this.shooter.shootedBubble);
         this.shooter.setUpPositionFirst();
         this.shooter.shootedBubble.checkWorldBounce = false;
-        // this.shooter.bulletGroup.add(this.shooter.shootedBubble);
     }
 
     public createSecondBullet() {
-        // this.shooter.secondBubllet = new ShootedBubble(this.scene,28,28,this.scene.colorManager.getColorToShoot());
         this.shooter.secondBubllet = this.shooter.bulletGroup.get(28,28,'',undefined,true);
         this.activateBullet(this.shooter.secondBubllet,this.scene.colorManager.getColorToShoot());
         this.shooter.secondBubllet.setDepth(DEPTH.BULLET);
         this.shooter.secondBubllet.setScale(0.8);
-        // this.scene.add.existing(this.shooter.secondBubllet);
         this.shooter.setUpPositionSecond();
         this.shooter.secondBubllet.checkWorldBounce = false;
-        // this.shooter.bulletGroup.add(this.shooter.secondBubllet);
     }
 }

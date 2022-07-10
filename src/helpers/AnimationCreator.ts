@@ -17,5 +17,14 @@ export class AnimationCreator {
             }),
             frameRate: 50
         });
+        this.scene.anims.create({
+            key:'bombExplode',
+            frames: this.scene.anims.generateFrameNames('gamePlaySet', 
+            {   prefix:'animations/bomb-explosive/bom_explosive_',
+                end:21, 
+                zeroPad: 2
+            }),
+            frameRate: 55
+        });
     }
 }

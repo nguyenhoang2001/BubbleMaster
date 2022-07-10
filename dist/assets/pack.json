@@ -137,6 +137,11 @@
                 "type": "image",
                 "key": "arrows",
                 "url": "./assets/images/arrows.png"
+            },
+            {
+                "type": "image",
+                "key": "bomb",
+                "url": "./assets/images/bombs/bomb.png"
             }
         ]
     }

@@ -16,7 +16,7 @@ export class ClusterHandler {
     }
 
     public runAnimation(cluster:Bubble[]) {
-        let delay = 100;
+        let delay = 70;
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {

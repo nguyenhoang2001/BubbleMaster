@@ -1,5 +1,6 @@
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
+import { Bomb } from "../Bomb";
 import { ShootedBubble } from "../ShootedBubble";
 import { AnimationShooter } from "./Helpers/AnimationShooter";
 import { BulletCreator } from "./Helpers/BulletCreator";
@@ -7,7 +8,7 @@ import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
-    public shootedBubble: ShootedBubble;
+    public shootedBubble: ShootedBubble | Bomb;
     public scene: GameScene;
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
