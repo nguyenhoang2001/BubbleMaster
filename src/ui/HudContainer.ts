@@ -16,11 +16,9 @@ export class HudContainer extends Phaser.GameObjects.Container {
     private progressBarRight: Phaser.GameObjects.Image;
     private progressBarMid: Phaser.GameObjects.Image;
     //
-    private timeLimit:number;
-    private timeCounter: number;
     private runProgressBar: boolean;
     //
-    private maxPointProgressBar:number;
+    public maxPointProgressBar:number;
 
     constructor(scene:HudScene, x:number,y:number) {
         super(scene,x,y);
@@ -28,14 +26,11 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.gameHeight = this.scene.sys.canvas.height;
         this.scene.add.existing(this);
         this.create();
-        this.timeLimit = 30000;
         this.runProgressBar = false;
-        this.timeCounter = 0;
-        this.maxPointProgressBar = 1000;
+        this.maxPointProgressBar = 30000;
     }
 
     private create() {
-        this.timeCounter = 0;
         this.rectangle = this.scene.add.rectangle(0,0,this.gameWidth, this.gameHeight/5 - 150,0x000000);
         this.rectangle.setAlpha(0.5);
         this.rectangle.setOrigin(0,0);
@@ -110,6 +105,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
         if(this.runProgressBar) {
             let gameScene = this.scene.scene.get('GameScene') as GameScene;
             if(gameScene.scoreManager.getScore() > this.maxPointProgressBar) {
+                this.scene.checkPointTwoThird = true;
                 this.maxPointProgressBar = this.maxPointProgressBar*10;
             }
             let scaleBar = gameScene.scoreManager.getScore() / this.maxPointProgressBar;

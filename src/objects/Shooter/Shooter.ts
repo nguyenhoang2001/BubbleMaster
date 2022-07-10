@@ -40,10 +40,7 @@ export class Shooter {
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
-        let s = this.shootedBubble;
-        this.shootedBubble = new Bomb(this.scene,this.shootedBubble.x,this.shootedBubble.y,'bomb');
-        this.scene.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shootedBubble);
-        s.destroy();
+        
     }
 
     private drawLine() {
@@ -144,6 +141,7 @@ export class Shooter {
 
     private shootBubble() {
         if(this.arrowShoot.angle != 0) {
+            this.checkAllowShooting = false;
             this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
@@ -155,7 +153,6 @@ export class Shooter {
                 this.shootedBubble.body.velocity
             );
             this.flyingBulletGroup.add(this.shootedBubble);
-            this.checkAllowShooting = false;
             this.bulletSwaper.swapBulletAfterShooting();
         }
     }

@@ -7,6 +7,7 @@ export class HudScene extends Phaser.Scene {
     public score: number;
     private comboText: Phaser.GameObjects.Text;
     private gameZone: Phaser.GameObjects.Zone;
+    public checkPointTwoThird: boolean;
 
     constructor() {
         super({key:'HudScene'});
@@ -16,6 +17,7 @@ export class HudScene extends Phaser.Scene {
     public create() {
         this.container = new HudContainer(this,0,0);
         this.score = 0;
+        this.checkPointTwoThird = true;
         this.container.setDepth(DEPTH.HUDCONTAINER);
         this.container.run();
         this.gameZone = this.add.zone(0,0,this.sys.canvas.width, this.sys.canvas.height);
@@ -37,8 +39,17 @@ export class HudScene extends Phaser.Scene {
                 this.comboText.setText('x'+ combo);
             }
             Phaser.Display.Align.In.Center(this.comboText,gameScene.shooter.circle);
-            if(gameScene.movingGridManager.getIsShooted())
+
+            if(gameScene.movingGridManager.getIsShooted()) {
                 this.container.update(time,delta);
+                console.log(gameScene.scoreManager.getScore() / this.container.maxPointProgressBar)
+                if((gameScene.scoreManager.getScore() / this.container.maxPointProgressBar) >= 2/3) {
+                    if(this.checkPointTwoThird) {
+                        this.checkPointTwoThird = false;
+                        gameScene.events.emit('bomb');
+                    }
+                }
+            }
         }
     }
 }
