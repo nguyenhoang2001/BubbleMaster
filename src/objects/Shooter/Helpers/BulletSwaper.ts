@@ -13,14 +13,16 @@ export class BulletSwaper {
     }
 
     public startSwaping() {
-        this.finished = false;
+        if(this.shooter.shootedBubble.name == 'ShootedBubble') {
+            this.finished = false;
 
-        let saveCurrentBullet = this.shooter.shootedBubble;
-        this.shooter.shootedBubble = this.shooter.secondBubllet;
-        this.shooter.secondBubllet = saveCurrentBullet;
-
-        this.tweenSecondBubble();
-        this.tweenShootedBubble();
+            let saveCurrentBullet = this.shooter.shootedBubble;
+            this.shooter.shootedBubble = this.shooter.secondBubllet;
+            this.shooter.secondBubllet = saveCurrentBullet;
+    
+            this.tweenSecondBubble();
+            this.tweenShootedBubble();
+        }
     }
 
     private tweenSecondBubble() {

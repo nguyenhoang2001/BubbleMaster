@@ -69,7 +69,6 @@ export class HolesManager {
                 to: this.scene.scoreManager.getHoleScore(i + 1),
                 duration: 500,
                 onUpdate: (tween: Phaser.Tweens.Tween, target: any) => {
-                    console.log(tween);
                     this.scoresText[i].setText(Math.floor(tween.getValue()).toString());
                     Phaser.Display.Align.To.BottomCenter(this.scoresText[i],this.holes[i]);
                 }

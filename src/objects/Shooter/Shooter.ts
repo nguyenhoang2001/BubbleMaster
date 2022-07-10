@@ -13,6 +13,7 @@ export class Shooter {
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
     public bulletGroup: Phaser.GameObjects.Group;
+    private flyingBulletGroup:Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
     private bulletSwaper: BulletSwaper;
@@ -29,6 +30,7 @@ export class Shooter {
         this.checkAllowShooting = true;
         this.pointerOnCircle = false;
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
+        this.flyingBulletGroup = this.scene.add.group({});
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
@@ -38,6 +40,10 @@ export class Shooter {
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
+        let s = this.shootedBubble;
+        this.shootedBubble = new Bomb(this.scene,this.shootedBubble.x,this.shootedBubble.y,'bomb');
+        this.scene.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shootedBubble);
+        s.destroy();
     }
 
     private drawLine() {
@@ -143,12 +149,12 @@ export class Shooter {
             this.shootedBubble.checkWorldBounce = true;
             this.shootedBubble.initialX = this.shootedBubble.x;
             this.shootedBubble.initialY = this.shootedBubble.y;
-            this.shootedBubble.setScale(1.1,1);
             this.scene.physics.velocityFromRotation (
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                 2400,
                 this.shootedBubble.body.velocity
             );
+            this.flyingBulletGroup.add(this.shootedBubble);
             this.checkAllowShooting = false;
             this.bulletSwaper.swapBulletAfterShooting();
         }
@@ -161,10 +167,13 @@ export class Shooter {
     public update() {
         this.rotateShooter();
         this.shotGuide.update();
-        this.bulletGroup.getChildren().forEach((_bullet:any) => {
+        this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
             if(bullet?.body.speed > 0) {
                 bullet.update();
+            } else {
+                console.log('the destroyed bullet');
+                console.log(bullet);
             }
         });
         if(this.isShoot) {

@@ -9,4 +9,11 @@ export class Bomb extends ShootedBubble {
         this.name = 'Bomb';
         this.setDepth(DEPTH.BULLET);
     }
+
+    public update(...args: any[]): void {
+        this.updateTailPosition();
+        if(this.body.velocity.y != 0 && this.tail.visible == false) {
+            this.tail.setVisible(true);
+        }
+    }
 }

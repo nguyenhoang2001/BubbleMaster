@@ -11,7 +11,6 @@ export class ColliderManager {
     public scene: GameScene;
     private shootedBubble: ShootedBubble;
     private hittedBubble: Bubble;
-    private bomb: Bomb;
     private neighborsHelper: BubbleNeighbors;
     private bombHandler: BombHandler;
 
@@ -55,13 +54,12 @@ export class ColliderManager {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,bomb,(_bubble:any,_bomb:any) => {
             if(_bubble.isOutGrid == false) {
                 this.hittedBubble = _bubble as Bubble;
-                this.bomb = _bomb as Bomb;
+                this.shootedBubble = _bomb as Bomb;
                 this.handleWrongBubbleHit();
-                this.bomb.clear();
+                this.shootedBubble.clear();
                 this.scene.scoreManager.calculateScore();
                 let bubble = this.runCollide();
-                this.bomb.removeVisualEffect();
-                this.bomb.destroy();
+                this.shootedBubble.removeVisualEffect();
                 bubble?.setVisible(false);
                 if(bubble != undefined)
                     this.runBombCollision(bubble,_bomb);
@@ -97,8 +95,8 @@ export class ColliderManager {
             }
 
         }
-        this.bombHandler.clearBubbles(toProcess,_bomb);
-        this.bombHandler.runAnimation(toProcess,_bomb);
+        this.bombHandler.clearBubbles(toProcess);
+        this.bombHandler.runAnimation(toProcess,this.shootedBubble);
     }
 
     public gridGroupAndBulletGroup() {

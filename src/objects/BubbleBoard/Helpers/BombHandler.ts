@@ -14,7 +14,7 @@ export class BombHandler {
     }
 
 
-    public clearBubbles(bubbles:Bubble[],bomb:Bomb) {
+    public clearBubbles(bubbles:Bubble[]) {
         for(let i = 0; i < bubbles.length; i++) {
             bubbles[i].body.checkCollision.none = true;
             let row = bubbles[i].row;
@@ -49,7 +49,7 @@ export class BombHandler {
             });
 
             bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            bubbles[i].anims.playAfterDelay('explode',10);
+            bubbles[i].anims.playAfterDelay('explode',100);
         }
         
     }
