@@ -1,5 +1,6 @@
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
+import { Bomb } from "../Bomb";
 import { ShootedBubble } from "../ShootedBubble";
 import { AnimationShooter } from "./Helpers/AnimationShooter";
 import { BulletCreator } from "./Helpers/BulletCreator";
@@ -7,11 +8,12 @@ import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
-    public shootedBubble: ShootedBubble;
+    public shootedBubble: ShootedBubble | Bomb;
     public scene: GameScene;
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
     public bulletGroup: Phaser.GameObjects.Group;
+    private flyingBulletGroup:Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
     private bulletSwaper: BulletSwaper;
@@ -28,6 +30,7 @@ export class Shooter {
         this.checkAllowShooting = true;
         this.pointerOnCircle = false;
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
+        this.flyingBulletGroup = this.scene.add.group({});
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
@@ -37,6 +40,7 @@ export class Shooter {
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
+        
     }
 
     private drawLine() {
@@ -87,7 +91,7 @@ export class Shooter {
     public enableInput() {
             this.inputFireBullet = this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
-                    if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                    if(this.checkAllowShooting && this.bulletSwaper.finished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                         this.isShoot = true;
                     }
                 } 
@@ -137,18 +141,18 @@ export class Shooter {
 
     private shootBubble() {
         if(this.arrowShoot.angle != 0) {
+            this.checkAllowShooting = false;
             this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
             this.shootedBubble.initialX = this.shootedBubble.x;
             this.shootedBubble.initialY = this.shootedBubble.y;
-            this.shootedBubble.setScale(1.1,1);
             this.scene.physics.velocityFromRotation (
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                 2400,
                 this.shootedBubble.body.velocity
             );
-            this.checkAllowShooting = false;
+            this.flyingBulletGroup.add(this.shootedBubble);
             this.bulletSwaper.swapBulletAfterShooting();
         }
     }
@@ -160,7 +164,7 @@ export class Shooter {
     public update() {
         this.rotateShooter();
         this.shotGuide.update();
-        this.bulletGroup.getChildren().forEach((_bullet:any) => {
+        this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
             if(bullet?.body.speed > 0) {
                 bullet.update();
@@ -173,7 +177,7 @@ export class Shooter {
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }
-        if(!this.checkAllowShooting) {
+        if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
             this.shotGuide.hide();
         }
     }

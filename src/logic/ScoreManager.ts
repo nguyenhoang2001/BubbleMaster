@@ -39,8 +39,8 @@ export class ScoreManager {
     }
 
     public increaseCombo() {
-        if(this.combo < 15)
-            this.combo += 1;
+        // if(this.combo < 15)
+        this.combo += 1;
         this.updateScoreByCombo();
     }
 

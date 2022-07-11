@@ -69,9 +69,8 @@ export class ShootedBubble extends Bubble {
         this.checkWorldBounce = false;
     }
 
-    public update(...args: any[]): void {
+    public updateTailPosition() {
         let angle = this.body.velocity.angle() * Phaser.Math.RAD_TO_DEG;        
-        this.setRotation(this.body.velocity.angle());
         if(angle >= 270) {
             angle = 90 - (360 - angle);
         } else {
@@ -93,7 +92,14 @@ export class ShootedBubble extends Bubble {
             this.tail.x = this.tail.x - offsetX;
             this.tail.y = this.tail.y - offsetY;
         }
-        if(this.body.velocity.y != 0 && this.tail.visible == false)
+    }
+
+    public update(...args: any[]): void {
+        this.updateTailPosition();
+        this.setRotation(this.body.velocity.angle());
+        if(this.body.velocity.y != 0 && this.tail.visible == false) {
             this.tail.setVisible(true);
+            this.setScale(1.1,1);
+        }
     }
 }

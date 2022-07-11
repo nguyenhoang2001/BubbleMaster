@@ -4,6 +4,7 @@ import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
 import { MovingGridManager } from "../logic/MovingGridManager";
 import { ScoreManager } from "../logic/ScoreManager";
+import { TypeBulletManager } from "../logic/TypeBulletManager";
 import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { HolesManager } from "../objects/Hole/HolesManager";
@@ -24,6 +25,7 @@ export class GameScene extends Phaser.Scene {
     public colorManager: ColorManager;
     public scoreManager: ScoreManager;
     public movingGridManager: MovingGridManager;
+    private typeBulletManager: TypeBulletManager;
 
     constructor() {
         super({
@@ -62,12 +64,14 @@ export class GameScene extends Phaser.Scene {
         this.movingGridManager = new MovingGridManager(this,this.bubblesBoard);
         // hole score
         this.holes = new HolesManager(this);
+        this.typeBulletManager = new TypeBulletManager(this,this.bubblesBoard,this.shooter);
     }
 
     update(time: number, delta: number): void {
         let isGameOver = this.registry.get('isGameOver');
         if(!isGameOver) {
             this.colorManager.update(delta);
+            this.typeBulletManager.checkConditionToChangeType();
             if(this.highScore < this.scoreManager.getScore()) {
                 this.highScore = this.scoreManager.getScore();
             }

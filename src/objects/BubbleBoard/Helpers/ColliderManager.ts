@@ -1,7 +1,9 @@
 import { GameScene } from "../../../scenes/GameScene";
+import { Bomb } from "../../Bomb";
 import { Bubble } from "../../Bubble";
 import { ShootedBubble } from "../../ShootedBubble";
 import { BubblesBoard } from "../BubblesBoard";
+import { BombHandler } from "./BombHandler";
 import { BubbleNeighbors } from "./BubbleNeighbors";
 
 export class ColliderManager {
@@ -10,11 +12,13 @@ export class ColliderManager {
     private shootedBubble: ShootedBubble;
     private hittedBubble: Bubble;
     private neighborsHelper: BubbleNeighbors;
+    private bombHandler: BombHandler;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
         this.neighborsHelper = this.bubblesBoard.neighbors;
+        this.bombHandler = new BombHandler(this.scene, this.bubblesBoard);
     }
 
     private handleWrongBubbleHit() {
@@ -45,6 +49,56 @@ export class ColliderManager {
         }
     }
 
+
+    public enableOverlapBombAndBubble(bomb:Bomb) {
+        this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,bomb,(_bubble:any,_bomb:any) => {
+            if(_bubble.isOutGrid == false) {
+                this.hittedBubble = _bubble as Bubble;
+                this.shootedBubble = _bomb as Bomb;
+                this.handleWrongBubbleHit();
+                this.shootedBubble.clear();
+                this.scene.scoreManager.calculateScore();
+                let bubble = this.runCollide();
+                this.shootedBubble.removeVisualEffect();
+                bubble?.setVisible(false);
+                if(bubble != undefined)
+                    this.runBombCollision(bubble,_bomb);
+            }
+        });
+    }
+
+    private runBombCollision(target:Bubble,_bomb:any) {
+        this.neighborsHelper.resetProcess();
+        let toWork = [];
+        toWork.push(target);
+        target.processed = true;
+        let layer = 3;
+        let neighbors:Bubble[] = [];
+        let toProcess:Bubble[] = [];
+        toProcess.push(target);
+        while(toWork.length > 0 && layer > 0) {
+            let obj = toWork.pop();
+            if(obj != undefined) {
+                const rawNeighbors = this.neighborsHelper.getNeighbors(obj);
+                rawNeighbors.some((bubble:Bubble) => {
+                    if(!bubble.processed) {
+                        bubble.processed = true;
+                        toProcess.push(bubble);
+                        neighbors.push(bubble);
+                    }
+                });
+            }
+            if(toWork.length == 0) {
+                toWork = neighbors;
+                neighbors = [];
+                layer--;
+            }
+
+        }
+        this.bombHandler.clearBubbles(toProcess);
+        this.bombHandler.runAnimation(toProcess,this.shootedBubble);
+    }
+
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             if(_bubble.isOutGrid == false) {
@@ -52,7 +106,11 @@ export class ColliderManager {
                 this.hittedBubble = _bubble as Bubble;
                 
                 this.handleWrongBubbleHit();
+                this.shootedBubble.clear();
+
                 let bubble = this.runCollide();
+                this.shootedBubble.removeVisualEffect();
+                this.shootedBubble.destroy();
                 if(bubble != undefined) {
                     this.bubblesBoard.hittingAnimation.showAnimation(bubble);
                     this.bubblesBoard.clusters.checkClusters(bubble,true,true);
@@ -62,12 +120,9 @@ export class ColliderManager {
     }
 
     public runCollide() {
-        this.shootedBubble.clear();
         this.bubblesBoard.updateRow();
         const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
-        this.shootedBubble.removeVisualEffect();
-        this.shootedBubble.destroy();
         if(newBubble == undefined)
             return;
         return newBubble;

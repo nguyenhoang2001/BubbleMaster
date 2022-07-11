@@ -16,7 +16,7 @@ export class ClusterHandler {
     }
 
     public runAnimation(cluster:Bubble[]) {
-        let delay = 100;
+        let delay = 50;
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
@@ -24,8 +24,8 @@ export class ClusterHandler {
             });
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 10) {
-                    if(i == cluster.length - 1) {
+                if(frame.index == 15) {
+                    if(i == 0) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(cluster[i].score);
