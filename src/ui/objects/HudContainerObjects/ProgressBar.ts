@@ -27,7 +27,6 @@ export class ProgressBar {
         this.container.add(this.left);
         this.container.add(this.mid);
         this.container.add(this.right);
-        // Phaser.Display.Align.To.RightCenter(this.holder,this.scoreContainer, 15);
         Phaser.Display.Align.In.LeftCenter(this.left,this.holder, -10);
         Phaser.Display.Align.To.RightCenter(this.mid,this.left);
         Phaser.Display.Align.To.RightCenter(this.right,this.mid, 

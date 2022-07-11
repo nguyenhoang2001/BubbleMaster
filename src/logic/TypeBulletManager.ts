@@ -1,3 +1,4 @@
+import DEPTH from "../game/constant/Depth";
 import { Bomb } from "../objects/Bomb";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { Shooter } from "../objects/Shooter/Shooter";
@@ -19,9 +20,16 @@ export class TypeBulletManager {
 
     private changeToBomb() {
         let oldBullet = this.shooter.shootedBubble;
-        this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb');
+        this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb').setVisible(false);
         this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble);
-        oldBullet.destroy();
+        this.shooter.checkAllowShooting = false;
+        oldBullet.on('animationcomplete', () => {
+            oldBullet.destroy();
+            this.shooter.checkAllowShooting = true;
+            this.shooter.shootedBubble.setVisible(true);
+        });
+        oldBullet.setDepth(DEPTH.ANIMATIONBOMBEXPLODE);
+        oldBullet.anims.play('showBomb');
     }
 
     public checkConditionToChangeType() {

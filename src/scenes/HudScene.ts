@@ -25,6 +25,7 @@ export class HudScene extends Phaser.Scene {
         this.comboText = this.add.text(0,0,'');
         this.comboText.style.setFontSize('40px');
         this.comboText.style.setFontFamily('Arial');
+        
     }
 
     public update(time: number, delta: number): void {
