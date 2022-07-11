@@ -17,15 +17,17 @@ export class ClusterHandler {
 
     public runAnimation(cluster:Bubble[]) {
         let delay = 50;
+        let target = cluster[0];
+
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
                 cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
+            let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, cluster[i]);
+            delay = 80*distance/56;
             cluster[i].anims.playAfterDelay('explode',delay);
-
-            delay += 50;
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
                 if(frame.index == 5) {

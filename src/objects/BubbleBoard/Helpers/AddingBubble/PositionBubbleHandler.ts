@@ -78,7 +78,7 @@ export class PositionBubbleHandler {
         return nearestBubble;
     }
 
-    private getDistance(objA:any, objB:any):number {
+    public getDistance(objA:any, objB:any):number {
         return Phaser.Math.Distance.Between(objA.x,objA.y,objB.x,objB.y);
     }
 
