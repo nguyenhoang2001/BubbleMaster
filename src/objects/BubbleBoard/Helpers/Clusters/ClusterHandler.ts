@@ -28,8 +28,8 @@ export class ClusterHandler {
             delay += 50;
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 15) {
-                    if(i == 0) {
+                if(frame.index == 5) {
+                    if(i == cluster.length - 1) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(cluster[i].score);
