@@ -48,7 +48,7 @@ export class BombHandler {
             });
 
             bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            bubbles[i].anims.play('explode');
+            bubbles[i].anims.playAfterDelay('explode', 100);
         }
     }
 
@@ -57,11 +57,7 @@ export class BombHandler {
         bomb.on('animationcomplete', () => {
             bomb.destroy();
         });
-        bomb.on('animationupdate', (animation:any,frame:any,obj:any) => {
-            if(frame.index == 11) {
-                this.showAnimationBubbles(bubbles);
-            }
-        });
         bomb.anims.play('bombExplode');
+        this.showAnimationBubbles(bubbles);
     }
 }
