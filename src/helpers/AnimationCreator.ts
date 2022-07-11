@@ -21,7 +21,7 @@ export class AnimationCreator {
             key:'bombExplode',
             frames: this.scene.anims.generateFrameNames('gamePlaySet', 
             {   prefix:'animations/bomb-explosive/bom_explosive_',
-                end:21, 
+                end:22, 
                 zeroPad: 2
             }),
             frameRate: 40

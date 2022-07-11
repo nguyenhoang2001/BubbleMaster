@@ -24,13 +24,7 @@ export class BombHandler {
         }
     }
 
-    public runAnimation(bubbles:Bubble[], bomb:Bomb) {
-        bomb.setDepth(DEPTH.ANIMATIONBOMBEXPLODE);
-        bomb.anims.play('bombExplode');
-        bomb.on('animationcomplete', () => {
-            bomb.destroy();
-        });
-
+    private showAnimationBubbles(bubbles:Bubble[]) {
         for(let i = 0; i < bubbles.length; i++) {
             let tintColor = bubbles[i].texture.key;
             bubbles[i].on('animationstart', () => {
@@ -54,8 +48,20 @@ export class BombHandler {
             });
 
             bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            bubbles[i].anims.playAfterDelay('explode',100);
+            bubbles[i].anims.play('explode');
         }
-        
+    }
+
+    public runAnimation(bubbles:Bubble[], bomb:Bomb) {
+        bomb.setDepth(DEPTH.ANIMATIONBOMBEXPLODE);
+        bomb.on('animationcomplete', () => {
+            bomb.destroy();
+        });
+        bomb.on('animationupdate', (animation:any,frame:any,obj:any) => {
+            if(frame.index == 11) {
+                this.showAnimationBubbles(bubbles);
+            }
+        });
+        bomb.anims.play('bombExplode');
     }
 }
