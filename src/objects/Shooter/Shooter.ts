@@ -177,7 +177,7 @@ export class Shooter {
         if(this.bulletSwaper.finished) {
             this.checkAllowShooting = true;
         }
-        if(!this.checkAllowShooting) {
+        if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
             this.shotGuide.hide();
         }
     }
