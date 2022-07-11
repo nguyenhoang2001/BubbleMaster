@@ -20,15 +20,14 @@ export class TypeBulletManager {
 
     private changeToBomb() {
         let oldBullet = this.shooter.shootedBubble;
-        this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb').setVisible(false);
+        this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb');
         this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble);
         this.shooter.checkAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
-            oldBullet.destroy();
             this.shooter.checkAllowShooting = true;
-            this.shooter.shootedBubble.setVisible(true);
+            oldBullet.destroy();
         });
-        oldBullet.setDepth(DEPTH.ANIMATIONBOMBEXPLODE);
+        oldBullet.setDepth(DEPTH.GAMEPLAY);
         oldBullet.anims.play('showBomb');
     }
 

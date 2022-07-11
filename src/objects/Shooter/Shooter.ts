@@ -91,7 +91,7 @@ export class Shooter {
     public enableInput() {
             this.inputFireBullet = this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
-                    if(this.checkAllowShooting && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                    if(this.checkAllowShooting && this.bulletSwaper.finished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                         this.isShoot = true;
                     }
                 } 
@@ -168,9 +168,6 @@ export class Shooter {
             const bullet = _bullet as ShootedBubble;
             if(bullet?.body.speed > 0) {
                 bullet.update();
-            } else {
-                console.log('the destroyed bullet');
-                console.log(bullet);
             }
         });
         if(this.isShoot) {

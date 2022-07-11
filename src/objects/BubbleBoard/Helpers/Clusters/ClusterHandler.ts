@@ -24,8 +24,8 @@ export class ClusterHandler {
             });
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 10) {
-                    if(i == cluster.length - 1) {
+                if(frame.index == 15) {
+                    if(i == 0) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(cluster[i].score);

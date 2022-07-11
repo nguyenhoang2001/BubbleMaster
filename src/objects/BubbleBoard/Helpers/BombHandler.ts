@@ -39,14 +39,13 @@ export class BombHandler {
             });
 
             bubbles[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 10) {
-                    if(i == bubbles.length - 1) {
+                if(frame.index == 15) {
+                    if(i == 0) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(bubbles[i].score);
                 }
             });
-
             bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
             bubbles[i].anims.playAfterDelay('explode', 100);
         }
