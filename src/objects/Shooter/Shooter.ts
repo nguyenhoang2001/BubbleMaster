@@ -16,7 +16,7 @@ export class Shooter {
     private flyingBulletGroup:Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
-    private bulletSwaper: BulletSwaper;
+    public bulletSwaper: BulletSwaper;
     private isShoot: boolean;
     public checkAllowShooting: boolean;
     private shotGuide: ShotGuide;
@@ -40,7 +40,6 @@ export class Shooter {
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
-        
     }
 
     private drawLine() {
@@ -75,7 +74,6 @@ export class Shooter {
         this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
             if(pointer.leftButtonDown()) {
                 if(this.bulletSwaper.finished) {
-                    this.checkAllowShooting = false;
                     this.bulletSwaper.startSwaping();
                 }
             }
@@ -97,7 +95,6 @@ export class Shooter {
                 } 
                 else if (pointer.rightButtonReleased()) {
                     if(this.bulletSwaper.finished) {
-                        this.checkAllowShooting = false;
                         this.bulletSwaper.startSwaping();
                     }
                 }
@@ -118,7 +115,7 @@ export class Shooter {
     }
 
     private rotateShooter() {
-        if(this.checkAllowShooting) {
+        if(this.checkAllowShooting && this.bulletSwaper.finished) {
             let angle = Phaser.Math.RAD_TO_DEG * 
             Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
             if (angle < 0) {
@@ -141,7 +138,6 @@ export class Shooter {
 
     private shootBubble() {
         if(this.arrowShoot.angle != 0) {
-            this.checkAllowShooting = false;
             this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
@@ -173,9 +169,6 @@ export class Shooter {
         if(this.isShoot) {
             this.isShoot = false;
             this.shootBubble();
-        }
-        if(this.bulletSwaper.finished) {
-            this.checkAllowShooting = true;
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
             this.shotGuide.hide();

@@ -33,7 +33,7 @@ export class TypeBulletManager {
 
     public checkConditionToChangeType() {
         if(this.signalChangeToBomb == true) {
-            if(this.shooter.checkAllowShooting == true) {
+            if(this.shooter.bulletSwaper.finished == true) {
                 this.signalChangeToBomb = false;
                 this.changeToBomb();
             }
