@@ -24,6 +24,7 @@ export class Shooter {
     public animation: AnimationShooter;
     private pointerOnCircle: boolean;
     public inputFireBullet: Phaser.Input.InputPlugin;
+    public inputRotateShooter: Phaser.Input.InputPlugin;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -68,6 +69,7 @@ export class Shooter {
     public removeInput() {
         this.circle.removeInteractive();
         this.inputFireBullet.removeAllListeners();
+        this.inputRotateShooter.removeAllListeners();
     }
 
     private enableChangeBubble() {
@@ -100,6 +102,10 @@ export class Shooter {
                     }
                 }
             },this);
+
+            this.inputRotateShooter = this.scene.input.on('pointermove', (pointer:Phaser.Input.Pointer) => {
+                this.rotateShooter(pointer);
+            })
     }
 
     private drawCircle() {
@@ -115,10 +121,10 @@ export class Shooter {
         this.arrowShoot.setVisible(false);
     }
 
-    private rotateShooter() {
+    private rotateShooter(pointer: Phaser.Input.Pointer) {
         if(this.checkAllowShooting && this.bulletSwaper.finished) {
             let angle = Phaser.Math.RAD_TO_DEG * 
-            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, pointer.x, pointer.y);
             if (angle < 0) {
                 angle = 180 + (180 + angle);
             }
@@ -159,7 +165,7 @@ export class Shooter {
     }
     
     public update() {
-        this.rotateShooter();
+        // this.rotateShooter();
         this.shotGuide.update();
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;

@@ -50,18 +50,21 @@ export class TypeBulletManager {
     }
 
     public checkConditionToChangeType() {
-        if(this.signalChangeToFireBall) {
-            if(this.shooter.bulletSwaper.finished == true) {
-                this.signalChangeToFireBall = false;
-                this.changeToFireBall();
-            }
-        } 
-        else if(this.signalChangeToBomb == true) {
-            if(this.shooter.bulletSwaper.finished == true && this.shooter.shootedBubble.name =='ShootedBubble') {
-                this.signalChangeToBomb = false;
-                this.changeToBomb();
+        if(this.shooter.shootedBubble.name =='ShootedBubble') {
+            if(this.signalChangeToFireBall) {
+                if(this.shooter.bulletSwaper.finished == true) {
+                    this.signalChangeToFireBall = false;
+                    this.changeToFireBall();
+                }
+            } 
+            else if(this.signalChangeToBomb == true) {
+                if(this.shooter.bulletSwaper.finished == true) {
+                    this.signalChangeToBomb = false;
+                    this.changeToBomb();
+                }
             }
         }
+        
     }
 
 }
