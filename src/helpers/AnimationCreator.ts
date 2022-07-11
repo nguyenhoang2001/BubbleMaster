@@ -19,7 +19,7 @@ export class AnimationCreator {
         });
         this.scene.anims.create({
             key:'bombExplode',
-            frames: this.scene.anims.generateFrameNames('gamePlaySet', 
+            frames: this.scene.anims.generateFrameNames('gamePlaySet',
             {   prefix:'animations/bomb-explosive/bom_explosive_',
                 end:22, 
                 zeroPad: 2

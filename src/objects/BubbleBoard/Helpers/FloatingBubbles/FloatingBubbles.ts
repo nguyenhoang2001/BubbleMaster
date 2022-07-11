@@ -30,7 +30,6 @@ export class FloatingBubbles {
     public checkFloating() {
         this.array = this.detector.find();
         if( this.array.length > 0) {
-            console.log('there is floating');
             this.isFloating = true;
             this.remains = this.array.length;
             this.handler.clearFloating();

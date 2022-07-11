@@ -19,7 +19,6 @@ export class FireBubble extends ShootedBubble {
             this.setScale(1.1,1);
         }
         if(this.y <= -this.height) {
-            console.log('die ball');
             this.clear();
             this.removeVisualEffect();
             this.destroy();

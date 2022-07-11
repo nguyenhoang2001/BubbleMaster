@@ -18,7 +18,6 @@ export class FireBubbleHandler {
         let column = bubble.column;
         this.bubblesBoard.board[row][column] = undefined;
         bubble.score = this.scene.scoreManager.getBallClusterScore();
-        this.bubblesBoard.floatingBubbles.update();
     }
 
     public showAnimationBubble(bubble:Bubble) {
@@ -27,14 +26,20 @@ export class FireBubbleHandler {
                 bubble.setTintColor(tintColor);
             });
             bubble.setDepth(DEPTH.ANIMATIONEXPLODE);
-            this.scene.scoreManager.increaseScore(bubble.score);
-            bubble.anims.play('explode');
+            bubble.anims.playAfterDelay('explode',0);
+
+            bubble.on('animationupdate', (animation:any,frame:any,obj:any) => {
+                if(frame.index == 15) {
+                    this.bubblesBoard.floatingBubbles.showAnimation();
+                    this.scene.scoreManager.increaseScore(bubble.score);
+                }
+            });
+
             bubble.on('animationcomplete', (animation:any,frame:any,obj:any) => {
-                bubble.removeAllListeners();
                 bubble.anims.remove('explode');
                 bubble.clear();
                 this.bubblesBoard.gridGroup.killAndHide(bubble);
+                bubble.removeAllListeners();
             });
-            this.bubblesBoard.floatingBubbles.showAnimation();
     }
 }

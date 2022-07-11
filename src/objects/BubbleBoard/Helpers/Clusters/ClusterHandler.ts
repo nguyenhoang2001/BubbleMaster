@@ -20,9 +20,9 @@ export class ClusterHandler {
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
+                cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
-            cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
             cluster[i].anims.playAfterDelay('explode',delay);
 
             delay += 50;
