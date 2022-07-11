@@ -22,6 +22,10 @@ export class ClusterHandler {
             cluster[i].on('animationstart', () => {
                 cluster[i].setTintColor(tintColor);
             });
+            cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
+            cluster[i].anims.playAfterDelay('explode',delay);
+
+            delay += 50;
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
                 if(frame.index == 15) {
@@ -39,10 +43,7 @@ export class ClusterHandler {
                 cluster[i].clear();
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
             });
-            cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            cluster[i].anims.playAfterDelay('explode',delay);
-
-            delay += 50;
+            
         }
     }
 

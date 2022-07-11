@@ -1,8 +1,10 @@
 import { GameScene } from "../../../scenes/GameScene";
 import { Bomb } from "../../Bomb";
 import { Bubble } from "../../Bubble";
+import { FireBubble } from "../../FireBubble";
 import { ShootedBubble } from "../../ShootedBubble";
 import { BubblesBoard } from "../BubblesBoard";
+import { FireBubbleHandler } from "../FireBubbleHandler";
 import { BombHandler } from "./BombHandler";
 import { BubbleNeighbors } from "./BubbleNeighbors";
 
@@ -13,12 +15,14 @@ export class ColliderManager {
     private hittedBubble: Bubble;
     private neighborsHelper: BubbleNeighbors;
     private bombHandler: BombHandler;
+    private fireBubbleHandler: FireBubbleHandler;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
         this.neighborsHelper = this.bubblesBoard.neighbors;
         this.bombHandler = new BombHandler(this.scene, this.bubblesBoard);
+        this.fireBubbleHandler = new FireBubbleHandler(this.scene,this.bubblesBoard);
     }
 
     private handleWrongBubbleHit() {
@@ -63,6 +67,18 @@ export class ColliderManager {
                 bubble?.setVisible(false);
                 if(bubble != undefined)
                     this.runBombCollision(bubble,_bomb);
+            }
+        });
+    }
+
+    public enableOverlapFireBallAndBubble(fireBall:FireBubble) {
+        this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,fireBall,(_bubble:any,_fireball:any) => {
+            if(_bubble.isOutGrid == false) {
+                this.hittedBubble = _bubble as Bubble;
+                this.shootedBubble = _fireball as FireBubble;
+                this.scene.scoreManager.calculateScore();
+                this.fireBubbleHandler.clearBubble(this.hittedBubble);
+                this.fireBubbleHandler.showAnimationBubble(this.hittedBubble);
             }
         });
     }

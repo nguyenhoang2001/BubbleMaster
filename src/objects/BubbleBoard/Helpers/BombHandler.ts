@@ -30,7 +30,9 @@ export class BombHandler {
             bubbles[i].on('animationstart', () => {
                 bubbles[i].setTintColor(tintColor);
             });
-
+            bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
+            bubbles[i].anims.playAfterDelay('explode', 100);
+            
             bubbles[i].on('animationcomplete', (animation:any,frame:any,obj:any) => {
                 bubbles[i].removeAllListeners();
                 bubbles[i].anims.remove('explode');
@@ -46,8 +48,7 @@ export class BombHandler {
                     this.scene.scoreManager.increaseScore(bubbles[i].score);
                 }
             });
-            bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            bubbles[i].anims.playAfterDelay('explode', 100);
+            
         }
     }
 

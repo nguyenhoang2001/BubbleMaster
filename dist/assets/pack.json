@@ -147,6 +147,11 @@
                 "type": "image",
                 "key": "bombIcon",
                 "url": "./assets/images/icons/bomb-bubble.png"
+            },
+            {
+                "type": "image",
+                "key": "fireBubble",
+                "url": "./assets/images/bubbles/fire-bubble.png"
             }
         ]
     }
