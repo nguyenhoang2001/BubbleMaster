@@ -16,21 +16,40 @@ export class ClusterHandler {
         this.bubblesBoard = bubblesBoard;
     }
 
+    private getDelayAnimation(target:Bubble,bubble:Bubble):number {
+        let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, bubble);
+        let delay = 80*distance/56 + 20;
+        return delay;
+    }
+
     public runAnimation(cluster:Bubble[]) {
         let delay = 50;
         let target = cluster[0];
 
-        for(let i = 0; i < cluster.length; i++) { 
+        for(let i = 0; i < cluster.length; i++) {
+            cluster[i].score = this.scene.scoreManager.getBallClusterScore();
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
                 cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
-            let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, cluster[i]);
-            delay = 100*distance/56;
-
+            delay = this.getDelayAnimation(target,cluster[i]);
+            if(i != 0) { 
+                const neighbors = this.bubblesBoard.neighbors.getNeighbors(cluster[i]);
+                neighbors.forEach((bubble:Bubble) => {
+                    for(let j = 0; j < i; j++) {
+                        if(cluster[j].row == bubble.row && cluster[j].column == bubble.column) {
+                            if(bubble.delay > delay) {
+                                delay = bubble.delay + 60;
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+            cluster[i].delay = delay;
             let scoreText = this.bubblesBoard.scoreGroup.get(cluster[i].x - 20,cluster[i].y - 20,undefined,undefined,true) as ScoreText;
-            scoreText.activate(cluster[i].score.toString());
+            scoreText.activate(cluster[i].score.toString(),cluster[i]);
             scoreText.showAnimation(delay);
 
             cluster[i].anims.playAfterDelay('explode',delay);
@@ -62,7 +81,6 @@ export class ClusterHandler {
             let row = cluster[i].row;
             let column = cluster[i].column;
             this.bubblesBoard.board[row][column] = undefined;
-            cluster[i].score = this.scene.scoreManager.getBallClusterScore();
         }
     }
 }

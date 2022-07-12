@@ -30,7 +30,7 @@ export class BombHandler {
             if(i == 0 )
                 continue;
             let scoreText = this.bubblesBoard.scoreGroup.get(bubbles[i].x - 20,bubbles[i].y - 20,undefined,undefined,true);
-            scoreText.activate(bubbles[i].score.toString());
+            scoreText.activate(bubbles[i].score.toString(),bubbles[i]);
             scoreText.showAnimation(100);
             let tintColor = bubbles[i].texture.key;
             bubbles[i].on('animationstart', () => {

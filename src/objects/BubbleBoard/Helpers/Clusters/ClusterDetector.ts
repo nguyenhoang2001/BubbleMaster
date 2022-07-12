@@ -14,8 +14,10 @@ export class ClusterDetector {
             this.parent.neighbors.resetProcess();
         }
         let toProcess = [targetedBubble];
+        // next neightbors
         targetedBubble.processed = true;
         let foundCluster = [];
+        // current cluster = []
         while(toProcess.length > 0) {
             let currentBubble = toProcess.shift();
             if(currentBubble == undefined) {
@@ -23,6 +25,7 @@ export class ClusterDetector {
             } else {
                 if(currentBubble.visible) {
                     if(!matchType || currentBubble.texture.key == targetedBubble.texture.key) {
+                        // push vao current cluster
                         foundCluster.push(currentBubble);
                         const neighbors = this.parent.neighbors.getNeighbors(currentBubble);
                         if(neighbors == undefined)
@@ -30,12 +33,16 @@ export class ClusterDetector {
                         for(let i = 0; i < neighbors.length; i++) {
                             if(!neighbors[i].processed) {
                                 neighbors[i].processed = true;
+                                // next neightbors
                                 toProcess.push(neighbors[i]);
                             }
                         }
                     }
                 }
             }
+            // if (toProcess.length ==0)
+            // toProcess.push(next neightbors)
+            // push current vao found
         }
         return foundCluster;
     }

@@ -9,6 +9,7 @@ export class Bubble extends Phaser.Physics.Arcade.Sprite {
     public isOutGrid:boolean;
     public score:number;
     public tween:Phaser.Tweens.Tween;
+    public delay: number;
 
     constructor(scene:Phaser.Scene, x:number, y:number,texture:string,row?:number,column?:number) {
         super(scene,x,y,texture);
@@ -17,6 +18,7 @@ export class Bubble extends Phaser.Physics.Arcade.Sprite {
             this.column = column;
         }
         this.processed = false;
+        this.delay = 0;
         this.isOutGrid = false;
         this.scene.physics.world.enable(this);
         this.body.setCircle(28,0,0);
