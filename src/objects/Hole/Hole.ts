@@ -1,5 +1,6 @@
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
+import { ScoreText } from "../ScoreText";
 
 export class Hole extends Phaser.GameObjects.Image {
     public scene:GameScene;
@@ -23,6 +24,8 @@ export class Hole extends Phaser.GameObjects.Image {
             if(bubble.isOutGrid && bubble.score == 0) {
                 bubble.score = this.scene.scoreManager.getHoleScore(this.holeNumber);
                 this.scene.scoreManager.increaseScore(bubble.score);
+                let scoreText = new ScoreText(this.scene,bubble.x,bubble.y,bubble.score.toString());
+                scoreText.showAnimation(0);
             }
         })
     }

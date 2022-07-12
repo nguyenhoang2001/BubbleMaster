@@ -1,6 +1,7 @@
 import DEPTH from "../../../../game/constant/Depth";
 import { GameScene } from "../../../../scenes/GameScene";
 import { Bubble } from "../../../Bubble";
+import { ScoreText } from "../../../ScoreText";
 import { BubblesBoard } from "../../BubblesBoard";
 import { Clusters } from "./Cluster";
 
@@ -19,14 +20,19 @@ export class ClusterHandler {
         let delay = 50;
         let target = cluster[0];
 
-        for(let i = 0; i < cluster.length; i++) {
+        for(let i = 0; i < cluster.length; i++) { 
+
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
                 cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
             let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, cluster[i]);
-            delay = 80*distance/56;
+            delay = 100*distance/56;
+
+            let scoreText = new ScoreText(this.scene,cluster[i].x,cluster[i].y,cluster[i].score.toString());
+            scoreText.showAnimation(delay);
+
             cluster[i].anims.playAfterDelay('explode',delay);
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
@@ -35,6 +41,7 @@ export class ClusterHandler {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(cluster[i].score);
+                    
                 }
             });
 
@@ -45,7 +52,7 @@ export class ClusterHandler {
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
                 cluster[i].removeAllListeners();
             });
-            
+
         }
     }
 

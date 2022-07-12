@@ -2,6 +2,7 @@ import DEPTH from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bomb } from "../../Bomb";
 import { Bubble } from "../../Bubble";
+import { ScoreText } from "../../ScoreText";
 import { BubblesBoard } from "../BubblesBoard";
 
 export class BombHandler {
@@ -26,6 +27,10 @@ export class BombHandler {
 
     private showAnimationBubbles(bubbles:Bubble[]) {
         for(let i = 0; i < bubbles.length; i++) {
+            if(i == 0 )
+                continue;
+            let scoreText = new ScoreText(this.scene,bubbles[i].x,bubbles[i].y,bubbles[i].score.toString());
+            scoreText.showAnimation(100);
             let tintColor = bubbles[i].texture.key;
             bubbles[i].on('animationstart', () => {
                 bubbles[i].setTintColor(tintColor);

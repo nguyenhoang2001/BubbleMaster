@@ -1,6 +1,7 @@
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
+import { ScoreText } from "../ScoreText";
 import { BubblesBoard } from "./BubblesBoard";
 
 export class FireBubbleHandler {
@@ -21,6 +22,8 @@ export class FireBubbleHandler {
     }
 
     public showAnimationBubble(bubble:Bubble) {
+        let scoreText = new ScoreText(this.scene,bubble.x,bubble.y,bubble.score.toString());
+            scoreText.showAnimation(0);
         let tintColor = bubble.texture.key;
             bubble.on('animationstart', () => {
                 bubble.setTintColor(tintColor);
