@@ -9,11 +9,17 @@ export class ScoreText extends Phaser.GameObjects.Text {
         super(scene,x,y,text,{});
         this.style.setFontSize('30px');
         this.style.setFontFamily('Arial');
-        this.x-= 20;
-        this.y-= 20;
         this.setDepth(DEPTH.TEXT);
         this.scene.add.existing(this);
         this.setScale(0);
+    }
+
+    public activate(text:string) {
+        this.setScale(0);
+        this.setText(text);
+        this.setActive(true);
+        this.setVisible(true);
+        this.setAlpha(1);
     }
 
     public showAnimation(delay:number) {
@@ -30,7 +36,7 @@ export class ScoreText extends Phaser.GameObjects.Text {
                     alpha: 0,
                     duration: 200,
                     onComplete: () => {
-                        this.destroy();
+                        this.scene.bubblesBoard.scoreGroup.killAndHide(this);
                     }
                 }
             ],

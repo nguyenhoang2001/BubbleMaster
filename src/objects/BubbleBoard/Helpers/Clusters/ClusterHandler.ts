@@ -21,7 +21,6 @@ export class ClusterHandler {
         let target = cluster[0];
 
         for(let i = 0; i < cluster.length; i++) { 
-
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
                 cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
@@ -30,7 +29,8 @@ export class ClusterHandler {
             let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, cluster[i]);
             delay = 100*distance/56;
 
-            let scoreText = new ScoreText(this.scene,cluster[i].x,cluster[i].y,cluster[i].score.toString());
+            let scoreText = this.bubblesBoard.scoreGroup.get(cluster[i].x - 20,cluster[i].y - 20,undefined,undefined,true) as ScoreText;
+            scoreText.activate(cluster[i].score.toString());
             scoreText.showAnimation(delay);
 
             cluster[i].anims.playAfterDelay('explode',delay);
