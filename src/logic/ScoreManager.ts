@@ -39,9 +39,11 @@ export class ScoreManager {
     }
 
     public increaseCombo() {
-        // if(this.combo < 15)
         this.combo += 1;
         this.updateScoreByCombo();
+        if(this.combo == 10) {
+            this.scene.events.emit('fireBall');
+        }
     }
 
     public getScore() {

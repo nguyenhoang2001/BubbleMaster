@@ -30,24 +30,25 @@ export class BombHandler {
             bubbles[i].on('animationstart', () => {
                 bubbles[i].setTintColor(tintColor);
             });
-
+            bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
+            bubbles[i].anims.playAfterDelay('explode', 100);
+            
             bubbles[i].on('animationcomplete', (animation:any,frame:any,obj:any) => {
-                bubbles[i].removeAllListeners();
                 bubbles[i].anims.remove('explode');
                 bubbles[i].clear();
                 this.bubblesBoard.gridGroup.killAndHide(bubbles[i]);
+                bubbles[i].removeAllListeners();
             });
 
             bubbles[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 15) {
-                    if(i == 0) {
+                if(frame.index == 5) {
+                    if(i == bubbles.length - 1) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(bubbles[i].score);
                 }
             });
-            bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            bubbles[i].anims.playAfterDelay('explode', 100);
+            
         }
     }
 

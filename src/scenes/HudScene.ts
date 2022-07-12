@@ -43,7 +43,6 @@ export class HudScene extends Phaser.Scene {
 
             if(gameScene.movingGridManager.getIsShooted()) {
                 this.container.update(time,delta);
-                console.log(gameScene.scoreManager.getScore() / this.container.maxPointProgressBar)
                 if((gameScene.scoreManager.getScore() / this.container.maxPointProgressBar) >= 2/3) {
                     if(this.checkPointTwoThird) {
                         this.checkPointTwoThird = false;

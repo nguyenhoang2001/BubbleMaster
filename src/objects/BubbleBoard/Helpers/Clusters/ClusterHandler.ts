@@ -17,15 +17,21 @@ export class ClusterHandler {
 
     public runAnimation(cluster:Bubble[]) {
         let delay = 50;
+        let target = cluster[0];
+
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
+                cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
+            let distance = this.bubblesBoard.addingManager.positionHandler.getDistance(target, cluster[i]);
+            delay = 80*distance/56;
+            cluster[i].anims.playAfterDelay('explode',delay);
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
-                if(frame.index == 15) {
-                    if(i == 0) {
+                if(frame.index == 5) {
+                    if(i == cluster.length - 1) {
                         this.bubblesBoard.floatingBubbles.showAnimation();
                     }
                     this.scene.scoreManager.increaseScore(cluster[i].score);
@@ -34,15 +40,12 @@ export class ClusterHandler {
 
             cluster[i].on('animationcomplete-explode', () => {
                 this.clusters.remains -= 1;
-                cluster[i].removeAllListeners();
                 cluster[i].anims.remove('explode');
                 cluster[i].clear();
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
+                cluster[i].removeAllListeners();
             });
-            cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
-            cluster[i].anims.playAfterDelay('explode',delay);
-
-            delay += 50;
+            
         }
     }
 

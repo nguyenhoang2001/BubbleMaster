@@ -1,6 +1,7 @@
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { Bomb } from "../Bomb";
+import { FireBubble } from "../FireBubble";
 import { ShootedBubble } from "../ShootedBubble";
 import { AnimationShooter } from "./Helpers/AnimationShooter";
 import { BulletCreator } from "./Helpers/BulletCreator";
@@ -8,7 +9,7 @@ import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
-    public shootedBubble: ShootedBubble | Bomb;
+    public shootedBubble: ShootedBubble | Bomb | FireBubble;
     public scene: GameScene;
     public arrowShoot: Phaser.GameObjects.Line
     public circle: Phaser.GameObjects.Image;
@@ -16,13 +17,14 @@ export class Shooter {
     private flyingBulletGroup:Phaser.GameObjects.Group;
     public secondBubllet: ShootedBubble;
     private bulletCreator: BulletCreator;
-    private bulletSwaper: BulletSwaper;
+    public bulletSwaper: BulletSwaper;
     private isShoot: boolean;
     public checkAllowShooting: boolean;
     private shotGuide: ShotGuide;
     public animation: AnimationShooter;
     private pointerOnCircle: boolean;
     public inputFireBullet: Phaser.Input.InputPlugin;
+    public inputRotateShooter: Phaser.Input.InputPlugin;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -40,7 +42,6 @@ export class Shooter {
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
-        
     }
 
     private drawLine() {
@@ -68,6 +69,7 @@ export class Shooter {
     public removeInput() {
         this.circle.removeInteractive();
         this.inputFireBullet.removeAllListeners();
+        this.inputRotateShooter.removeAllListeners();
     }
 
     private enableChangeBubble() {
@@ -75,7 +77,6 @@ export class Shooter {
         this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
             if(pointer.leftButtonDown()) {
                 if(this.bulletSwaper.finished) {
-                    this.checkAllowShooting = false;
                     this.bulletSwaper.startSwaping();
                 }
             }
@@ -97,11 +98,14 @@ export class Shooter {
                 } 
                 else if (pointer.rightButtonReleased()) {
                     if(this.bulletSwaper.finished) {
-                        this.checkAllowShooting = false;
                         this.bulletSwaper.startSwaping();
                     }
                 }
             },this);
+
+            this.inputRotateShooter = this.scene.input.on('pointermove', (pointer:Phaser.Input.Pointer) => {
+                this.rotateShooter(pointer);
+            })
     }
 
     private drawCircle() {
@@ -117,10 +121,10 @@ export class Shooter {
         this.arrowShoot.setVisible(false);
     }
 
-    private rotateShooter() {
-        if(this.checkAllowShooting) {
+    private rotateShooter(pointer: Phaser.Input.Pointer) {
+        if(this.checkAllowShooting && this.bulletSwaper.finished) {
             let angle = Phaser.Math.RAD_TO_DEG * 
-            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, pointer.x, pointer.y);
             if (angle < 0) {
                 angle = 180 + (180 + angle);
             }
@@ -141,7 +145,6 @@ export class Shooter {
 
     private shootBubble() {
         if(this.arrowShoot.angle != 0) {
-            this.checkAllowShooting = false;
             this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
@@ -162,7 +165,7 @@ export class Shooter {
     }
     
     public update() {
-        this.rotateShooter();
+        // this.rotateShooter();
         this.shotGuide.update();
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
@@ -173,9 +176,6 @@ export class Shooter {
         if(this.isShoot) {
             this.isShoot = false;
             this.shootBubble();
-        }
-        if(this.bulletSwaper.finished) {
-            this.checkAllowShooting = true;
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
             this.shotGuide.hide();

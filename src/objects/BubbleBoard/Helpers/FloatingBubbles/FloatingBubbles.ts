@@ -30,7 +30,6 @@ export class FloatingBubbles {
     public checkFloating() {
         this.array = this.detector.find();
         if( this.array.length > 0) {
-            console.log('there is floating');
             this.isFloating = true;
             this.remains = this.array.length;
             this.handler.clearFloating();
@@ -44,7 +43,6 @@ export class FloatingBubbles {
             let bubble = _bubble as Bubble;
             if(bubble.visible && bubble.isOutGrid == true) {
                 if(bubble.y >= this.scene.sys.canvas.height + 28) {
-                    console.log('out the game scene');
                     bubble.clear();
                     this.remains -= 1;
                     this.bubblesBoard.gridGroup.killAndHide(bubble);

@@ -8,7 +8,7 @@ import DEPTH from "../../../../game/constant/Depth";
 export class AddingBubble {
     public bubblesBoard: BubblesBoard;
     public fixedPos: any;
-    private positionHandler: PositionBubbleHandler;
+    public positionHandler: PositionBubbleHandler;
     public scene: GameScene;
     public finishedAddingBullet: boolean;
 
