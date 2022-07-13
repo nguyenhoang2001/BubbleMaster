@@ -34,6 +34,7 @@ export class HolesManager {
             let texture = 'orangeHole';
             if(i == 0 || i == 4) {
                 texture = 'greenHole';
+
             } else if(i == 1 || i == 3) {
                 texture = 'purpleHole';
             }

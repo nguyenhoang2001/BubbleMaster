@@ -35,5 +35,14 @@ export class AnimationCreator {
             }),
             frameRate: 15
         });
+        this.scene.anims.create({
+            key:'light',
+            frames: this.scene.anims.generateFrameNames('gamePlaySet', 
+            {   prefix:'animations/grey-light/grey_light_',
+                end:38, 
+                zeroPad: 2
+            }),
+            frameRate: 40
+        });
     }
 }
