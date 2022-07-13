@@ -51,6 +51,11 @@ export class HolesManager {
         Phaser.Display.Align.To.RightCenter(this.holes[3],this.holes[2], 16);
 
         Phaser.Display.Align.To.RightCenter(this.holes[4],this.holes[3], 18.3);
+
+        this.holes.forEach((_hole:Hole) => {
+            _hole.setUpLight();
+        });
+
     }
 
     private createScoreText() {
