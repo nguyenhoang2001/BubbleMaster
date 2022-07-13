@@ -22,11 +22,6 @@ export class ScoreText extends Phaser.GameObjects.Text {
         this.setOrigin(0.5, 0.8)
     }
 
-    public setTextAndPos(text:string, bubble:Bubble) {
-        this.setText(text);
-        Phaser.Display.Align.In.Center(this,bubble);
-    }
-
     public showAnimation() {
         this.scene.tweens.timeline({
             targets: this,

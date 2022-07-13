@@ -25,8 +25,9 @@ export class Hole extends Phaser.GameObjects.Image {
                 bubble.score = this.scene.scoreManager.getHoleScore(this.holeNumber);
                 this.scene.scoreManager.increaseScore(bubble.score);
                 
-                let scoreText = this.scene.bubblesBoard.scoreGroup.getScore();
-                scoreText.setTextAndPos(bubble.score.toString(),bubble);
+                let scoreText = this.scene.bubblesBoard.scoreGroup.getScoreText();
+                scoreText.setText(bubble.score.toString());
+                scoreText.setPosition(bubble.x,bubble.y);
                 scoreText.showAnimation();
             }
         })

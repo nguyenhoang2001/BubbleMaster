@@ -11,7 +11,7 @@ export class FloatingScoreGroup extends Phaser.GameObjects.Group {
         this.scene.add.existing(this);
     }
 
-    public getScore():ScoreText {
+    public getScoreText():ScoreText {
         let scoreText = this.get() as ScoreText;
         scoreText.activate();
         return scoreText;

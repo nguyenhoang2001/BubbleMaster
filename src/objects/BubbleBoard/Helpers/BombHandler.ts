@@ -29,9 +29,11 @@ export class BombHandler {
         for(let i = 0; i < bubbles.length; i++) {
             if(i == 0 )
                 continue;
-            
-            let scoreText = this.bubblesBoard.scoreGroup.getScore();
-            scoreText.setTextAndPos(bubbles[i].score.toString(),bubbles[i]);
+
+            let scoreText = this.bubblesBoard.scoreGroup.getScoreText();
+            scoreText.setText(bubbles[i].score.toString());
+            scoreText.setPosition(bubbles[i].x,bubbles[i].y);
+
 
             let tintColor = bubbles[i].texture.key;
             bubbles[i].on('animationstart', () => {
@@ -54,10 +56,10 @@ export class BombHandler {
                     this.scene.scoreManager.increaseScore(bubbles[i].score);
                 }
             });
-            this.scene.time.addEvent({delay:100, callback: ()=>{
+            this.scene.time.delayedCall(100,()=>{
                 scoreText.showAnimation();
                 bubbles[i].anims.playAfterDelay('explode',0);
-            }})
+            });
         }
     }
 

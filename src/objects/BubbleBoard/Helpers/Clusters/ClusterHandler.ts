@@ -77,13 +77,13 @@ export class ClusterHandler {
                     }
                 });
             }
-            let scoreText = this.bubblesBoard.scoreGroup.getScore();
-            scoreText.setTextAndPos(cluster[i].score.toString(),cluster[i]);
-            
-            this.scene.time.addEvent({delay:delay, callback: () => {
+            let scoreText = this.bubblesBoard.scoreGroup.getScoreText();
+            scoreText.setText(cluster[i].score.toString());
+            scoreText.setPosition(cluster[i].x,cluster[i].y);
+            this.scene.time.delayedCall(delay,()=>{
                 scoreText.showAnimation();
                 cluster[i].anims.playAfterDelay('explode',0);
-            }})
+            });
         }
     }
 }
