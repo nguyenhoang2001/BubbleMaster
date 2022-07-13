@@ -74,9 +74,13 @@ export class AddingBubble {
             return;
         let saveNumberRowAdd = numberOfRow;
         let bellowBubble = this.bubblesBoard.board[0].find(n=>n);
-        if(bellowBubble == undefined)
-            return;
-        let bellowY = bellowBubble.y;
+        let bellowY = 0;
+        if(bellowBubble == undefined) {
+            bellowY = 0;
+            // return;
+        } else {
+            bellowY = bellowBubble.y;
+        }
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 const object = this.bubblesBoard.board[i][j];

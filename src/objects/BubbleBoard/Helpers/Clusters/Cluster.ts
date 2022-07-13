@@ -44,7 +44,6 @@ export class Clusters {
             this.scene.scoreManager.increaseCombo();
             this.scene.holes.runAnimationScore();
             this.handler.clearClusters(this.clusters);
-            this.handler.runAnimation(this.clusters);
         } else {
             this.scene.scoreManager.resetCombo();
             this.scene.holes.runAnimationScore();
