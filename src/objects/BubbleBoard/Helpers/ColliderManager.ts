@@ -64,7 +64,7 @@ export class ColliderManager {
                 this.scene.scoreManager.calculateScore();
                 let bubble = this.runCollide();
                 this.shootedBubble.removeVisualEffect();
-                bubble?.setVisible(false);
+                // bubble?.setVisible(false);
                 if(bubble != undefined)
                     this.runBombCollision(bubble,_bomb);
             }
@@ -84,33 +84,71 @@ export class ColliderManager {
     }
 
     private runBombCollision(target:Bubble,_bomb:any) {
-        this.neighborsHelper.resetProcess();
-        let toWork = [];
-        toWork.push(target);
-        target.processed = true;
-        let layer = 3;
-        let neighbors:Bubble[] = [];
-        let toProcess:Bubble[] = [];
-        toProcess.push(target);
-        while(toWork.length > 0 && layer > 0) {
-            let obj = toWork.pop();
-            if(obj != undefined) {
-                const rawNeighbors = this.neighborsHelper.getNeighbors(obj);
-                rawNeighbors.some((bubble:Bubble) => {
-                    if(!bubble.processed) {
-                        bubble.processed = true;
-                        toProcess.push(bubble);
-                        neighbors.push(bubble);
+        let toProcess = [];
+        let explodePos: { i: number; j: number; }[] = [];
+        let temp: { i: number; j: number; }[] = [];
+        let buffer: { i: number; j: number; }[] = [];
+        temp.push({i:target.row,j:target.column});
+        let count = 4;
+        while(temp.length > 0 && count > 0) {
+            let pos = temp.shift();
+            if(pos != undefined) {
+                let existing = false;
+                // existing = explodePos.some((exPos:any) => {
+                //     if(exPos.i == pos?.i && exPos.j == pos?.j) {
+                //         return true;
+                //     }
+                // });
+                if(existing == false) {
+                    // console.log(pos);
+                    explodePos.push(pos);
+                    const bubble = this.bubblesBoard.board[pos.i][pos.j];
+                    if(bubble != undefined) {
+                        if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
+                            toProcess.push(bubble);
+                        }
+                    }
+                }
+                
+                let arrNeighborPos = this.neighborsHelper.getNeighborPos(pos.i,pos.j);
+                arrNeighborPos.forEach((neighPos:any) => {
+                    let existingExplodePos = false;
+                    let existingTemp = false;
+                    let existingBuffer = false;
+                    existingExplodePos =  explodePos.some((exPos:any) => {
+                        if(exPos.i == neighPos?.i && exPos.j == neighPos?.j) {
+                            return true;
+                        }
+                    });
+                    if(!existingExplodePos) {
+                        existingTemp =  temp.some((tempPos:any) => {
+                            if(tempPos.i == neighPos?.i && tempPos.j == neighPos?.j) {
+                                return true;
+                            }
+                        });
+                        if(!existingTemp) {
+                            existingBuffer = buffer.some((bufferPos:any) => {
+                                if(bufferPos.i == neighPos.i && bufferPos.j == neighPos.j) {
+                                    return true;
+                                }
+                            });
+                        }
+                    }
+                    if(!existingExplodePos && !existingTemp && !existingBuffer) {
+                        buffer.push(neighPos);
                     }
                 });
             }
-            if(toWork.length == 0) {
-                toWork = neighbors;
-                neighbors = [];
-                layer--;
+            if(temp.length == 0) {
+                count--;
+                buffer.forEach((bufferPos:any) => {
+                    temp.push(bufferPos);
+                });
+                buffer = [];
             }
-
         }
+        // console.log(explodePos);
+        toProcess[0]?.setVisible(false);
         this.bombHandler.clearBubbles(toProcess);
         this.bombHandler.runAnimation(toProcess,this.shootedBubble);
     }

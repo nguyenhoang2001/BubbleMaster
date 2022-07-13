@@ -23,36 +23,36 @@ export class ClusterHandler {
     }
 
     public runAnimation(cluster:Bubble[]) {
-        let delay = 50;
-        let target = cluster[0];
+        // let delay = 50;
+        // let target = cluster[0];
 
         for(let i = 0; i < cluster.length; i++) {
-            cluster[i].score = this.scene.scoreManager.getBallClusterScore();
+            // cluster[i].score = this.scene.scoreManager.getBallClusterScore();
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
                 cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
-            delay = this.getDelayAnimation(target,cluster[i]);
-            if(i != 0) { 
-                const neighbors = this.bubblesBoard.neighbors.getNeighbors(cluster[i]);
-                neighbors.forEach((bubble:Bubble) => {
-                    for(let j = 0; j < i; j++) {
-                        if(cluster[j].row == bubble.row && cluster[j].column == bubble.column) {
-                            if(bubble.delay > delay) {
-                                delay = bubble.delay + 60;
-                            }
-                            break;
-                        }
-                    }
-                });
-            }
-            cluster[i].delay = delay;
+            // delay = this.getDelayAnimation(target,cluster[i]);
+            // if(i != 0) { 
+            //     const neighbors = this.bubblesBoard.neighbors.getNeighbors(cluster[i]);
+            //     neighbors.forEach((bubble:Bubble) => {
+            //         for(let j = 0; j < i; j++) {
+            //             if(cluster[j].row == bubble.row && cluster[j].column == bubble.column) {
+            //                 if(bubble.delay > delay) {
+            //                     delay = bubble.delay + 60;
+            //                 }
+            //                 break;
+            //             }
+            //         }
+            //     });
+            // }
+            // cluster[i].delay = delay;
             let scoreText = this.bubblesBoard.scoreGroup.get(cluster[i].x - 20,cluster[i].y - 20,undefined,undefined,true) as ScoreText;
             scoreText.activate(cluster[i].score.toString(),cluster[i]);
-            scoreText.showAnimation(delay);
+            scoreText.showAnimation(cluster[i].delay);
 
-            cluster[i].anims.playAfterDelay('explode',delay);
+            cluster[i].anims.playAfterDelay('explode',cluster[i].delay);
 
             cluster[i].on('animationupdate', (animation:any,frame:any,obj:any) => {
                 if(frame.index == 5) {
@@ -76,11 +76,30 @@ export class ClusterHandler {
     }
 
     public clearClusters(cluster:Bubble[]) {
+        let target = cluster[0];
+
         for(let i = 0; i < cluster.length; i++) {
             cluster[i].body.checkCollision.none = true;
             let row = cluster[i].row;
             let column = cluster[i].column;
             this.bubblesBoard.board[row][column] = undefined;
+            cluster[i].score = this.scene.scoreManager.getBallClusterScore();
+
+            let delay = this.getDelayAnimation(target,cluster[i]);
+            if(i != 0) { 
+                const neighbors = this.bubblesBoard.neighbors.getNeighbors(cluster[i]);
+                neighbors.forEach((bubble:Bubble) => {
+                    for(let j = 0; j < i; j++) {
+                        if(cluster[j].row == bubble.row && cluster[j].column == bubble.column) {
+                            if(bubble.delay > delay) {
+                                delay = bubble.delay + 60;
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+            cluster[i].delay = delay;
         }
     }
 }
