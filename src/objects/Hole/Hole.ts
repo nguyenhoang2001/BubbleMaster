@@ -12,8 +12,8 @@ export class Hole extends Phaser.GameObjects.Image {
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this);
         this.holeNumber = holeNumber;
-        this.body.setSize(undefined,10);
-        this.body.setOffset(0,60);
+        this.body.setSize(120,10);
+        this.body.setOffset(5,65);
         this.enableOverlap();
     }
 

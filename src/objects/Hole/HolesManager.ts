@@ -78,8 +78,20 @@ export class HolesManager {
 
     private createBounceRegions() {
         for(let i = 0; i < 4; i++) {
-            this.bounceRegions.push(new BounceRegion(this.scene,0,0,19,100).setOrigin(0,0));
-            Phaser.Display.Align.To.RightTop(this.bounceRegions[i],this.holes[i],0,-25);
+            if(i == 2) {
+                this.bounceRegions.push(new BounceRegion(this.scene,0,0,24,100).setOrigin(0,0));
+
+            } else if(i == 1) {
+                this.bounceRegions.push(new BounceRegion(this.scene,0,0,27,100).setOrigin(0,0));
+            } else if(i == 3) {
+                this.bounceRegions.push(new BounceRegion(this.scene,0,0,26,100).setOrigin(0,0));
+            } 
+            else {
+                this.bounceRegions.push(new BounceRegion(this.scene,0,0,28,100).setOrigin(0,0));
+
+            }
+            
+            Phaser.Display.Align.To.RightTop(this.bounceRegions[i],this.holes[i],-4,-25);
         }
         
     }
