@@ -26,6 +26,7 @@ export class GameScene extends Phaser.Scene {
     public scoreManager: ScoreManager;
     public movingGridManager: MovingGridManager;
     private typeBulletManager: TypeBulletManager;
+    public gameOver:boolean;
 
     constructor() {
         super({
@@ -36,6 +37,7 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         // Variables
+        this.gameOver = false;
         this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
         this.background.setDepth(DEPTH.BACKGROUND);
@@ -68,8 +70,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-        let isGameOver = this.registry.get('isGameOver');
-        if(!isGameOver) {
+        if(!this.gameOver) {
             this.colorManager.update(delta);
             this.typeBulletManager.checkConditionToChangeType();
             if(this.highScore < this.scoreManager.getScore()) {

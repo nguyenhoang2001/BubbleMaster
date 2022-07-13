@@ -40,6 +40,7 @@ export class MovingGridManager {
         } else {
             this.velocityPerSecond = 0;
             this.scene.registry.set('isGameOver', true);
+            this.scene.gameOver = true;
         }
     }
 
