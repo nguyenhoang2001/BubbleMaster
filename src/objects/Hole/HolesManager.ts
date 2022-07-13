@@ -34,6 +34,7 @@ export class HolesManager {
             let texture = 'orangeHole';
             if(i == 0 || i == 4) {
                 texture = 'greenHole';
+
             } else if(i == 1 || i == 3) {
                 texture = 'purpleHole';
             }
@@ -50,6 +51,10 @@ export class HolesManager {
         Phaser.Display.Align.To.RightCenter(this.holes[3],this.holes[2], 16);
 
         Phaser.Display.Align.To.RightCenter(this.holes[4],this.holes[3], 16);
+
+        this.holes.forEach((_hole:Hole) => {
+            _hole.setUpLight();
+        })
     }
 
     private createScoreText() {
