@@ -25,6 +25,7 @@ export class Shooter {
     private pointerOnCircle: boolean;
     public inputFireBullet: Phaser.Input.InputPlugin;
     public inputRotateShooter: Phaser.Input.InputPlugin;
+    private pointer:Phaser.Input.Pointer;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -37,6 +38,7 @@ export class Shooter {
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
         this.animation = new AnimationShooter(this,this.scene);
+        this.pointer = this.scene.input.activePointer;
         this.drawCircle();
         this.bulletCreator.run();
         this.drawLine();
@@ -94,6 +96,8 @@ export class Shooter {
                 if(pointer.leftButtonReleased()) {
                     if(this.checkAllowShooting && this.bulletSwaper.finished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                         this.isShoot = true;
+                    }else {
+                        this.isShoot = false;
                     }
                 } 
                 else if (pointer.rightButtonReleased()) {
@@ -103,9 +107,7 @@ export class Shooter {
                 }
             },this);
 
-            this.inputRotateShooter = this.scene.input.on('pointermove', (pointer:Phaser.Input.Pointer) => {
-                this.rotateShooter(pointer);
-            })
+            this.inputRotateShooter = this.scene.input.on('pointermove', () => {});
     }
 
     private drawCircle() {
@@ -166,6 +168,7 @@ export class Shooter {
     
     public update() {
         // this.rotateShooter();
+        this.rotateShooter(this.inputRotateShooter.activePointer);
         this.shotGuide.update();
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
