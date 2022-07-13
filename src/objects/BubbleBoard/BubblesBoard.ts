@@ -10,6 +10,7 @@ import { ShootedBubble } from "../ShootedBubble";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
 import { HittingAnimation } from "./HittingAnimation";
 import { ScoreText } from "../ScoreText";
+import { FloatingScoreGroup } from "./FloatingScoreGroup";
 
 export class BubblesBoard {
     // Helpers
@@ -24,7 +25,7 @@ export class BubblesBoard {
     // Variables
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
-    public scoreGroup: Phaser.GameObjects.Group;
+    public scoreGroup: FloatingScoreGroup;
     public row: number; // 27 is max
     public column:number; // 12 is max
     public rowOffSet:number;
@@ -49,7 +50,7 @@ export class BubblesBoard {
         this.rowOffSet = rowOffSet;
         this.rowHeight = rowHeight;
         this.gridGroup = this.scene.add.group({classType:Bubble});
-        this.scoreGroup = this.scene.add.group({classType:ScoreText});
+        this.scoreGroup = new FloatingScoreGroup(this.scene);
         this.board = [];
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
