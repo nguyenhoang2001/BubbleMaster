@@ -14,31 +14,32 @@ export class ScoreText extends Phaser.GameObjects.Text {
         this.setScale(0);
     }
 
-    public activate(text:string, bubble:Bubble) {
+    public activate() {
         this.setScale(0);
-        this.setText(text);
         this.setActive(true);
         this.setVisible(true);
         this.setAlpha(1);
         this.setOrigin(0.5, 0.8)
+    }
+
+    public setTextAndPos(text:string, bubble:Bubble) {
+        this.setText(text);
         Phaser.Display.Align.In.Center(this,bubble);
     }
 
-    public showAnimation(delay:number) {
+    public showAnimation() {
         this.scene.tweens.timeline({
             targets: this,
             ease: 'Sine',
             tweens:[
                 {
                     scale: {from: 0.8, to: 1},
-                    duration: 150,
-                    delay:delay*0.8
+                    duration: 150
                 },
                 {
                     alpha: 0,
                     scale:{from: 1, to:0.8},
                     duration: 373,
-                    delay: 80,
                     onComplete: () => {
                         this.scene.bubblesBoard.scoreGroup.killAndHide(this);
                     }

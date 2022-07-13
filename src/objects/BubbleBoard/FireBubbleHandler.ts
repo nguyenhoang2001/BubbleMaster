@@ -22,9 +22,11 @@ export class FireBubbleHandler {
     }
 
     public showAnimationBubble(bubble:Bubble) {
-        let scoreText = this.bubblesBoard.scoreGroup.get(bubble.x - 20,bubble.y - 20,undefined,undefined,true);
-        scoreText.activate(bubble.score.toString(),bubble);
-        scoreText.showAnimation(0);
+        
+        let scoreText = this.bubblesBoard.scoreGroup.getScore();
+        scoreText.setTextAndPos(bubble.score.toString(),bubble);
+
+        scoreText.showAnimation();
         let tintColor = bubble.texture.key;
             bubble.on('animationstart', () => {
                 bubble.setTintColor(tintColor);
