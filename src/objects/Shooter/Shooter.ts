@@ -141,6 +141,8 @@ export class Shooter {
                 }
                 this.arrowShoot.setAngle(angle);
                 this.shotGuide.run();
+            } else {
+                this.shotGuide.fadeOut();
             }
         }
     }
@@ -167,7 +169,6 @@ export class Shooter {
     }
     
     public update() {
-        // this.rotateShooter();
         this.rotateShooter(this.inputRotateShooter.activePointer);
         this.shotGuide.update();
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
@@ -181,7 +182,7 @@ export class Shooter {
             this.shootBubble();
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
-            this.shotGuide.hide();
+            this.shotGuide.fadeOut();
         }
     }
 }
