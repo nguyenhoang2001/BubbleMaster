@@ -44,6 +44,21 @@ export class BubbleNeighbors {
         return neighbors;
     }
 
+    
+    public getNeighborPos(row:number, column:number) {
+        let bubbleRow = (row + this.bubblesBoard.rowOffSet) % 2;
+        let offset = this.neighborOffsets[bubbleRow];
+        let neighborsPos = [];
+        for(let i = 0; i < offset.length; i++) {
+            let neighborRow = row + offset[i][0];
+            let neighborColumn = column + offset[i][1];
+            if(neighborRow >= 0 && neighborRow < this.bubblesBoard.row && neighborColumn >= 0 && neighborColumn < this.bubblesBoard.column) {
+                neighborsPos.push({i:neighborRow,j:neighborColumn});
+            }
+        }
+        return neighborsPos;
+    }
+
     public getEmpty(bubble:Bubble):any[] {
         let bubbleRow = (bubble.row + this.bubblesBoard.rowOffSet) % 2;
         let empty = [];
@@ -67,6 +82,7 @@ export class BubbleNeighbors {
         }
         return empty;
     }
+
 
 
     public getOppositeNeighbor(targetedBubble:Bubble, centerBubble:Bubble):any {
