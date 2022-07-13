@@ -11,10 +11,13 @@ export class AddingNewBubbleRowManager {
 
     private checkToAdd() {
         let topBubble = this.scene.bubblesBoard.board[0].find(n=>n);
-        if(topBubble != undefined)
+        if(topBubble != undefined) {
             if(topBubble.y >= 0) {
                 this.needToAdd = true;
             }
+        } else {
+            this.needToAdd = true;
+        }
     }
 
     public setAddSignalToGrid() {

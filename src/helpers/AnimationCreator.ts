@@ -12,7 +12,7 @@ export class AnimationCreator {
             key:'explode',
             frames: this.scene.anims.generateFrameNames('gamePlaySet', 
             {   prefix:'animations/grey-explosive/explosive_grey_',
-                end:30, 
+                end:29, 
                 zeroPad: 2
             }),
             frameRate: 40
@@ -21,7 +21,7 @@ export class AnimationCreator {
             key:'bombExplode',
             frames: this.scene.anims.generateFrameNames('gamePlaySet',
             {   prefix:'animations/bomb-explosive/bom_explosive_',
-                end:22, 
+                end:21, 
                 zeroPad: 2
             }),
             frameRate: 40
@@ -34,6 +34,15 @@ export class AnimationCreator {
                 zeroPad: 1
             }),
             frameRate: 15
+        });
+        this.scene.anims.create({
+            key:'light',
+            frames: this.scene.anims.generateFrameNames('gamePlaySet', 
+            {   prefix:'animations/grey-light/grey_light_',
+                end:38, 
+                zeroPad: 2
+            }),
+            frameRate: 40
         });
     }
 }
