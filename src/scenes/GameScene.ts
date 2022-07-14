@@ -47,7 +47,7 @@ export class GameScene extends Phaser.Scene {
         this.colorManager = new ColorManager();
         // Game Objects
         this.animationCreator = new AnimationCreator(this);
-        this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,49);
+        this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,50);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
         this.gameOverContainer.setDepth(DEPTH.GAMEOVERCONTAINER);
