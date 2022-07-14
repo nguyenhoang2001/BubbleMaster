@@ -28,6 +28,9 @@ export class GameScene extends Phaser.Scene {
     public scoreManager: ScoreManager;
     public movingGridManager: MovingGridManager;
     private typeBulletManager: TypeBulletManager;
+
+    public gameOver:boolean;
+
     // Constant
     private readonly gridX = 33;
     private readonly gridY = 0;
@@ -78,8 +81,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-        let isGameOver = this.registry.get('isGameOver');
-        if(!isGameOver) {
+        if(!this.gameOver) {
             this.colorManager.update(delta);
             this.typeBulletManager.checkConditionToChangeType();
             if(this.highScore < this.scoreManager.getScore()) {

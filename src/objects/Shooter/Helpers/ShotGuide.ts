@@ -33,6 +33,7 @@ export class ShotGuide {
         circle.setTexture('circleGuide');
         circle.setDepth(DEPTH.GAMEPLAY);
         circle.setActive(true);
+        circle.setAlpha(1);
         circle.setVisible(true);
         circle.setScale(1);
         circle.isOverlap = false;
@@ -158,8 +159,26 @@ export class ShotGuide {
 
     public hide() {
         this.circleGuideGroup.getChildren().forEach((circle:any) => {
-            this.circleGuideGroup.killAndHide(circle);
-        })
+            if(circle.active)
+                this.circleGuideGroup.killAndHide(circle);
+        });
+    }
+
+    public fadeOut() {
+        this.circleGuideGroup.getChildren().forEach((circle:any) => {
+            if(circle.active) {
+                circle.setActive(false);
+                this.scene.tweens.add({
+                    targets:circle,
+                    alpha: 0,
+                    duration: 100,
+                    ease:'Sine',
+                    onComplete: () => {
+                        this.circleGuideGroup.killAndHide(circle);
+                    }
+                })
+            }
+        });
     }
 
     public update() {
