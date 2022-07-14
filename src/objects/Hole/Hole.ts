@@ -17,13 +17,13 @@ export class Hole extends Phaser.GameObjects.Image {
         this.setColorLight();
         this.light.setDepth(DEPTH.LIGHT);
         this.holeNumber = holeNumber;
-        this.body.setSize(undefined,10);
-        this.body.setOffset(0,60);
+        this.body.setSize(120,10);
+        this.body.setOffset(5,65);
         this.enableOverlap();
     }
 
     public setUpLight() {
-        Phaser.Display.Align.In.Center(this.light,this,0, -60);
+        Phaser.Display.Align.In.Center(this.light,this,0, -65);
     }
 
     public setColorLight() {
@@ -48,6 +48,7 @@ export class Hole extends Phaser.GameObjects.Image {
                 scoreText.setText(bubble.score.toString());
                 scoreText.setPosition(bubble.x,bubble.y);
                 scoreText.showAnimation();
+                this.light.anims.playAfterDelay('light',0);
             }
         })
     }
