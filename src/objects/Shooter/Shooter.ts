@@ -9,22 +9,28 @@ import { BulletSwaper } from "./Helpers/BulletSwaper";
 import { ShotGuide } from "./Helpers/ShotGuide";
 
 export class Shooter {
-    public shootedBubble: ShootedBubble | Bomb | FireBubble;
     public scene: GameScene;
-    public arrowShoot: Phaser.GameObjects.Line
-    public circle: Phaser.GameObjects.Image;
+
     public bulletGroup: Phaser.GameObjects.Group;
     private flyingBulletGroup:Phaser.GameObjects.Group;
-    public secondBubllet: ShootedBubble;
+
     private bulletCreator: BulletCreator;
     public bulletSwaper: BulletSwaper;
+
+    public shootedBubble: ShootedBubble | Bomb | FireBubble;
+    public secondBubllet: ShootedBubble;
+
+    private shotGuide: ShotGuide;
+
+    public animation: AnimationShooter;
+    public circle: Phaser.GameObjects.Image;
+    public arrowShoot: Phaser.GameObjects.Line
+
     private isShoot: boolean;
     public checkAllowShooting: boolean;
-    private shotGuide: ShotGuide;
-    public animation: AnimationShooter;
     private pointerOnCircle: boolean;
-    public inputFireBullet: Phaser.Input.InputPlugin;
-    public inputRotateShooter: Phaser.Input.InputPlugin;
+
+    private pointer:Phaser.Input.Pointer;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -37,6 +43,7 @@ export class Shooter {
         this.bulletSwaper = new BulletSwaper(this);
         this.shotGuide = new ShotGuide(this, this.scene);
         this.animation = new AnimationShooter(this,this.scene);
+        this.pointer = this.scene.input.activePointer;
         this.drawCircle();
         this.bulletCreator.run();
         this.drawLine();
@@ -68,8 +75,7 @@ export class Shooter {
 
     public removeInput() {
         this.circle.removeInteractive();
-        this.inputFireBullet.removeAllListeners();
-        this.inputRotateShooter.removeAllListeners();
+        this.scene.input.removeAllListeners();
     }
 
     private enableChangeBubble() {
@@ -90,10 +96,12 @@ export class Shooter {
     }
 
     public enableInput() {
-            this.inputFireBullet = this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
+            this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
                     if(this.checkAllowShooting && this.bulletSwaper.finished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
                         this.isShoot = true;
+                    }else {
+                        this.isShoot = false;
                     }
                 } 
                 else if (pointer.rightButtonReleased()) {
@@ -103,9 +111,9 @@ export class Shooter {
                 }
             },this);
 
-            this.inputRotateShooter = this.scene.input.on('pointermove', (pointer:Phaser.Input.Pointer) => {
+            this.scene.input.on('pointermove', (pointer:any) => {
                 this.rotateShooter(pointer);
-            })
+            });
     }
 
     private drawCircle() {
@@ -165,7 +173,6 @@ export class Shooter {
     }
     
     public update() {
-        // this.rotateShooter();
         this.shotGuide.update();
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
@@ -179,6 +186,9 @@ export class Shooter {
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
             this.shotGuide.hide();
+        } 
+        if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
+            this.rotateShooter(this.scene.input.activePointer);
         }
     }
 }
