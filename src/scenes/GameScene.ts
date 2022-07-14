@@ -12,20 +12,30 @@ import { Shooter } from "../objects/Shooter/Shooter";
 import { GameOverContainer } from "../ui/GameOverContainer";
 
 export class GameScene extends Phaser.Scene {
+    // Objects
     public bubblesBoard: BubblesBoard;
     public shooter: Shooter;
     private addingNewBubbleRowManager: AddingNewBubbleRowManager;
     private background: Phaser.GameObjects.Image;
     public mainZone: Phaser.GameObjects.Zone;
     private gameOverContainer: GameOverContainer;
-    public highScore: number;
     private animationCreator: AnimationCreator;
     public holes: HolesManager;
+    // Variables
+    public highScore: number;
     // Logic Game Managers
     public colorManager: ColorManager;
     public scoreManager: ScoreManager;
     public movingGridManager: MovingGridManager;
     private typeBulletManager: TypeBulletManager;
+    // Constant
+    private readonly gridX = 33;
+    private readonly gridY = 0;
+    private readonly gridRow = 6;
+    private readonly gridColumn = 12;
+    private readonly gridRowOffset = 1;
+    private readonly gridRowHeight = 50;
+    
 
     constructor() {
         super({
@@ -36,9 +46,6 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         // Variables
-        this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
-        this.background = this.add.image(0,0,'background').setOrigin(0,0);
-        this.background.setDepth(DEPTH.BACKGROUND);
         this.registry.set('score',0);
         // Physics
         this.physics.world.setFPS(120);
@@ -46,8 +53,11 @@ export class GameScene extends Phaser.Scene {
         // Logic Game
         this.colorManager = new ColorManager();
         // Game Objects
+        this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
+        this.background = this.add.image(0,0,'background').setOrigin(0,0);
+        this.background.setDepth(DEPTH.BACKGROUND);
         this.animationCreator = new AnimationCreator(this);
-        this.bubblesBoard = new BubblesBoard(this,28 + 5,0,6,6*2,1,50);
+        this.bubblesBoard = new BubblesBoard(this,this.gridX,this.gridY,this.gridRow,this.gridColumn,this.gridRowOffset,this.gridRowHeight);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
         this.gameOverContainer.setDepth(DEPTH.GAMEOVERCONTAINER);
