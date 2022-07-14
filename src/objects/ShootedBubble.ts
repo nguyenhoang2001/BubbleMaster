@@ -32,7 +32,16 @@ export class ShootedBubble extends Bubble {
     public createBouncing() {
         this.body.setCollideWorldBounds(true,1,1,true);
         this.scene.physics.world.on('worldbounds', (e:any) => {
-            if(this.checkWorldBounce) {
+            if(this.body === e) {
+                console.log('bouncing');
+                // this.body.preUpdate()
+                // this.body.y += 3;
+                console.log(this.body.y);
+            }
+        });
+        // this.on('worldbounds', (e:any) => {
+
+            // if(this.checkWorldBounce) {
                 // console.log('when real bubble bounce');
                 // console.log(this.x,this.y);
                 // if(this.x > this.initialX) {
@@ -59,8 +68,8 @@ export class ShootedBubble extends Bubble {
                 // this.initialY = this.y;
                 // console.log('when real bubble bounce but refactored position');
                 // console.log(this.x,this.y);
-            }
-        });
+            // }
+        // });
     }
 
     public clear() {
@@ -95,6 +104,7 @@ export class ShootedBubble extends Bubble {
     }
 
     public update(...args: any[]): void {
+        console.log(this.body.y);
         this.updateTailPosition();
         this.setRotation(this.body.velocity.angle());
         if(this.body.velocity.y != 0 && this.tail.visible == false) {
