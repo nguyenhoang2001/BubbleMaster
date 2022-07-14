@@ -112,9 +112,7 @@ export class Shooter {
             },this);
 
             this.scene.input.on('pointermove', (pointer:any) => {
-                console.log('pointer move')
                 this.rotateShooter(pointer);
-
             });
     }
 
