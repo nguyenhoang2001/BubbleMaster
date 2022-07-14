@@ -12,9 +12,9 @@ export class BubblePositionManager {
     }
 
     public setPosition(row:number,column:number,bubble:Bubble) {
-        let bubbleX = column * bubble.displayWidth;
+        let bubbleX = column * bubble.displayWidth + column*1.5;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
-            bubbleX += bubble.displayWidth/2;
+            bubbleX += bubble.displayWidth/2 ;
         }
         let bubbleY = row * this.bubblesBoard.rowHeight;
         bubble.x = bubbleX + this.bubblesBoard.x;
@@ -26,9 +26,9 @@ export class BubblePositionManager {
         if(firstBubble == undefined)
             return;
         
-        let bubbleX = column * bubble.displayWidth;
+        let bubbleX = column * bubble.displayWidth + column*1.5;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
-            bubbleX += bubble.displayWidth/2;
+            bubbleX += bubble.displayWidth/2 ;
         }
         let bubbleY = row * this.bubblesBoard.rowHeight;
         bubble.y = firstBubble.y;
@@ -40,9 +40,9 @@ export class BubblePositionManager {
         let firstBubble = this.bubblesBoard.board[0].find(n => n);
         if(firstBubble == undefined) 
             return;
-        let bubbleX = column * 56;
+        let bubbleX = column * 56 + column*1.5;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
-            bubbleX += 28;
+            bubbleX += 28 ;
         }
         let bubbleY = row * this.bubblesBoard.rowHeight;
         bubbleY += firstBubble.y;

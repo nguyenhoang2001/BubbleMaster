@@ -182,10 +182,17 @@ export class ShotGuide {
     }
 
     public update() {
-        this.circleGuideGroup.getChildren().forEach((circle:any) => {
-            if(this.hitBubble(circle.x,circle.y)) {
-                this.circleGuideGroup.killAndHide(circle);
+        let deleteCircle = false;
+        this.circleGuideGroup.getChildren().some((circle:any) => {
+            if(circle.active) {
+                if(deleteCircle) {
+                    this.circleGuideGroup.killAndHide(circle);
+                }
+                if(this.hitBubble(circle.x,circle.y)) {
+                    this.circleGuideGroup.killAndHide(circle);
+                    deleteCircle = true;
+                }
             }
-        })
+        });
     }
 }

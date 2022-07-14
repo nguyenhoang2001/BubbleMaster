@@ -61,7 +61,7 @@ export class AddingBubble {
         bubble.setDepth(DEPTH.GRIDBALL);
         bubble.setActive(true);
         bubble.setVisible(true);
-
+        bubble.setOrigin(0.5,0.5);
         bubble.setTexture(texture);
         bubble.resetPhysics();
         bubble.clearTint();
@@ -101,14 +101,14 @@ export class AddingBubble {
                 if(this.bubblesBoard.rowOffSet % 2) {
                     bubbleX += 28;
                 }
-                bubbleX += this.bubblesBoard.x;
-                let bubbleY = bellowY - 49;
+                bubbleX += this.bubblesBoard.x + j*1.5;
+                let bubbleY = bellowY - this.bubblesBoard.rowHeight;
                 let bubble = this.bubblesBoard.gridGroup.get(bubbleX,bubbleY,'',undefined,true) as Bubble;
                 this.activateBubble(bubble,this.scene.colorManager.getTexture());
                 bubblesArray.push(bubble);
             }
             numberOfRow -= 1;
-            bellowY -= 49;
+            bellowY -= this.bubblesBoard.rowHeight;
         }
         let j = 11;
         let k = 0;

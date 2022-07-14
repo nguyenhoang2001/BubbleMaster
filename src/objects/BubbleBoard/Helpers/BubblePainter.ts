@@ -15,6 +15,7 @@ export class BubblePainter {
 
     private createBubble(row:number, column:number, texture?:string):Bubble {
         let bubble = this.bubblesBoard.gridGroup.get(0,0,'',undefined,true);
+        bubble.setOrigin(0.5,0.5);
         bubble.row = row;
         bubble.column = column;
         bubble.setDepth(DEPTH.GRIDBALL);
