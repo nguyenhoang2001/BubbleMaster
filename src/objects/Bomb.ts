@@ -5,18 +5,25 @@ import { ShootedBubble } from "./ShootedBubble";
 export class Bomb extends ShootedBubble {
     private yellowFire: Phaser.GameObjects.Particles.ParticleEmitterManager;
     private redFire: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private emiter1: Phaser.GameObjects.Particles.ParticleEmitter;
+    private emiter2: Phaser.GameObjects.Particles.ParticleEmitter;
+    private offsetXParticle:number;
+    private offsetYParticle:number;
+
 
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
         this.scene.add.existing(this);
         this.name = 'Bomb';
         this.setDepth(DEPTH.BULLET);
+        this.offsetXParticle = this.width/2 - 10;
+        this.offsetYParticle = -(this.height/2 - 5);
         this.setUpParticles();        
     }
 
     public setUpParticles() {
-        this.yellowFire = this.scene.add.particles('star').setDepth(DEPTH.PARTICLE)
-        let emiter1 = this.yellowFire.createEmitter({
+        this.yellowFire = this.scene.add.particles('star').setDepth(DEPTH.PARTICLE);
+        this.emiter1 = this.yellowFire.createEmitter({
             tint: 0xffd712,
             alpha: {start:0.5, end: 0},
             speed: 60,
@@ -26,16 +33,15 @@ export class Bomb extends ShootedBubble {
             angle: {min: 0, max: 360},
             lifespan: 500
         });
-        emiter1.startFollow(this,this.width/2 - 10,-(this.height/2 - 5));
         this.redFire = this.scene.add.particles('light').setDepth(DEPTH.PARTICLE);
-        let emiter2 = this.redFire.createEmitter({
+        this.emiter2 = this.redFire.createEmitter({
             tint: 0xeb2f2f,
             alpha: 0.5,
             speed: 30,
             blendMode: 'SCREEN',
-            lifespan: 1000,
+            lifespan: 1000
         });
-        emiter2.startFollow(this,this.width/2 - 10,-(this.height/2 - 5));
+        this.updateParticlePosition();
     }
 
     private removeParticle() {
@@ -48,9 +54,16 @@ export class Bomb extends ShootedBubble {
         this.removeParticle();
     }
 
+    private updateParticlePosition() {
+        this.yellowFire.setPosition(this.x + this.offsetXParticle,this.y + this.offsetYParticle);
+        this.emiter1.setPosition(0,0);
+        this.redFire.setPosition(this.x + this.offsetXParticle,this.y + this.offsetYParticle);
+        this.emiter2.setPosition(0,0);
+    }
+
     public update(...args: any[]): void {
         this.updateTailPosition();
-        // this.setRotation(this.body.velocity.angle());
+        this.updateParticlePosition();
         if(this.body.velocity.y != 0 && this.tail.visible == false) {
             this.tail.setVisible(true);
             this.setScale(1.1,1);
