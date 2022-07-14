@@ -3,8 +3,8 @@ import { GameScene } from "../scenes/GameScene";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class Bomb extends ShootedBubble {
-    private yellowFire: Phaser.GameObjects.Particles.ParticleEmitter;
-    private redFire: Phaser.GameObjects.Particles.ParticleEmitter;
+    private yellowFire: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private redFire: Phaser.GameObjects.Particles.ParticleEmitterManager;
 
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
@@ -16,18 +16,27 @@ export class Bomb extends ShootedBubble {
     }
 
     private setUpParticles() {
-        this.yellowFire = this.scene.add.particles('gamePlay32bit','effects/circle-1').setDepth(DEPTH.PARTICLE).createEmitter({
+        this.yellowFire = this.scene.add.particles('gamePlay32bit','effects/circle-1').setDepth(DEPTH.PARTICLE)
+        let emitter1 = this.yellowFire.createEmitter({
             tint: 0xffd712,
-            speed: 40,
+            speed: 20,
             blendMode: 'ADD',
             lifespan: 1000
         });
-        this.yellowFire.startFollow(this,this.width/2 - 10,-(this.height/2 - 5));
-        this.redFire = this.scene.add.particles('gamePlay32bit','effects/light').createEmitter({});
+        emitter1.startFollow(this,this.width/2 - 10,-(this.height/2 - 5));
+        this.redFire = this.scene.add.particles('gamePlay32bit','effects/light');
+        let emitter2 = this.redFire.createEmitter({
+            // tint: 0xff0000,
+            speed: 50,
+            blendMode: 'ADD',
+            lifespan: 1000
+        });
+        emitter2.startFollow(this,this.width/2 - 10,-(this.height/2 - 5));
     }
 
     public removeParticle() {
-        
+        this.yellowFire.destroy();
+        this.redFire.destroy();
     }
 
     public update(...args: any[]): void {
