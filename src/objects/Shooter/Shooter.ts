@@ -147,6 +147,8 @@ export class Shooter {
                 }
                 this.arrowShoot.setAngle(angle);
                 this.shotGuide.run();
+            } else {
+                this.shotGuide.fadeOut();
             }
         }
     }
@@ -185,7 +187,7 @@ export class Shooter {
             this.shootBubble();
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
-            this.shotGuide.hide();
+            this.shotGuide.fadeOut();
         } 
         if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
             this.rotateShooter(this.scene.input.activePointer);
