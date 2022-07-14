@@ -30,7 +30,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
         this.scene.add.existing(this);
         this.create();
         this.runProgressBar = false;
-        this.maxPointProgressBar = 30000;
+        this.maxPointProgressBar = 500;
     }
 
     private create() {
