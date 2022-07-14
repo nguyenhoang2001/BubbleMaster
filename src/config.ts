@@ -7,7 +7,7 @@ import { SceneManager } from "./scenes/SceneManager";
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Bubble Master',
   version: '1.0.0',
-  width: 375 * 2 - 40,
+  width: 375 * 2 - 25,
   height: 667 * 2 + 40,
   zoom: 1,
   type: Phaser.AUTO,
