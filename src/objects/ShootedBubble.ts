@@ -31,14 +31,14 @@ export class ShootedBubble extends Bubble {
 
     public createBouncing() {
         this.body.setCollideWorldBounds(true,1,1,true);
-        this.scene.physics.world.on('worldbounds', (e:any) => {
-            if(this.body === e) {
-                console.log('bouncing');
-                // this.body.preUpdate()
-                // this.body.y += 3;
-                console.log(this.body.y);
-            }
-        });
+        // this.scene.physics.world.on('worldbounds', (e:any) => {
+        //     if(this.body === e) {
+        //         console.log('bouncing');
+        //         // this.body.preUpdate()
+        //         // this.body.y += 3;
+        //         console.log(this.body.y);
+        //     }
+        // });
         // this.on('worldbounds', (e:any) => {
 
             // if(this.checkWorldBounce) {

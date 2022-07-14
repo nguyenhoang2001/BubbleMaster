@@ -162,7 +162,7 @@ export class Shooter {
             this.shootedBubble.initialY = this.shootedBubble.y;
             this.scene.physics.velocityFromRotation (
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                200,
+                2400,
                 this.shootedBubble.body.velocity
             );
             this.flyingBulletGroup.add(this.shootedBubble);

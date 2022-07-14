@@ -133,7 +133,7 @@ export class ShotGuide {
                     let saveOldX = x - (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = this.gameWidth - 18;
+                    x = this.gameWidth - 10;
                     y = saveOldY - (x - saveOldX)*Math.tan(angle);
                     let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
                     this.activateCircle(circle);
@@ -146,7 +146,7 @@ export class ShotGuide {
                     let saveOldX = x + (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = 18;
+                    x = 10;
                     y = saveOldY - (saveOldX - x)*Math.tan(angle);
                     let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
                     this.activateCircle(circle);
