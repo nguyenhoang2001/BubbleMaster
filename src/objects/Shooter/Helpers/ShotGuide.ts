@@ -63,20 +63,27 @@ export class ShotGuide {
         return hittedBubble;
     }
 
-    private rightAngle(arrowAngle:number, x:number, y: number,distance:number, range:number) {
+    private rightAngle(arrowAngle:number, x:number, y: number,distance:number, range:number,countHitWall:number) {
         let angle = 360 - arrowAngle;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
-
+        let maxCircle = -1;
+        if(countHitWall == 0) {
+            maxCircle = 15;
+        }
         while(x < this.gameWidth - this.stopPosition && y >= 0) {
             let offsetX = (distance + range)*Math.cos(angle);
             let offsetY = (distance + range)*Math.sin(angle);
             x = x + offsetX;
             y = y - offsetY;
             this.stopGenrate = this.hitBubble(x,y,hitRange);
-            if(this.stopGenrate || x >= this.gameWidth - this.stopPosition) {
+            if(this.stopGenrate || x >= this.gameWidth - this.stopPosition || maxCircle == 0) {
+                if(maxCircle == 0) {
+                    this.stopGenrate = true;
+                }
                 break;
             }
+            maxCircle--;
             distance = 0;
             let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
             this.activateCircle(circle);
@@ -85,20 +92,27 @@ export class ShotGuide {
     }
 
 
-    private leftAngle(arrowAngle:number, x:number, y: number,distance:number, range:number) {
+    private leftAngle(arrowAngle:number, x:number, y: number,distance:number, range:number,countHitWall:number) {
         let angle = arrowAngle - 180;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
-
+        let maxCircle = -1;
+        if(countHitWall == 0) {
+            maxCircle = 15;
+        }
         while(x > this.stopPosition && y >= 0) {
             let offsetX = (distance + range)*Math.cos(angle);
             let offsetY = (distance + range)*Math.sin(angle);
             x = x - offsetX;
             y = y - offsetY;
             this.stopGenrate = this.hitBubble(x,y,hitRange);
-            if(this.stopGenrate || x <= this.stopPosition) {
+            if(this.stopGenrate || x <= this.stopPosition || maxCircle == 0) {
+                if(maxCircle == 0) {
+                    this.stopGenrate = true;
+                }
                 break;
             }
+            maxCircle--;
             distance = 0;
             let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
             this.activateCircle(circle);
@@ -112,6 +126,7 @@ export class ShotGuide {
         this.stopGenrate = false;
         const shooBubble = this.shooter.shootedBubble;
         const arrowShoot = this.shooter.arrowShoot;
+        let countHitWall = 2;
         let x = shooBubble.x;
         let y = shooBubble.y;
         let range = this.offsetDistance;
@@ -120,10 +135,10 @@ export class ShotGuide {
         while(!this.stopGenrate) {
             let postPosition:any;
             if(arrowAngle >= 270) {
-                postPosition = this.rightAngle(arrowAngle,x,y,distance,range);
+                postPosition = this.rightAngle(arrowAngle,x,y,distance,range,countHitWall);
             }
             else {
-                postPosition = this.leftAngle(arrowAngle,x,y,distance,range);
+                postPosition = this.leftAngle(arrowAngle,x,y,distance,range,countHitWall);
             }
             x = postPosition.x;
             y = postPosition.y;
@@ -133,6 +148,7 @@ export class ShotGuide {
             }
             else {
                 if(x >= this.gameWidth - this.stopPosition) {
+                    countHitWall--;
                     let angle = 360 - arrowAngle;
                     angle = angle * (Math.PI/180);
                     // save old x and y
@@ -147,6 +163,7 @@ export class ShotGuide {
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
                 } else if(x <= this.stopPosition) {
+                    countHitWall--;
                     let angle = arrowAngle - 180;
                     angle = angle * (Math.PI/180);
                     // save old x and y
