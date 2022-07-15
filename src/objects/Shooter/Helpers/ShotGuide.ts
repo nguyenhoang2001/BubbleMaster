@@ -191,7 +191,7 @@ export class ShotGuide {
 
     public update() {
         let deleteCircle = false;
-        let hitRange = 45;
+        let hitRange = 40;
         let firstCircle = this.circleGuideGroup.getFirst(true);
         if(firstCircle != undefined) {
             if(Phaser.Math.Distance.Between(firstCircle.x,firstCircle.y,this.shooter.shootedBubble.x,this.shooter.shootedBubble.y) > this.firstDistance + this.offsetDistance) {
