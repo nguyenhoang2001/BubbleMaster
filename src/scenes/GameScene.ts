@@ -1,4 +1,3 @@
-import { Game } from "phaser";
 import DEPTH from "../game/constant/Depth";
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";

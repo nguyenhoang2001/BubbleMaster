@@ -26,7 +26,7 @@ export class TypeBulletManager {
     private changeToBomb() {
         let oldBullet = this.shooter.shootedBubble;
         this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb');
-        this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble as Bomb);
+        this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble);
         this.shooter.checkAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
             this.shooter.checkAllowShooting = true;

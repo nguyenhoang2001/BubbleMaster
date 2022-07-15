@@ -64,6 +64,7 @@ export class ColliderManager {
                 this.scene.scoreManager.calculateScore();
                 let bubble = this.runCollide();
                 this.shootedBubble.removeVisualEffect();
+                // bubble?.setVisible(false);
                 if(bubble != undefined)
                     this.runBombCollision(bubble,_bomb);
             }
@@ -118,18 +119,23 @@ export class ColliderManager {
                         if(exPos.i == neighPos?.i && exPos.j == neighPos?.j) {
                             return true;
                         }
+                        return false;
                     });
                     if(!existingExplodePos) {
                         existingTemp =  temp.some((tempPos:any) => {
                             if(tempPos.i == neighPos?.i && tempPos.j == neighPos?.j) {
                                 return true;
                             }
+                            return false;
+
                         });
                         if(!existingTemp) {
                             existingBuffer = buffer.some((bufferPos:any) => {
                                 if(bufferPos.i == neighPos.i && bufferPos.j == neighPos.j) {
                                     return true;
                                 }
+                                return false;
+
                             });
                         }
                     }
@@ -149,7 +155,7 @@ export class ColliderManager {
         // console.log(explodePos);
         toProcess[0]?.setVisible(false);
         this.bombHandler.clearBubbles(toProcess);
-        this.bombHandler.runAnimation(toProcess,_bomb);
+        this.bombHandler.runAnimation(toProcess,this.shootedBubble);
     }
 
     public gridGroupAndBulletGroup() {

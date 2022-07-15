@@ -1,17 +1,24 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "es6",
-      "target": "es5",
-      "allowJs": true,
-      "esModuleInterop": true,                  
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "node",
-      "strict": true,
-      "strictPropertyInitialization": false
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "es5",
+    "allowJs": true,
+    "baseUrl": ".",
+    "strictPropertyInitialization": false
+  },
+  "include": [
+    "./index.d.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "./dist/"
+  ]
 }

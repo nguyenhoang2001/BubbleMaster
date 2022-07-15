@@ -1,0 +1,158 @@
+{
+    "preload": {
+        "files": [
+            {
+                "type": "image",
+                "key": "blackBubble",
+                "url": "./assets/images/bubbles/bubble-black.png"
+            },
+            {
+                "type": "image",
+                "key": "blueBubble",
+                "url": "./assets/images/bubbles/bubble-blue.png"
+            },
+            {
+                "type": "image",
+                "key": "cyanBubble",
+                "url": "./assets/images/bubbles/bubble-cyan.png"
+            },
+            {
+                "type": "image",
+                "key": "grayBubble",
+                "url": "./assets/images/bubbles/bubble-gray.png"
+            },
+            {
+                "type": "image",
+                "key": "greenBubble",
+                "url": "./assets/images/bubbles/bubble-green.png"
+            },
+            {
+                "type": "image",
+                "key": "pinkBubble",
+                "url": "./assets/images/bubbles/bubble-pink.png"
+            },
+            {
+                "type": "image",
+                "key": "redBubble",
+                "url": "./assets/images/bubbles/bubble-red.png"
+            },
+            {
+                "type": "image",
+                "key": "violetBubble",
+                "url": "./assets/images/bubbles/bubble-violet.png"
+            },
+            {
+                "type": "image",
+                "key": "yellowBubble",
+                "url": "./assets/images/bubbles/bubble-yellow.png"
+            },
+            {
+                "type": "image",
+                "key": "circle",
+                "url": "./assets/images/player/circle.png"
+            },
+            {
+                "type": "image",
+                "key": "circleGuide",
+                "url": "./assets/images/shotGuide/red.png"
+            },
+            {
+                "type": "image",
+                "key": "background",
+                "url": "./assets/images/background-image.png"
+            },
+            {
+                "type": "image",
+                "key": "scoreContainer",
+                "url": "./assets/images/others/tab-score.png"
+            },
+            {
+                "type": "image",
+                "key": "threeBubbles",
+                "url": "./assets/images/others/3-bubbles.png"
+            },
+            {
+                "type": "image",
+                "key": "bgProgressBar",
+                "url": "./assets/images/progressBar/bg-progress-bar.png"
+            },
+            {
+                "type": "image",
+                "key": "progressLeft",
+                "url": "./assets/images/progressBar/progress-bar-left.png"
+            },
+            {
+                "type": "image",
+                "key": "progressMid",
+                "url": "./assets/images/progressBar/progress-bar-middle.png"
+            },
+            {
+                "type": "image",
+                "key": "progressRight",
+                "url": "./assets/images/progressBar/progress-bar-right.png"
+            },
+            {
+                "type": "image",
+                "key": "rope",
+                "url": "./assets/images/others/rope.png"
+            },
+            {
+                "type": "atlas",
+                "key": "gamePlaySet",
+                "textureURL": "assets/atlas/gameplay-textures.png",
+                "atlasURL": "assets/atlas/gameplay-textures.json"
+            },
+            {
+                "type": "atlas",
+                "key": "gamePlay32bit",
+                "textureURL": "./assets/atlas/gameplay-textures-32bit.png",
+                "atlasURL": "./assets/atlas/gameplay-textures-32bit.json"
+            },
+            {
+                "type": "image",
+                "key": "tail",
+                "url": "./assets/images/others/tail.png"
+            },
+            {
+                "type": "image",
+                "key": "bgHole",
+                "url": "./assets/images/holes/bg-hide.png"
+            },
+            {
+                "type": "image",
+                "key": "greenHole",
+                "url": "./assets/images/holes/green-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "orangeHole",
+                "url": "./assets/images/holes/orange-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "purpleHole",
+                "url": "./assets/images/holes/purple-hole-down.png"
+            },
+            {
+                "type": "image",
+                "key": "arrows",
+                "url": "./assets/images/arrows.png"
+            },
+            {
+                "type": "image",
+                "key": "bomb",
+                "url": "./assets/images/bombs/bomb.png"
+            },
+            {
+                "type": "image",
+                "key": "bombIcon",
+                "url": "./assets/images/icons/bomb-bubble.png"
+            },
+            {
+                "type": "image",
+                "key": "fireBubble",
+                "url": "./assets/images/bubbles/fire-bubble.png"
+            }
+        ]
+    }
+}
