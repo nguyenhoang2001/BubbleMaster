@@ -85,16 +85,16 @@ export class PositionBubbleHandler {
     public getPositionNewBubble(hittedBubble:Bubble, shootedBubble:ShootedBubble):any {
         let offsetDistance = 46;
         this.rePositionShootedBubble(hittedBubble,shootedBubble,offsetDistance);
-        // let nearest = this.getNearestBubble(shootedBubble,hittedBubble);
+        let nearest = this.getNearestBubble(shootedBubble,hittedBubble);
         // console.log('The nearest ball is: ');
         // console.log(nearest?.row, nearest?.column,nearest?.texture.key);
         // console.log(hittedBubble.row,hittedBubble.column, hittedBubble.texture.key);
         // console.log(this.getDistance(nearest,shootedBubble))
-        // if(nearest != undefined) {
-        //     if( this.getDistance(nearest,shootedBubble) <= 46) {
-        //         hittedBubble = nearest;
-        //     }
-        // }
+        if(nearest != undefined) {
+            if( this.getDistance(nearest,shootedBubble) <= 46) {
+                hittedBubble = nearest;
+            }
+        }
         this.parent.bubblesBoard.addNewRow();
         let distanceCalculator = Phaser.Math.Distance;
         let smallestdistance = 0;
