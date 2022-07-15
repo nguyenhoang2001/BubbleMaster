@@ -50,6 +50,7 @@ export class GameScene extends Phaser.Scene {
     create() {
         // Variables
         this.registry.set('score',0);
+        this.gameOver = false;
         // Physics
         this.physics.world.setFPS(120);
         this.physics.world.setBoundsCollision(true,true,false,false);

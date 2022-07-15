@@ -64,7 +64,6 @@ export class ColliderManager {
                 this.scene.scoreManager.calculateScore();
                 let bubble = this.runCollide();
                 this.shootedBubble.removeVisualEffect();
-                // bubble?.setVisible(false);
                 if(bubble != undefined)
                     this.runBombCollision(bubble,_bomb);
             }
@@ -150,7 +149,7 @@ export class ColliderManager {
         // console.log(explodePos);
         toProcess[0]?.setVisible(false);
         this.bombHandler.clearBubbles(toProcess);
-        this.bombHandler.runAnimation(toProcess,this.shootedBubble);
+        this.bombHandler.runAnimation(toProcess,_bomb);
     }
 
     public gridGroupAndBulletGroup() {

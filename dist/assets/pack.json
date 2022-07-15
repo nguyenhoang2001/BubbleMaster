@@ -152,6 +152,16 @@
                 "type": "image",
                 "key": "fireBubble",
                 "url": "./assets/images/bubbles/fire-bubble.png"
+            },
+            {
+                "type": "image",
+                "key": "light",
+                "url": "./assets/images/effects/light.png"
+            },
+            {
+                "type": "image",
+                "key": "star",
+                "url": "./assets/images/effects/star.png"
             }
         ]
     }
