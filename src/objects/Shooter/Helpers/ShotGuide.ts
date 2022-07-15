@@ -23,7 +23,7 @@ export class ShotGuide {
         this.circleGuideGroup = this.scene.add.group({classType:CircleGuide});
         this.firstDistance = 26;
         this.offsetDistance = 28;
-        this.stopPosition = 17;
+        this.stopPosition = 22;
         this.stopGenrate = false;
         this.gameWidth = this.scene.sys.canvas.width;
         this.gameHeight = this.scene.sys.canvas.height;
@@ -43,7 +43,7 @@ export class ShotGuide {
 
     private hitBubble(x:number,y:number, hitRange:number):boolean {
         let hittedBubble = false;
-        for(let i = 0; i < this.bubblesBoard.row; i++) {
+        for(let i = this.bubblesBoard.row - 1; i >= 0; i--) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 const bubble = this.bubblesBoard.board[i][j];
                 if(bubble != undefined) {
@@ -191,7 +191,7 @@ export class ShotGuide {
 
     public update() {
         let deleteCircle = false;
-        let hitRange = 40;
+        let hitRange = 45;
         let firstCircle = this.circleGuideGroup.getFirst(true);
         if(firstCircle != undefined) {
             if(Phaser.Math.Distance.Between(firstCircle.x,firstCircle.y,this.shooter.shootedBubble.x,this.shooter.shootedBubble.y) > this.firstDistance + this.offsetDistance) {
