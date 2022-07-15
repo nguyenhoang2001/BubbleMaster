@@ -14,6 +14,7 @@ export class FireBubble extends ShootedBubble {
 
     public update(...args: any[]): void {
         this.updateTailPosition();
+        this.setRotation(this.body.velocity.angle());
         if(this.body.velocity.y != 0 && this.tail.visible == false) {
             this.tail.setVisible(true);
             this.setScale(1.1,1);
