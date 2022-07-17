@@ -49,8 +49,10 @@ export class GameScene extends Phaser.Scene {
     create() {
         // Variables
         this.registry.set('score',0);
+        this.gameOver = false;
         // Physics
-        this.physics.world.setFPS(120);
+        // console.log(this.physics.world.fps);
+        this.physics.world.setFPS(60);
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Logic Game
         this.colorManager = new ColorManager();

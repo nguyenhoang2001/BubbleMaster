@@ -11,7 +11,7 @@ import { BubbleNeighbors } from "./BubbleNeighbors";
 export class ColliderManager {
     public bubblesBoard: BubblesBoard;
     public scene: GameScene;
-    private shootedBubble: ShootedBubble;
+    private shootedBubble: ShootedBubble | Bomb;
     private hittedBubble: Bubble;
     private neighborsHelper: BubbleNeighbors;
     private bombHandler: BombHandler;
@@ -155,7 +155,7 @@ export class ColliderManager {
         // console.log(explodePos);
         toProcess[0]?.setVisible(false);
         this.bombHandler.clearBubbles(toProcess);
-        this.bombHandler.runAnimation(toProcess,this.shootedBubble);
+        this.bombHandler.runAnimation(toProcess,this.shootedBubble as Bomb);
     }
 
     public gridGroupAndBulletGroup() {

@@ -8,20 +8,22 @@ export class ShotGuide {
     private shooter: Shooter;
     private scene: GameScene;
     public circleGuideGroup: Phaser.GameObjects.Group;
-    private distance: number;
+    private firstDistance: number;
     private offsetDistance:number;
     private gameWidth:number;
     private gameHeight:number;
     public stopGenrate: boolean;
     private bubblesBoard: BubblesBoard;
+    private stopPosition:number;
 
     constructor(shooter:Shooter, scene:GameScene) {
         this.shooter = shooter;
         this.scene = scene
         this.bubblesBoard = this.scene.bubblesBoard;
         this.circleGuideGroup = this.scene.add.group({classType:CircleGuide});
-        this.distance = 56 - 30;
+        this.firstDistance = 26;
         this.offsetDistance = 28;
+        this.stopPosition = 22;
         this.stopGenrate = false;
         this.gameWidth = this.scene.sys.canvas.width;
         this.gameHeight = this.scene.sys.canvas.height;
@@ -39,16 +41,16 @@ export class ShotGuide {
         circle.isOverlap = false;
     }
 
-    private hitBubble(x:number,y:number):boolean {
+    private hitBubble(x:number,y:number, hitRange:number):boolean {
         let hittedBubble = false;
-        for(let i = 0; i < this.bubblesBoard.row; i++) {
+        for(let i = this.bubblesBoard.row - 1; i >= 0; i--) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 const bubble = this.bubblesBoard.board[i][j];
                 if(bubble != undefined) {
                     if(this.bubblesBoard.isBublleExisting(i,j)) {
                         let bubbleY = bubble.y;
                         let distance = Phaser.Math.Distance.Between(x,y,bubble.x,bubbleY);
-                        if(distance <= 38) {
+                        if(distance <= hitRange) {
                             hittedBubble = true;
                             break;
                         }
@@ -61,18 +63,27 @@ export class ShotGuide {
         return hittedBubble;
     }
 
-    private rightAngle(arrowAngle:number, x:number, y: number,distance:number, range:number) {
+    private rightAngle(arrowAngle:number, x:number, y: number,distance:number, range:number,countHitWall:number) {
         let angle = 360 - arrowAngle;
         angle = angle * (Math.PI/180);
-        while(x < this.gameWidth - 25 && y >= 0) {
+        let hitRange = 38;
+        let maxCircle = -1;
+        if(countHitWall == 0) {
+            maxCircle = 15;
+        }
+        while(x < this.gameWidth - this.stopPosition && y >= 0) {
             let offsetX = (distance + range)*Math.cos(angle);
             let offsetY = (distance + range)*Math.sin(angle);
             x = x + offsetX;
             y = y - offsetY;
-            this.stopGenrate = this.hitBubble(x,y);
-            if(this.stopGenrate || x >= this.gameWidth - 25) {
+            this.stopGenrate = this.hitBubble(x,y,hitRange);
+            if(this.stopGenrate || x >= this.gameWidth - this.stopPosition || maxCircle == 0) {
+                if(maxCircle == 0) {
+                    this.stopGenrate = true;
+                }
                 break;
             }
+            maxCircle--;
             distance = 0;
             let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
             this.activateCircle(circle);
@@ -81,18 +92,27 @@ export class ShotGuide {
     }
 
 
-    private leftAngle(arrowAngle:number, x:number, y: number,distance:number, range:number) {
+    private leftAngle(arrowAngle:number, x:number, y: number,distance:number, range:number,countHitWall:number) {
         let angle = arrowAngle - 180;
         angle = angle * (Math.PI/180);
-        while(x > 25 && y >= 0) {
+        let hitRange = 38;
+        let maxCircle = -1;
+        if(countHitWall == 0) {
+            maxCircle = 15;
+        }
+        while(x > this.stopPosition && y >= 0) {
             let offsetX = (distance + range)*Math.cos(angle);
             let offsetY = (distance + range)*Math.sin(angle);
             x = x - offsetX;
             y = y - offsetY;
-            this.stopGenrate = this.hitBubble(x,y);
-            if(this.stopGenrate || x <= 25) {
+            this.stopGenrate = this.hitBubble(x,y,hitRange);
+            if(this.stopGenrate || x <= this.stopPosition || maxCircle == 0) {
+                if(maxCircle == 0) {
+                    this.stopGenrate = true;
+                }
                 break;
             }
+            maxCircle--;
             distance = 0;
             let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
             this.activateCircle(circle);
@@ -106,18 +126,19 @@ export class ShotGuide {
         this.stopGenrate = false;
         const shooBubble = this.shooter.shootedBubble;
         const arrowShoot = this.shooter.arrowShoot;
+        let countHitWall = 2;
         let x = shooBubble.x;
         let y = shooBubble.y;
         let range = this.offsetDistance;
-        let distance = this.distance;
+        let distance = this.firstDistance;
         let arrowAngle = 180 + (180 + arrowShoot.angle);
         while(!this.stopGenrate) {
             let postPosition:any;
             if(arrowAngle >= 270) {
-                postPosition = this.rightAngle(arrowAngle,x,y,distance,range);
+                postPosition = this.rightAngle(arrowAngle,x,y,distance,range,countHitWall);
             }
             else {
-                postPosition = this.leftAngle(arrowAngle,x,y,distance,range);
+                postPosition = this.leftAngle(arrowAngle,x,y,distance,range,countHitWall);
             }
             x = postPosition.x;
             y = postPosition.y;
@@ -126,28 +147,32 @@ export class ShotGuide {
                 break;
             }
             else {
-                if(x >= this.gameWidth - 25) {
+                if(x >= this.gameWidth - this.stopPosition) {
+                    countHitWall--;
                     let angle = 360 - arrowAngle;
                     angle = angle * (Math.PI/180);
                     // save old x and y
                     let saveOldX = x - (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = this.gameWidth - 18;
+                    x = this.gameWidth - 10;
                     y = saveOldY - (x - saveOldX)*Math.tan(angle);
+                    distance = Phaser.Math.Distance.Between(x,y,saveOldX,saveOldY) - this.offsetDistance;
                     let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
                     this.activateCircle(circle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
-                } else if(x <= 25) {
+                } else if(x <= this.stopPosition) {
+                    countHitWall--;
                     let angle = arrowAngle - 180;
                     angle = angle * (Math.PI/180);
                     // save old x and y
                     let saveOldX = x + (range)*Math.cos(angle);
                     let saveOldY = y + (range)*Math.sin(angle);
                     // update x and y
-                    x = 18;
+                    x = 10;
                     y = saveOldY - (saveOldX - x)*Math.tan(angle);
+                    distance = Phaser.Math.Distance.Between(x,y,saveOldX,saveOldY) - this.offsetDistance;
                     let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
                     this.activateCircle(circle);
                     // update new angle
@@ -183,12 +208,19 @@ export class ShotGuide {
 
     public update() {
         let deleteCircle = false;
+        let hitRange = 45;
+        let firstCircle = this.circleGuideGroup.getFirst(true);
+        if(firstCircle != undefined) {
+            if(Phaser.Math.Distance.Between(firstCircle.x,firstCircle.y,this.shooter.shootedBubble.x,this.shooter.shootedBubble.y) > this.firstDistance + this.offsetDistance) {
+                deleteCircle = true;
+            }
+        }
         this.circleGuideGroup.getChildren().some((circle:any) => {
             if(circle.active) {
                 if(deleteCircle) {
                     this.circleGuideGroup.killAndHide(circle);
                 }
-                if(this.hitBubble(circle.x,circle.y)) {
+                if(this.hitBubble(circle.x,circle.y,hitRange)) {
                     this.circleGuideGroup.killAndHide(circle);
                     deleteCircle = true;
                 }

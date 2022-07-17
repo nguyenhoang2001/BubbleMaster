@@ -6,7 +6,7 @@ export class CircleGuide extends Phaser.GameObjects.Sprite {
         super(scene,x,y,texture);
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this);
-        this.body.setCircle(9,6,6);
+        this.body.setCircle(10,5,5);
         this.isOverlap = false;
     }
 
