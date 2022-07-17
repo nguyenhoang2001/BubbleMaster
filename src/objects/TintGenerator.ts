@@ -30,5 +30,6 @@ export class TintGenerator {
         } else if(textureKey == 'fireBubble') {
             return 0xFF00FF;
         }
+        return 0xff0000;
     }
 }

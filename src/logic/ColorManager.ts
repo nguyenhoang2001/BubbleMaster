@@ -63,6 +63,7 @@ export class ColorManager {
                 this.level += 1;
                 return true;
             }
+            return false;
         });
     }
 

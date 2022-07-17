@@ -93,6 +93,7 @@ export class BubbleNeighbors {
                 isNeighbor = true;
                 return true;
             }
+            return false;
         });
         if(!isNeighbor) {
             console.log(' The targeted bubble is not the neighbor');
