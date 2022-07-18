@@ -112,6 +112,7 @@ export class Shooter {
             },this);
 
             this.scene.input.on('pointermove', (pointer:any) => {
+                // console.log('when pointer is moving we rotate');
                 this.rotateShooter(pointer);
             });
     }
@@ -148,6 +149,7 @@ export class Shooter {
                 this.arrowShoot.setAngle(angle);
                 this.shotGuide.run();
             } else {
+                // console.log('fade out in angle');
                 this.shotGuide.fadeOut();
             }
         }
@@ -187,9 +189,11 @@ export class Shooter {
             this.shootBubble();
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
+            // console.log('fadeOut in update');
             this.shotGuide.fadeOut();
         } 
         if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
+            // console.log(this.shotGuide.circleGuideGroup.countActive(false));
             this.rotateShooter(this.scene.input.activePointer);
         }
     }
