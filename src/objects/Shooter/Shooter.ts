@@ -194,6 +194,7 @@ export class Shooter {
         } 
         if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
             // console.log(this.shotGuide.circleGuideGroup.countActive(false));
+            console.log('came to this');
             this.rotateShooter(this.scene.input.activePointer);
         }
     }
