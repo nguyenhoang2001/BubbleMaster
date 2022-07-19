@@ -147,7 +147,7 @@ export class Shooter {
                     }
                 }
                 this.arrowShoot.setAngle(angle);
-                this.shotGuide.run();
+                this.shotGuide.draw();
             } else {
                 // console.log('fade out in angle');
                 this.shotGuide.fadeOut();

@@ -24,9 +24,9 @@ export class TintGenerator {
         } else if(textureKey == 'blueBubble') {
             return 0x2f6aeb;
         } else if(textureKey == 'grayBubble') {
-            return 0xD3D3D3;
+            return 0xc4c8cf;
         } else if(textureKey == 'blackBubble') {
-            return 0x000000;
+            return 0x3d424a;
         } else if(textureKey == 'fireBubble') {
             return 0xFF00FF;
         }
