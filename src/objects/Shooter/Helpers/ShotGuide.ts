@@ -15,6 +15,7 @@ export class ShotGuide {
     public stopGenrate: boolean;
     private bubblesBoard: BubblesBoard;
     private stopPosition:number;
+    private maxAmountCircle: number;
 
     constructor(shooter:Shooter, scene:GameScene) {
         this.shooter = shooter;
@@ -23,7 +24,8 @@ export class ShotGuide {
         this.circleGuideGroup = this.scene.add.group({classType:CircleGuide});
         this.firstDistance = 26;
         this.offsetDistance = 30;
-        this.stopPosition = 30;
+        this.stopPosition = 10;
+        this.maxAmountCircle = 50;
         this.stopGenrate = false;
         this.gameWidth = this.scene.sys.canvas.width;
         this.gameHeight = this.scene.sys.canvas.height;
@@ -64,163 +66,73 @@ export class ShotGuide {
         return hittedBubble;
     }
 
-    private rightAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
-        let angle = 360 - arrowAngle;
-        angle = angle * (Math.PI/180);
-        let hitRange = 38;
-        let maxCircle = -1;
-        let circles = [];
-        let beginX = x;
-        let beginY = y;
-        if(countHitWall == 2) {
-            maxCircle = 15;
-        }
-        while(x < this.gameWidth - this.stopPosition && y >= 0) {
-            let offsetX = (distance + this.offsetDistance)*Math.cos(angle);
-            let offsetY = (distance + this.offsetDistance)*Math.sin(angle);
-            x = x + offsetX;
-            y = y - offsetY;
-            this.stopGenrate = this.hitBubble(x,y,hitRange);
-            if(this.stopGenrate || x >= this.gameWidth - this.stopPosition || maxCircle == 0) {
-                if(maxCircle == 0) {
-                    this.stopGenrate = true;
-                }
-                if(x >= this.gameWidth - this.stopPosition) {
-                    let posXHitWall = this.gameWidth - 10;
-                    let posYHitWall = y - (posXHitWall - x)*Math.tan(angle);
-                    let averageDistance = 0;
-                    if(countHitWall > 0) {
-                        averageDistance = Phaser.Math.Distance.Between(beginX,beginY,posXHitWall,posYHitWall)/circles.length;
-                    } else {
-                        averageDistance = Phaser.Math.Distance.Between(circles[0].x,circles[0].y,
-                            posXHitWall,posYHitWall)/circles.length;
-                    }
-                    this.resetCirclesPosition(circles,beginX,beginY,countHitWall,averageDistance,angle,false);
-                }
-                break;
-            }
-            maxCircle--;
-            distance = 0;
-            circles.push(this.createCircle(x,y));
-        }
-        return{x:x,y:y};
-    }
-
-
-    private leftAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
-        let angle = arrowAngle - 180;
-        angle = angle * (Math.PI/180);
-        let hitRange = 38;
-        let maxCircle = -1;
-        let circles = [];
-        let beginX = x;
-        let beginY = y;
-        if(countHitWall == 2) {
-            maxCircle = 15;
-        }
-        while(x > this.stopPosition && y >= 0) {
-            let offsetX = (distance + this.offsetDistance)*Math.cos(angle);
-            let offsetY = (distance + this.offsetDistance)*Math.sin(angle);
-            x = x - offsetX;
-            y = y - offsetY;
-            this.stopGenrate = this.hitBubble(x,y,hitRange);
-            if(this.stopGenrate || x <= this.stopPosition || maxCircle == 0) {
-                if(maxCircle == 0) {
-                    this.stopGenrate = true;
-                }
-                if(x <= this.stopPosition) {
-                    let posXHitWall = 10;
-                    let posYHitWall = y - (x - posXHitWall)*Math.tan(angle);
-                    let averageDistance = 0;
-                    if(countHitWall > 0) {
-                        averageDistance = Phaser.Math.Distance.Between(beginX,beginY,posXHitWall,posYHitWall)/circles.length;
-                    } else {
-                        averageDistance = Phaser.Math.Distance.Between(circles[0].x,circles[0].y,
-                            posXHitWall,posYHitWall)/circles.length;
-                    }
-                    this.resetCirclesPosition(circles,beginX,beginY,countHitWall,averageDistance,angle,true);
-                }
-                break;
-            }
-            maxCircle--;
-            distance = 0;
-            circles.push(this.createCircle(x,y));
-        }
-        return{x:x,y:y};
-    }
-
-    private resetCirclesPosition(circles:CircleGuide[],beginX:number,beginY:number,countHitWall:number,averageDistance:number,angle:number,isLeft:boolean) {
-        for(let i = 0; i < circles.length; i++) {
-            if(i == 0 && countHitWall > 0) {
-                if(isLeft)
-                    circles[i].x = beginX - averageDistance*Math.cos(angle);
-                else 
-                    circles[i].x = beginX + averageDistance*Math.cos(angle);
-                circles[i].y = beginY - averageDistance*Math.sin(angle);
-            } else {
-                if(i == 0)
-                    continue;
-                if(isLeft)
-                    circles[i].x = circles[i -1].x - averageDistance*Math.cos(angle);
-                else 
-                    circles[i].x = circles[i -1].x + averageDistance*Math.cos(angle);
-                circles[i].y = circles[i -1].y - averageDistance*Math.sin(angle);
-            }
-        }
-    }
-
     public draw() {
         this.hide();
 
         this.stopGenrate = false;
-        let countHitWall = 0;
+        this.maxAmountCircle = 50;
         let x = this.shooter.shootedBubble.x;
         let y = this.shooter.shootedBubble.y;
         let distance = this.firstDistance;
         let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
         let distanceHitWall = 10;
+        let hitRange = 38;
 
         while(!this.stopGenrate) {
-            let postPosition:any;
+            let angle = 0;
             if(arrowAngle >= 270) {
-                postPosition = this.rightAngle(arrowAngle,x,y,distance,countHitWall);
+                angle = (360 - arrowAngle) * (Math.PI/180);
             }
             else {
-                postPosition = this.leftAngle(arrowAngle,x,y,distance,countHitWall);
+                angle = (arrowAngle - 180) * (Math.PI/180);
             }
-            x = postPosition.x;
-            y = postPosition.y;
-            distance = 0;
+            while(x > this.stopPosition ||  x < this.gameWidth - this.stopPosition && y >= 0) {
+                let offsetX = (distance + this.offsetDistance)*Math.cos(angle);
+                let offsetY = (distance + this.offsetDistance)*Math.sin(angle);
+                if(arrowAngle >= 270)
+                    x = x + offsetX;
+                else 
+                    x = x - offsetX;
+                y = y - offsetY;
+                this.stopGenrate = this.hitBubble(x,y,hitRange);
+                if(this.stopGenrate || x <= this.stopPosition || x >= this.gameWidth - this.stopPosition || this.maxAmountCircle == 0) {
+                    if(this.maxAmountCircle == 0) {
+                        this.stopGenrate = true;
+                    }
+                    break;
+                }
+                this.maxAmountCircle--;
+                distance = 0;
+                this.createCircle(x,y);
+            }
             if(this.stopGenrate || y < 0) {
                 break;
             }
             else {
+                let oldX = 0;
+                let oldY = 0;
                 if(x >= this.gameWidth - this.stopPosition) {
-                    let angle = 360 - arrowAngle;
-                    angle = angle * (Math.PI/180);
-                    // save old x and y
-                    let oldX = x - (this.offsetDistance)*Math.cos(angle);
-                    let oldY = y + (this.offsetDistance)*Math.sin(angle);
+                    let angle = (360 - arrowAngle) * (Math.PI/180);
+                    // get old x and y
+                    oldX = x - (this.offsetDistance)*Math.cos(angle);
+                    oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
                     x = this.gameWidth - distanceHitWall;
                     y = oldY - (x - oldX)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
                 } else if(x <= this.stopPosition) {
-                    let angle = arrowAngle - 180;
-                    angle = angle * (Math.PI/180);
-                    // save old x and y
-                    let oldX = x + (this.offsetDistance)*Math.cos(angle);
-                    let oldY = y + (this.offsetDistance)*Math.sin(angle);
+                    let angle = (arrowAngle - 180) * (Math.PI/180);
+                    // get old x and y
+                    oldX = x + (this.offsetDistance)*Math.cos(angle);
+                    oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
                     x = distanceHitWall;
                     y = oldY - (oldX - x)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
                 }
-                countHitWall++;
-                if(countHitWall == 1)
-                    this.createCircle(x,y);
+                distance = -Phaser.Math.Distance.Between(x,y,oldX,oldY);
             }    
         }
     }
