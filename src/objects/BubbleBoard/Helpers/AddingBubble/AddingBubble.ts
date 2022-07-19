@@ -27,7 +27,7 @@ export class AddingBubble {
         return object;
     }
 
-    private toBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble|void {
+    private addToBoardFromShoot(row:number, column:number,shootedBubble:ShootedBubble):Bubble|void {
         let bubble = this.bubblesBoard.gridGroup.get(0,0,'',undefined,true);
         this.activateBubble(bubble,shootedBubble.texture.key);
 
@@ -42,9 +42,9 @@ export class AddingBubble {
         return object;
     }
     
-    public fromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
+    public addBubblefromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
         let gridPos = this.positionHandler.getPositionNewBubble(hittedBubble,shootedBubble);
-        let bubble = this.toBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
+        let bubble = this.addToBoardFromShoot(gridPos.x,gridPos.y,shootedBubble);
         const object = bubble;
         if(object == undefined)
             return;
@@ -77,10 +77,10 @@ export class AddingBubble {
         let bellowY = 0;
         if(bellowBubble == undefined) {
             bellowY = 0;
-            // return;
         } else {
             bellowY = bellowBubble.y;
         }
+        // update value row for old bubbles
         for(let i = 0; i < this.bubblesBoard.row; i++) {
             for(let j = 0; j < this.bubblesBoard.column; j++) {
                 const object = this.bubblesBoard.board[i][j];
@@ -92,16 +92,17 @@ export class AddingBubble {
             }
         }
         let bubblesArray:Bubble[] = [];
+        let bubbleWidth = 56;
         while(numberOfRow > 0) {
             this.bubblesBoard.board.unshift([]);
             this.bubblesBoard.row += 1;
             this.bubblesBoard.invertRowOffset();
             for(let j = 0; j < this.bubblesBoard.column; j++) {
-                let bubbleX = j * 56;
+                let bubbleX = j * bubbleWidth;
                 if(this.bubblesBoard.rowOffSet % 2) {
-                    bubbleX += 28;
+                    bubbleX += bubbleWidth/2;
                 }
-                bubbleX += this.bubblesBoard.x + j*1.5;
+                bubbleX += this.bubblesBoard.x + j*this.bubblesBoard.offsetDistanceBetweenBubbles;
                 let bubbleY = bellowY - this.bubblesBoard.rowHeight;
                 let bubble = this.bubblesBoard.gridGroup.get(bubbleX,bubbleY,'',undefined,true) as Bubble;
                 this.activateBubble(bubble,this.scene.colorManager.getTexture());
@@ -110,12 +111,12 @@ export class AddingBubble {
             numberOfRow -= 1;
             bellowY -= this.bubblesBoard.rowHeight;
         }
-        let j = 11;
+        let j = this.bubblesBoard.column - 1;
         let k = 0;
         while(bubblesArray.length > 0) {
             if(j == -1) {
                 k++;
-                j = 11;
+                j = this.bubblesBoard.column - 1;
             }
             let bubble = bubblesArray.pop()!;
             bubble.row = k;

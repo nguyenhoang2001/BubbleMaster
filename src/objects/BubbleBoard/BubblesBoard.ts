@@ -35,13 +35,14 @@ export class BubblesBoard {
     public y:number;
     public addSignal: boolean;
     public isUpdating: boolean;
+    public offsetDistanceBetweenBubbles: number;
     // public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
         // Variables
         this.x = x;
         this.y = y;
-        // this.deltaY = 0;
+        this.offsetDistanceBetweenBubbles = 1.5;
         this.addSignal = false;
         this.isUpdating = false;
         this.scene = scene;

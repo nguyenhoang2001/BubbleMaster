@@ -184,7 +184,7 @@ export class ColliderManager {
 
     public runCollide() {
         this.bubblesBoard.updateRow();
-        const newBubble = this.bubblesBoard.addingManager.fromShoot(this.hittedBubble,this.shootedBubble);
+        const newBubble = this.bubblesBoard.addingManager.addBubblefromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
         if(newBubble == undefined)
             return;

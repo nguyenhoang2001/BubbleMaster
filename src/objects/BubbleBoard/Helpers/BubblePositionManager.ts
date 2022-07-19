@@ -12,7 +12,7 @@ export class BubblePositionManager {
     }
 
     public setPosition(row:number,column:number,bubble:Bubble) {
-        let bubbleX = column * bubble.displayWidth + column*1.5;
+        let bubbleX = column * bubble.displayWidth + column*this.bubblesBoard.offsetDistanceBetweenBubbles;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += bubble.displayWidth/2 ;
         }
@@ -26,7 +26,7 @@ export class BubblePositionManager {
         if(firstBubble == undefined)
             return;
         
-        let bubbleX = column * bubble.displayWidth + column*1.5;
+        let bubbleX = column * bubble.displayWidth + column*this.bubblesBoard.offsetDistanceBetweenBubbles;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
             bubbleX += bubble.displayWidth/2 ;
         }
@@ -38,11 +38,12 @@ export class BubblePositionManager {
 
     public getCoordinate(row:number, column:number) {
         let firstBubble = this.bubblesBoard.board[0].find(n => n);
+        let bubbleWidth = 56;
         if(firstBubble == undefined) 
             return;
-        let bubbleX = column * 56 + column*1.5;
+        let bubbleX = column * bubbleWidth + column*this.bubblesBoard.offsetDistanceBetweenBubbles;
         if ((row + this.bubblesBoard.rowOffSet) % 2) {
-            bubbleX += 28 ;
+            bubbleX += bubbleWidth/2;
         }
         let bubbleY = row * this.bubblesBoard.rowHeight;
         bubbleY += firstBubble.y;
