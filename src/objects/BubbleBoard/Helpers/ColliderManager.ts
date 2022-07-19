@@ -118,18 +118,21 @@ export class ColliderManager {
                         if(exPos.i == neighPos?.i && exPos.j == neighPos?.j) {
                             return true;
                         }
+                        return false;
                     });
                     if(!existingExplodePos) {
                         existingTemp =  temp.some((tempPos:any) => {
                             if(tempPos.i == neighPos?.i && tempPos.j == neighPos?.j) {
                                 return true;
                             }
+                            return false;
                         });
                         if(!existingTemp) {
                             existingBuffer = buffer.some((bufferPos:any) => {
                                 if(bufferPos.i == neighPos.i && bufferPos.j == neighPos.j) {
                                     return true;
                                 }
+                                return false;
                             });
                         }
                     }
