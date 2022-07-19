@@ -19,7 +19,7 @@ export class AddingBubble {
         this.finishedAddingBullet = true;
     }
 
-    public toBoard(row:number, column:number,texture?:string):Bubble|void {
+    public addToBoard(row:number, column:number,texture?:string):Bubble|void {
         this.bubblesBoard.board[row][column] = this.bubblesBoard.painter.drawBubble(row,column,texture);
         const object = this.bubblesBoard.board[row][column];
         if(object == undefined)

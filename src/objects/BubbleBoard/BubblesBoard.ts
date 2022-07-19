@@ -128,6 +128,6 @@ export class BubblesBoard {
         this.clusters.update(delta);
         this.floatingBubbles.update();
         this.updateRow();
-        this.checkingClusters();
+        // this.checkingClusters();
     }
 }

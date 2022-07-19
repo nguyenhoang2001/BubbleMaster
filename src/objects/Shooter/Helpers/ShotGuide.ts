@@ -64,7 +64,7 @@ export class ShotGuide {
         return hittedBubble;
     }
 
-    private rightAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number, smallDist:boolean) {
+    private rightAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
         let angle = 360 - arrowAngle;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
@@ -100,18 +100,14 @@ export class ShotGuide {
                 break;
             }
             maxCircle--;
-            if(smallDist == true) {
-                smallDist = false;
-            } else {
-                distance = 0;
-            }
+            distance = 0;
             circles.push(this.createCircle(x,y));
         }
         return{x:x,y:y};
     }
 
 
-    private leftAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number,smallDist:boolean) {
+    private leftAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
         let angle = arrowAngle - 180;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
@@ -147,11 +143,7 @@ export class ShotGuide {
                 break;
             }
             maxCircle--;
-            if(smallDist == true) {
-                smallDist = false;
-            } else {
-                distance = 0;
-            }
+            distance = 0;
             circles.push(this.createCircle(x,y));
         }
         return{x:x,y:y};
@@ -188,16 +180,15 @@ export class ShotGuide {
         let y = shooBubble.y;
         let distance = this.firstDistance;
         let arrowAngle = 180 + (180 + arrowShoot.angle);
-        let smallDist = false;
         let distanceHitWall = 10;
 
         while(!this.stopGenrate) {
             let postPosition:any;
             if(arrowAngle >= 270) {
-                postPosition = this.rightAngle(arrowAngle,x,y,distance,countHitWall,smallDist);
+                postPosition = this.rightAngle(arrowAngle,x,y,distance,countHitWall);
             }
             else {
-                postPosition = this.leftAngle(arrowAngle,x,y,distance,countHitWall,smallDist);
+                postPosition = this.leftAngle(arrowAngle,x,y,distance,countHitWall);
             }
             x = postPosition.x;
             y = postPosition.y;

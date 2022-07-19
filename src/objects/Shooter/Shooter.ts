@@ -45,7 +45,7 @@ export class Shooter {
         this.animation = new AnimationShooter(this,this.scene);
         this.pointer = this.scene.input.activePointer;
         this.drawCircle();
-        this.bulletCreator.run();
+        this.bulletCreator.createTwoBullets();
         this.drawLine();
         this.enableInput();
         this.enableChangeBubble();
@@ -194,7 +194,6 @@ export class Shooter {
         } 
         if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
             // console.log(this.shotGuide.circleGuideGroup.countActive(false));
-            console.log('came to this');
             this.rotateShooter(this.scene.input.activePointer);
         }
     }

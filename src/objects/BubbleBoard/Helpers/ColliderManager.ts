@@ -92,20 +92,27 @@ export class ColliderManager {
         while(temp.length > 0 && count > 0) {
             let pos = temp.shift();
             if(pos != undefined) {
-                let existing = false;
+                // let existing = false;
                 // existing = explodePos.some((exPos:any) => {
                 //     if(exPos.i == pos?.i && exPos.j == pos?.j) {
                 //         return true;
                 //     }
                 // });
-                if(existing == false) {
-                    // console.log(pos);
-                    explodePos.push(pos);
-                    const bubble = this.bubblesBoard.board[pos.i][pos.j];
-                    if(bubble != undefined) {
-                        if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
-                            toProcess.push(bubble);
-                        }
+                // if(existing == false) {
+                //     // console.log(pos);
+                //     explodePos.push(pos);
+                //     const bubble = this.bubblesBoard.board[pos.i][pos.j];
+                //     if(bubble != undefined) {
+                //         if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
+                //             toProcess.push(bubble);
+                //         }
+                //     }
+                // }
+                explodePos.push(pos);
+                const bubble = this.bubblesBoard.board[pos.i][pos.j];
+                if(bubble != undefined) {
+                    if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
+                        toProcess.push(bubble);
                     }
                 }
                 
