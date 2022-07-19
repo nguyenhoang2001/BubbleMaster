@@ -23,7 +23,7 @@ export class Hole extends Phaser.GameObjects.Image {
     }
 
     public setUpLight() {
-        Phaser.Display.Align.In.Center(this.light,this,0, -65);
+        Phaser.Display.Align.In.Center(this.light,this,2, -18);
     }
 
     public setColorLight() {
