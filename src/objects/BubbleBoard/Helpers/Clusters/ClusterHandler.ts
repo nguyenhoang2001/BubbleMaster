@@ -41,7 +41,7 @@ export class ClusterHandler {
             });
 
             cluster[i].on('animationcomplete-explode', () => {
-                this.clusters.remains -= 1;
+                // this.clusters.remains -= 1;
                 cluster[i].anims.remove('explode');
                 cluster[i].clear();
                 this.bubblesBoard.gridGroup.killAndHide(cluster[i]);
