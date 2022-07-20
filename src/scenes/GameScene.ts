@@ -55,7 +55,7 @@ export class GameScene extends Phaser.Scene {
         this.physics.world.setFPS(60);
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Logic Game
-        this.colorManager = new ColorManager();
+        this.colorManager = new ColorManager(this);
         // Game Objects
         this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
