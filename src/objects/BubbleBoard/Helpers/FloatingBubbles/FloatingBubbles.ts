@@ -11,12 +11,10 @@ export class FloatingBubbles {
     private detector: FloatingDetector;
     private handler: FloatingHandler;
     public remains: number;
-    public isFloating: boolean;
 
     constructor(scene: GameScene, bubblesBoard: BubblesBoard) {
         this.scene = scene;
         this.bubblesBoard = bubblesBoard;
-        this.isFloating = false;
         this.array = [];
         this.detector = new FloatingDetector(this.bubblesBoard);
         this.handler = new FloatingHandler(this.scene,this,this.bubblesBoard);
@@ -30,7 +28,6 @@ export class FloatingBubbles {
     public checkFloating() {
         this.array = this.detector.find();
         if( this.array.length > 0) {
-            this.isFloating = true;
             this.remains = this.array.length;
             this.handler.clearFloating();
             // this.handler.runAnimation();

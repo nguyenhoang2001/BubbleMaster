@@ -13,7 +13,7 @@ export class BulletCreator {
         this.scene = this.shooter.scene;        
     }
 
-    public run() {
+    public createTwoBullets() {
         this.createShootedBubble();
         this.createSecondBullet();
     }

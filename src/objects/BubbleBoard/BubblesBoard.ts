@@ -35,13 +35,14 @@ export class BubblesBoard {
     public y:number;
     public addSignal: boolean;
     public isUpdating: boolean;
+    public offsetDistanceBetweenBubbles: number;
     // public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
         // Variables
         this.x = x;
         this.y = y;
-        // this.deltaY = 0;
+        this.offsetDistanceBetweenBubbles = 1.5;
         this.addSignal = false;
         this.isUpdating = false;
         this.scene = scene;
@@ -105,14 +106,6 @@ export class BubblesBoard {
         this.board.length = this.row;
     }
 
-    private checkingClusters() {
-        if(this.clusters.isHavingClusters && this.clusters.clustersFinish) {
-            // this.floatingBubbles.run();
-            this.clusters.checkingFinish = true;
-            // this.updateRow();
-        }
-    }
-
     public update(time:number,delta:number) {
         let topBubble = this.board[0].find(n=>n);
         if(topBubble != undefined)
@@ -125,9 +118,7 @@ export class BubblesBoard {
             this.updateRow();
             console.log(JSON.parse(JSON.stringify(this.board)));
         }
-        this.clusters.update(delta);
         this.floatingBubbles.update();
         this.updateRow();
-        this.checkingClusters();
     }
 }

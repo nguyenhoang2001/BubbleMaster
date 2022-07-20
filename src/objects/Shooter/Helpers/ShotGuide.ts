@@ -64,7 +64,7 @@ export class ShotGuide {
         return hittedBubble;
     }
 
-    private rightAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number, smallDist:boolean) {
+    private rightAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
         let angle = 360 - arrowAngle;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
@@ -100,18 +100,14 @@ export class ShotGuide {
                 break;
             }
             maxCircle--;
-            if(smallDist == true) {
-                smallDist = false;
-            } else {
-                distance = 0;
-            }
+            distance = 0;
             circles.push(this.createCircle(x,y));
         }
         return{x:x,y:y};
     }
 
 
-    private leftAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number,smallDist:boolean) {
+    private leftAngle(arrowAngle:number, x:number, y: number,distance:number,countHitWall:number) {
         let angle = arrowAngle - 180;
         angle = angle * (Math.PI/180);
         let hitRange = 38;
@@ -147,11 +143,7 @@ export class ShotGuide {
                 break;
             }
             maxCircle--;
-            if(smallDist == true) {
-                smallDist = false;
-            } else {
-                distance = 0;
-            }
+            distance = 0;
             circles.push(this.createCircle(x,y));
         }
         return{x:x,y:y};
@@ -177,27 +169,24 @@ export class ShotGuide {
         }
     }
 
-    public run() {
+    public draw() {
         this.hide();
 
         this.stopGenrate = false;
-        const shooBubble = this.shooter.shootedBubble;
-        const arrowShoot = this.shooter.arrowShoot;
         let countHitWall = 0;
-        let x = shooBubble.x;
-        let y = shooBubble.y;
+        let x = this.shooter.shootedBubble.x;
+        let y = this.shooter.shootedBubble.y;
         let distance = this.firstDistance;
-        let arrowAngle = 180 + (180 + arrowShoot.angle);
-        let smallDist = false;
+        let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
         let distanceHitWall = 10;
 
         while(!this.stopGenrate) {
             let postPosition:any;
             if(arrowAngle >= 270) {
-                postPosition = this.rightAngle(arrowAngle,x,y,distance,countHitWall,smallDist);
+                postPosition = this.rightAngle(arrowAngle,x,y,distance,countHitWall);
             }
             else {
-                postPosition = this.leftAngle(arrowAngle,x,y,distance,countHitWall,smallDist);
+                postPosition = this.leftAngle(arrowAngle,x,y,distance,countHitWall);
             }
             x = postPosition.x;
             y = postPosition.y;
@@ -207,34 +196,31 @@ export class ShotGuide {
             }
             else {
                 if(x >= this.gameWidth - this.stopPosition) {
-                    countHitWall++;
                     let angle = 360 - arrowAngle;
                     angle = angle * (Math.PI/180);
                     // save old x and y
-                    let saveOldX = x - (this.offsetDistance)*Math.cos(angle);
-                    let saveOldY = y + (this.offsetDistance)*Math.sin(angle);
+                    let oldX = x - (this.offsetDistance)*Math.cos(angle);
+                    let oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
                     x = this.gameWidth - distanceHitWall;
-                    y = saveOldY - (x - saveOldX)*Math.tan(angle);
-                    if(countHitWall == 1)
-                        this.createCircle(x,y);
+                    y = oldY - (x - oldX)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
                 } else if(x <= this.stopPosition) {
-                    countHitWall++;
                     let angle = arrowAngle - 180;
                     angle = angle * (Math.PI/180);
                     // save old x and y
-                    let saveOldX = x + (this.offsetDistance)*Math.cos(angle);
-                    let saveOldY = y + (this.offsetDistance)*Math.sin(angle);
+                    let oldX = x + (this.offsetDistance)*Math.cos(angle);
+                    let oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
                     x = distanceHitWall;
-                    y = saveOldY - (saveOldX - x)*Math.tan(angle);
-                    if(countHitWall == 1)
-                        this.createCircle(x,y);
+                    y = oldY - (oldX - x)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
                 }
+                countHitWall++;
+                if(countHitWall == 1)
+                    this.createCircle(x,y);
             }    
         }
     }

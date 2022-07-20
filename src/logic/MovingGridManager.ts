@@ -8,8 +8,6 @@ export class MovingGridManager {
     private scene: GameScene;
     private initialTimeMoving: number;
     private shooted:boolean;
-    private delta:number;
-
 
     constructor(scene:GameScene, bubblesBoard:BubblesBoard) {
         this.scene = scene;
@@ -46,7 +44,6 @@ export class MovingGridManager {
 
     public moveDownBubbles(time:number,delta:number) {
         if(this.shooted) {
-            this.delta = delta;
             this.bubblesBoard.updateRow();
             this.updateVelocity(delta);
             this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {

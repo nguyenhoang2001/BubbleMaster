@@ -49,19 +49,20 @@ export class ShootedBubble extends Bubble {
         this.tail.setRotation(angle * Phaser.Math.DEG_TO_RAD);
         this.tail.x = this.x;
         this.tail.y = this.y;
+        let angleOffset = 0;
+        let offsetX = 0;
+        let offsetY = 0;
         if(angle >= 0 && angle <= 90) {
-            let angleOffset = 90 - angle;
-            let offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
-            this.tail.x = this.tail.x + offsetX;
-            this.tail.y = this.tail.y - offsetY;
+            angleOffset = 90 - angle;
+            offsetX = 1;
         } else {
-            let angleOffset = 90 - (360 - angle);
-            let offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-            let offsetX = 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
-            this.tail.x = this.tail.x - offsetX;
-            this.tail.y = this.tail.y - offsetY;
+            angleOffset = 90 - (360 - angle);
+            offsetX = -1;
         }
+        offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
+        offsetX *= 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
+        this.tail.y = this.tail.y - offsetY;
+        this.tail.x = this.tail.x + offsetX;
     }
 
     public update(...args: any[]): void {
