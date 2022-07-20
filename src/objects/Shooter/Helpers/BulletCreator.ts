@@ -19,6 +19,7 @@ export class BulletCreator {
     }
 
     private activateBullet(bullet:ShootedBubble,texture:string) {
+        bullet.createWorldBounds(this.shooter.rectangleBound);
         bullet.setActive(true);
         bullet.setVisible(true);
         bullet.setTexture(texture);

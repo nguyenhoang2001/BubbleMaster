@@ -17,38 +17,46 @@ export class Shooter {
     private bulletCreator: BulletCreator;
     public bulletSwaper: BulletSwaper;
 
+    public rectangleBound: Phaser.Geom.Rectangle;
+
     public shootedBubble: ShootedBubble | Bomb | FireBubble;
     public secondBubllet: ShootedBubble;
-
-    private shotGuide: ShotGuide;
 
     public animation: AnimationShooter;
     public circle: Phaser.GameObjects.Image;
     public arrowShoot: Phaser.GameObjects.Line
 
+    private shotGuide: ShotGuide;
+
     private isShoot: boolean;
     public checkAllowShooting: boolean;
     private pointerOnCircle: boolean;
 
-    private pointer:Phaser.Input.Pointer;
-
     constructor(scene:GameScene) {
         this.scene = scene;
-        this.isShoot = false;
-        this.checkAllowShooting = true;
-        this.pointerOnCircle = false;
+
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.flyingBulletGroup = this.scene.add.group({});
+
         this.bulletCreator = new BulletCreator(this);
         this.bulletSwaper = new BulletSwaper(this);
-        this.shotGuide = new ShotGuide(this, this.scene);
         this.animation = new AnimationShooter(this,this.scene);
-        this.pointer = this.scene.input.activePointer;
+
+        let offsetXBound = 20;
+        this.rectangleBound = new Phaser.Geom.Rectangle(offsetXBound,0,this.scene.sys.canvas.width - offsetXBound*2,this.scene.sys.canvas.height);
+
         this.drawCircle();
         this.bulletCreator.createTwoBullets();
         this.drawLine();
+
+        this.shotGuide = new ShotGuide(this, this.scene);
+
         this.enableInput();
         this.enableChangeBubble();
+
+        this.isShoot = false;
+        this.checkAllowShooting = true;
+        this.pointerOnCircle = false;
     }
 
     private drawLine() {
@@ -160,8 +168,6 @@ export class Shooter {
             this.scene.events.emit('shooted');
             this.shootedBubble.body.checkCollision.none = false;
             this.shootedBubble.checkWorldBounce = true;
-            this.shootedBubble.initialX = this.shootedBubble.x;
-            this.shootedBubble.initialY = this.shootedBubble.y;
             this.scene.physics.velocityFromRotation (
                 this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
                 2400,

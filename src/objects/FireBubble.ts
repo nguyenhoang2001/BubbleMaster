@@ -6,7 +6,8 @@ export class FireBubble extends ShootedBubble {
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
         this.scene.add.existing(this);
-        this.body.setCircle(28,0,0);
+        this.body.setCircle(10,50,50);
+        this.body.debugBodyColor = 0xffd712;
         this.name = 'FireBubble';
         this.setDepth(DEPTH.FIREBALL);
         this.setTailTint();

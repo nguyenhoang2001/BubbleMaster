@@ -2,16 +2,16 @@ import DEPTH from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { BubblesBoard } from "../../BubbleBoard/BubblesBoard";
 import { CircleGuide } from "../CircleGuide";
+import { CircleGuideGroup } from "../CircleGuideGroup";
 import { Shooter } from "../Shooter";
 
 export class ShotGuide {
     private shooter: Shooter;
     private scene: GameScene;
-    public circleGuideGroup: Phaser.GameObjects.Group;
+    public circleGuideGroup: CircleGuideGroup;
     private firstDistance: number;
     private offsetDistance:number;
     private gameWidth:number;
-    private gameHeight:number;
     public stopGenrate: boolean;
     private bubblesBoard: BubblesBoard;
     private stopPosition:number;
@@ -21,27 +21,13 @@ export class ShotGuide {
         this.shooter = shooter;
         this.scene = scene
         this.bubblesBoard = this.scene.bubblesBoard;
-        this.circleGuideGroup = this.scene.add.group({classType:CircleGuide});
+        this.circleGuideGroup = new CircleGuideGroup(this.scene);
         this.firstDistance = 26;
         this.offsetDistance = 30;
-        this.stopPosition = 10;
+        this.stopPosition = this.shooter.rectangleBound.x + this.circleGuideGroup.circleRadius;
         this.maxAmountCircle = 50;
         this.stopGenrate = false;
         this.gameWidth = this.scene.sys.canvas.width;
-        this.gameHeight = this.scene.sys.canvas.height;
-    }
-
-    private activateCircle(circle:CircleGuide) {
-        this.scene.physics.world.enable(circle);
-        circle.body.checkCollision.none = false;
-        circle.setTexture('circleGuide');
-        circle.setDepth(DEPTH.GAMEPLAY);
-        circle.setOrigin(0.5,0.5);
-        circle.setActive(true);
-        circle.setAlpha(1);
-        circle.setVisible(true);
-        circle.setScale(1);
-        circle.isOverlap = false;
     }
 
     private hitBubble(x:number,y:number, hitRange:number):boolean {
@@ -75,7 +61,6 @@ export class ShotGuide {
         let y = this.shooter.shootedBubble.y;
         let distance = this.firstDistance;
         let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
-        let distanceHitWall = 10;
         let hitRange = 38;
 
         while(!this.stopGenrate) {
@@ -86,7 +71,7 @@ export class ShotGuide {
             else {
                 angle = (arrowAngle - 180) * (Math.PI/180);
             }
-            while(x > this.stopPosition ||  x < this.gameWidth - this.stopPosition && y >= 0) {
+            while(y >= 0) {
                 let offsetX = (distance + this.offsetDistance)*Math.cos(angle);
                 let offsetY = (distance + this.offsetDistance)*Math.sin(angle);
                 if(arrowAngle >= 270)
@@ -117,7 +102,7 @@ export class ShotGuide {
                     oldX = x - (this.offsetDistance)*Math.cos(angle);
                     oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
-                    x = this.gameWidth - distanceHitWall;
+                    x = this.gameWidth - this.stopPosition;
                     y = oldY - (x - oldX)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 180 + (360 - arrowAngle);
@@ -127,7 +112,7 @@ export class ShotGuide {
                     oldX = x + (this.offsetDistance)*Math.cos(angle);
                     oldY = y + (this.offsetDistance)*Math.sin(angle);
                     // update x and y
-                    x = distanceHitWall;
+                    x = this.stopPosition;
                     y = oldY - (oldX - x)*Math.tan(angle);
                     // update new angle
                     arrowAngle = 360 - (arrowAngle - 180);
@@ -138,8 +123,9 @@ export class ShotGuide {
     }
 
     private createCircle(x:number,y:number):CircleGuide {
-        let circle = this.circleGuideGroup.get(x,y,'circleGuide',undefined,true);
-        this.activateCircle(circle);
+        let circle = this.circleGuideGroup.getCircleGuide();
+        circle.setPosition(x,y);
+        circle.setTexture('circleGuide');
         return circle;
     }
 
