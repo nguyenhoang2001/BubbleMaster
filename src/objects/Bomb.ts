@@ -12,6 +12,7 @@ export class Bomb extends ShootedBubble {
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
         this.scene.add.existing(this);
+        this.body.setCircle(10,20,25);
         this.name = 'Bomb';
         this.setDepth(DEPTH.BULLET);
         this.offsetXParticle = this.width/2 - 10;

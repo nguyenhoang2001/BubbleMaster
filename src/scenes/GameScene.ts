@@ -52,7 +52,6 @@ export class GameScene extends Phaser.Scene {
         this.registry.set('score',0);
         this.gameOver = false;
         // Physics
-        // console.log(this.physics.world.fps);
         this.physics.world.setFPS(60);
         this.physics.world.setBoundsCollision(true,true,false,false);
         // Logic Game
@@ -92,7 +91,7 @@ export class GameScene extends Phaser.Scene {
             this.movingGridManager.moveDownBubbles(time,delta);
             this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update(time,delta);
-            this.shooter.update();
+            this.shooter.update(delta);
         } else {
             this.shooter.clearShotGuide();
             this.shooter.removeInput();

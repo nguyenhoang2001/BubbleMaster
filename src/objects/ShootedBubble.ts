@@ -4,18 +4,13 @@ import { Bubble } from "./Bubble";
 export class ShootedBubble extends Bubble {
     public body: Phaser.Physics.Arcade.Body;
     public checkWorldBounce: boolean;
-    public initialX:number;
-    public initialY:number;
     public tail: Phaser.GameObjects.Image;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
         this.body.setCircle(10,18,18);
-        this.createBouncing();
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;
-        this.initialX = 0;
-        this.initialY = 0;
         this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
         this.tail.setDepth(DEPTH.TAIL);
         this.tail.setVisible(false);
@@ -29,7 +24,8 @@ export class ShootedBubble extends Bubble {
         this.tail.removeFromDisplayList();
     }
 
-    public createBouncing() {
+    public createWorldBounds(rectangleBound: Phaser.Geom.Rectangle) {
+        this.body.setBoundsRectangle(rectangleBound);
         this.body.setCollideWorldBounds(true,1,1,true);
     }
 
