@@ -118,11 +118,6 @@ export class Shooter {
                     }
                 }
             },this);
-
-            this.scene.input.on('pointermove', (pointer:any) => {
-                // console.log('when pointer is moving we rotate');
-                this.rotateShooter(pointer);
-            });
     }
 
     private drawCircle() {
@@ -157,7 +152,6 @@ export class Shooter {
                 this.arrowShoot.setAngle(angle);
                 this.shotGuide.draw();
             } else {
-                // console.log('fade out in angle');
                 this.shotGuide.fadeOut();
             }
         }
@@ -182,8 +176,8 @@ export class Shooter {
         this.bulletCreator.createSecondBullet();
     }
     
-    public update() {
-        this.shotGuide.update();
+    public update(delta:number) {
+        this.shotGuide.update(delta);
         this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
             const bullet = _bullet as ShootedBubble;
             if(bullet?.body.speed > 0) {
@@ -195,12 +189,8 @@ export class Shooter {
             this.shootBubble();
         }
         if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
-            // console.log('fadeOut in update');
             this.shotGuide.fadeOut();
-        } 
-        if(this.checkAllowShooting && this.bulletSwaper.finished && this.shotGuide.circleGuideGroup.countActive(true) == 0) {
-            // console.log(this.shotGuide.circleGuideGroup.countActive(false));
-            this.rotateShooter(this.scene.input.activePointer);
         }
+        this.rotateShooter(this.scene.input.activePointer);
     }
 }

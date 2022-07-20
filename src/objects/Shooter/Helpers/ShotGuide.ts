@@ -8,12 +8,16 @@ import { Shooter } from "../Shooter";
 export class ShotGuide {
     private shooter: Shooter;
     private scene: GameScene;
+
+    private bubblesBoard: BubblesBoard;
+
     public circleGuideGroup: CircleGuideGroup;
+
+    // Variables
     private firstDistance: number;
     private offsetDistance:number;
     private gameWidth:number;
     public stopGenrate: boolean;
-    private bubblesBoard: BubblesBoard;
     private stopPosition:number;
     private maxAmountCircle: number;
 
@@ -22,10 +26,10 @@ export class ShotGuide {
         this.scene = scene
         this.bubblesBoard = this.scene.bubblesBoard;
         this.circleGuideGroup = new CircleGuideGroup(this.scene);
-        this.firstDistance = 26;
-        this.offsetDistance = 30;
+        this.firstDistance = 2;
+        this.offsetDistance = 40;
         this.stopPosition = this.shooter.rectangleBound.x + this.circleGuideGroup.circleRadius;
-        this.maxAmountCircle = 50;
+        this.maxAmountCircle = 35;
         this.stopGenrate = false;
         this.gameWidth = this.scene.sys.canvas.width;
     }
@@ -56,12 +60,13 @@ export class ShotGuide {
         this.hide();
 
         this.stopGenrate = false;
-        this.maxAmountCircle = 50;
-        let x = this.shooter.shootedBubble.x;
-        let y = this.shooter.shootedBubble.y;
+        this.maxAmountCircle = 35;
+
         let distance = this.firstDistance;
         let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
         let hitRange = 38;
+        let x = this.shooter.shootedBubble.x;
+        let y = this.shooter.shootedBubble.y;
 
         while(!this.stopGenrate) {
             let angle = 0;
@@ -153,15 +158,15 @@ export class ShotGuide {
         });
     }
 
-    public update() {
+    public update(delta:number) {
         let deleteCircle = false;
         let hitRange = 38;
-        let firstCircle = this.circleGuideGroup.getFirst(true);
-        if(firstCircle != undefined) {
-            if(Phaser.Math.Distance.Between(firstCircle.x,firstCircle.y,this.shooter.shootedBubble.x,this.shooter.shootedBubble.y) > this.firstDistance + this.offsetDistance*2) {
-                deleteCircle = true;
-            }
+
+        this.firstDistance += 70*(delta/1000);
+        if(this.firstDistance > 42) {
+            this.firstDistance = 2;
         }
+
         this.circleGuideGroup.getChildren().some((circle:any) => {
             if(circle.active) {
                 if(deleteCircle) {
