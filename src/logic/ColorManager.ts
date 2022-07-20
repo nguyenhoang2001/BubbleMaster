@@ -1,13 +1,16 @@
+import { GameScene } from "src/scenes/GameScene";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 
 export class ColorManager {
+    private scene: GameScene;
     protected textureKeys: string[];
     private currentTexture: string[];
     private timeAddTexture:number;
     private bubblesBoard:BubblesBoard;
     private level:number;
 
-    constructor() {
+    constructor(scene:GameScene) {
+        this.scene = scene;
         this.timeAddTexture = 0;
         this.level = 0;
         this.textureKeys = ['redBubble','yellowBubble','pinkBubble','violetBubble','greenBubble','blueBubble',
@@ -68,10 +71,12 @@ export class ColorManager {
     }
 
     public update(delta:number) {
-        this.timeAddTexture += delta;
-        if(this.timeAddTexture >= 30000) {
-            this.timeAddTexture = 0;
-            this.addTexture();
+        if(this.scene.movingGridManager.getIsShooted()) {
+            this.timeAddTexture += delta;
+            if(this.timeAddTexture >= 30000) {
+                this.timeAddTexture = 0;
+                this.addTexture();
+            }
         }
     }
 }
