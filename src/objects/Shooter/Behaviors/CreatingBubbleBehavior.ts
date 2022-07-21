@@ -2,8 +2,9 @@ import DEPTH from "../../../game/constant/Depth";
 import { IShooter } from "src/interfaces/IShooter";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";
+import { ICreatingBubbleBehavior } from "src/interfaces/ICreatingBubbleBehavior";
 
-export class CreatingBubbleBehavior {
+export class CreatingBubbleBehavior implements ICreatingBubbleBehavior {
     private parent: IShooter;
     private scene: GameScene;
 

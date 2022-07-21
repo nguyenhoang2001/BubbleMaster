@@ -1,7 +1,8 @@
 import ShotguideState from "src/game/constant/ShotguideState";
+import { ISettingAngleBehavior } from "src/interfaces/ISettingAngleBehavior";
 import { IShooter } from "src/interfaces/IShooter";
 
-export class SettingAngleBehavior {
+export class SettingAngleBehavior implements ISettingAngleBehavior {
     private parent: IShooter;
 
     constructor(parent:IShooter) {

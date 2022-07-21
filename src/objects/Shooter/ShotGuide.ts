@@ -1,10 +1,12 @@
 import ShotguideState from "src/game/constant/ShotguideState";
+import { IAppearingShotguideBehavior } from "src/interfaces/IAppearingShotguideBehavior";
+import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
 import { IShotguide } from "src/interfaces/IShotguide";
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { BubblesBoard } from "../BubbleBoard/BubblesBoard";
-import { AppearingBehavior } from "./Behaviors/AppearingBehavior";
-import { FadingBehavior } from "./Behaviors/FadingBehavior";
+import { AppearingShotguideBehavior } from "./Behaviors/AppearingShotguideBehavior";
+import { FadingShotguideBehavior } from "./Behaviors/FadingShotguideBehavior";
 import { CircleGuideGroup } from "./CircleGuideGroup";
 import { Shooter } from "./Shooter";
 
@@ -16,8 +18,8 @@ export class ShotGuide implements IShotguide {
     // State
     public state: ShotguideState;
     // Behaviors
-    private appearingBehavior: AppearingBehavior;
-    private fadingBehavior: FadingBehavior;
+    private appearingShotguideBehavior: IAppearingShotguideBehavior;
+    private fadingShotguideBehavior: IFadingShotguideBehavior;
     // Properties
     public circleGuideGroup: CircleGuideGroup;
     public firstDistance: number;
@@ -33,8 +35,8 @@ export class ShotGuide implements IShotguide {
         // State
         this.state = ShotguideState.Idle;
         // Behaviors
-        this.appearingBehavior = new AppearingBehavior(this);
-        this.fadingBehavior = new FadingBehavior(this);
+        this.appearingShotguideBehavior = new AppearingShotguideBehavior(this);
+        this.fadingShotguideBehavior = new FadingShotguideBehavior(this);
         // Properties
         this.bubblesBoard = this.scene.bubblesBoard;
         this.circleGuideGroup = new CircleGuideGroup(this.scene);
@@ -89,12 +91,12 @@ export class ShotGuide implements IShotguide {
                     this.firstDistance = 2;
                 }
                 let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
-                this.appearingBehavior.appear(this.shooter.shootedBubble.x,this.shooter.shootedBubble.y,arrowAngle);
+                this.appearingShotguideBehavior.appear(this.shooter.shootedBubble.x,this.shooter.shootedBubble.y,arrowAngle);
                 this.state = ShotguideState.Idle;
                 break;
             }
             case ShotguideState.Fading: {
-                this.fadingBehavior.fade();
+                this.fadingShotguideBehavior.fade();
                 this.state = ShotguideState.Idle;
                 break;
             }

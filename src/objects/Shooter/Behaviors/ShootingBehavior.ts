@@ -1,6 +1,7 @@
 import { IShooter } from "src/interfaces/IShooter";
+import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
 
-export class ShootingBehavior {
+export class ShootingBehavior implements IShootingBehavior {
     private parent: IShooter;
     
     constructor(parent:IShooter) {

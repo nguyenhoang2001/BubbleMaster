@@ -1,6 +1,7 @@
 import { IShooter } from "src/interfaces/IShooter";
+import { ISwappingBehavior } from "src/interfaces/ISwappingBehavior";
 
-export class SwappingBehavior {
+export class SwappingBehavior implements ISwappingBehavior {
     private parent: IShooter;
 
     constructor(parent:IShooter) {

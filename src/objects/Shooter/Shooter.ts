@@ -11,6 +11,11 @@ import { SwappingBehavior } from "./Behaviors/SwappingBehavior";
 import { SettingAngleBehavior } from "./Behaviors/SettingAngleBehavior";
 import { CreatingBubbleBehavior } from "./Behaviors/CreatingBubbleBehavior";
 import ShotguideState from "src/game/constant/ShotguideState";
+import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
+import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
+import { ISwappingBehavior } from "src/interfaces/ISwappingBehavior";
+import { ISettingAngleBehavior } from "src/interfaces/ISettingAngleBehavior";
+import { ICreatingBubbleBehavior } from "src/interfaces/ICreatingBubbleBehavior";
 
 export class Shooter implements IShooter {
     // Properties
@@ -35,11 +40,11 @@ export class Shooter implements IShooter {
     // State
     private state: ShooterState;
     // Behaviors
-    private shootingBehavior: ShootingBehavior;
-    private reloadingBehavior: ReloadingBehavior;
-    private swappingBehavior: SwappingBehavior;
-    private settingAngleBehavior: SettingAngleBehavior;
-    private creatingBubbleBehavior: CreatingBubbleBehavior;
+    private shootingBehavior: IShootingBehavior;
+    private reloadingBehavior: IReloadingBehavior;
+    private swappingBehavior: ISwappingBehavior;
+    private settingAngleBehavior: ISettingAngleBehavior;
+    private creatingBubbleBehavior: ICreatingBubbleBehavior;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -93,7 +98,7 @@ export class Shooter implements IShooter {
         this.scene.input.removeAllListeners();
     }
 
-    public enableInput() {
+    private enableInput() {
             this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
                     if(this.isAllowShooting && this.isAnimationFinished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {

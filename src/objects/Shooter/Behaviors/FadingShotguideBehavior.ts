@@ -1,6 +1,7 @@
+import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
 import { IShotguide } from "src/interfaces/IShotguide";
 
-export class FadingBehavior {
+export class FadingShotguideBehavior implements IFadingShotguideBehavior {
     private parent: IShotguide;
 
     constructor(parent:IShotguide) {
