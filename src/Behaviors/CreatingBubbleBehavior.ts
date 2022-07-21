@@ -1,4 +1,4 @@
-import DEPTH from "../../../game/constant/Depth";
+import DEPTH from "../game/constant/Depth";
 import { IShooter } from "src/interfaces/IShooter";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";

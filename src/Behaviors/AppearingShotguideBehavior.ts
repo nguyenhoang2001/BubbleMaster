@@ -8,9 +8,13 @@ export class AppearingShotguideBehavior implements IAppearingShotguideBehavior {
         this.parent = parent;
     }
 
-    public appear(bulletX:number,bulletY:number,arrowAngle:number) {
-        this.parent.clear();
+    private createCircleGuide(x:number,y:number) {
+        let circle = this.parent.circleGuideGroup.getCircleGuide();
+        circle.setPosition(x,y);
+        circle.setTexture('circleGuide');
+    }
 
+    public appear(bulletX:number,bulletY:number,arrowAngle:number) {
         this.parent.stopGenerate = false;
         this.parent.maxAmountCircle = 35;
 
@@ -35,7 +39,7 @@ export class AppearingShotguideBehavior implements IAppearingShotguideBehavior {
                 else 
                     x = x - offsetX;
                 y = y - offsetY;
-                this.parent.stopGenerate = this.parent.checkHitBubble(x,y,hitRange);
+                this.parent.stopGenerate = this.parent.checkHitGrid(x,y,hitRange);
                 if(this.parent.stopGenerate || x <= this.parent.stopPosition || x >= this.parent.gameWidth - this.parent.stopPosition 
                     || this.parent.maxAmountCircle == 0) {
                     if(this.parent.maxAmountCircle == 0) {
@@ -45,7 +49,7 @@ export class AppearingShotguideBehavior implements IAppearingShotguideBehavior {
                 }
                 this.parent.maxAmountCircle--;
                 distance = 0;
-                this.parent.createCircleGuide(x,y);
+                this.createCircleGuide(x,y);
             }
             if(this.parent.stopGenerate || y < 0) {
                 break;

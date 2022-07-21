@@ -1,12 +1,16 @@
 import ShotguideState from "src/game/constant/ShotguideState";
 import { IAppearingShotguideBehavior } from "src/interfaces/IAppearingShotguideBehavior";
+import { ICheckingShotguideHitGridBehavior } from "src/interfaces/ICheckingShotguideHitGridBehavior";
+import { IClearingShotguideBehavior } from "src/interfaces/IClearingShotguideBehavior";
 import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
 import { IShotguide } from "src/interfaces/IShotguide";
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { BubblesBoard } from "../BubbleBoard/BubblesBoard";
-import { AppearingShotguideBehavior } from "./Behaviors/AppearingShotguideBehavior";
-import { FadingShotguideBehavior } from "./Behaviors/FadingShotguideBehavior";
+import { AppearingShotguideBehavior } from "../../Behaviors/AppearingShotguideBehavior";
+import { CheckingShotguideHitGridBehavior } from "../../Behaviors/CheckingShotguideHitGridBehavior";
+import { ClearingShotguideBehavior } from "../../Behaviors/ClearingShotguideBehavior";
+import { FadingShotguideBehavior } from "../../Behaviors/FadingShotguideBehavior";
 import { CircleGuideGroup } from "./CircleGuideGroup";
 import { Shooter } from "./Shooter";
 
@@ -20,6 +24,8 @@ export class ShotGuide implements IShotguide {
     // Behaviors
     private appearingShotguideBehavior: IAppearingShotguideBehavior;
     private fadingShotguideBehavior: IFadingShotguideBehavior;
+    private clearingShotguideBehavior: IClearingShotguideBehavior;
+    private checkingShotguideHitGridBehavior: ICheckingShotguideHitGridBehavior;
     // Properties
     public circleGuideGroup: CircleGuideGroup;
     public firstDistance: number;
@@ -37,6 +43,8 @@ export class ShotGuide implements IShotguide {
         // Behaviors
         this.appearingShotguideBehavior = new AppearingShotguideBehavior(this);
         this.fadingShotguideBehavior = new FadingShotguideBehavior(this);
+        this.clearingShotguideBehavior = new ClearingShotguideBehavior(this);
+        this.checkingShotguideHitGridBehavior = new CheckingShotguideHitGridBehavior(this);
         // Properties
         this.bubblesBoard = this.scene.bubblesBoard;
         this.circleGuideGroup = new CircleGuideGroup(this.scene);
@@ -48,39 +56,12 @@ export class ShotGuide implements IShotguide {
         this.gameWidth = this.scene.sys.canvas.width;
     }
 
-    public checkHitBubble(x:number,y:number, hitRange:number):boolean {
-        let hittedBubble = false;
-        for(let i = this.bubblesBoard.row - 1; i >= 0; i--) {
-            for(let j = 0; j < this.bubblesBoard.column; j++) {
-                const bubble = this.bubblesBoard.board[i][j];
-                if(bubble != undefined) {
-                    if(this.bubblesBoard.isBublleExisting(i,j)) {
-                        let bubbleY = bubble.y;
-                        let distance = Phaser.Math.Distance.Between(x,y,bubble.x,bubbleY);
-                        if(distance <= hitRange) {
-                            hittedBubble = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if(hittedBubble)
-                break;
-        }
-        return hittedBubble;
+    public checkHitGrid(x:number,y:number, hitRange:number): boolean {
+        return this.checkingShotguideHitGridBehavior.check(x,y,hitRange,this.bubblesBoard);
     }
 
-    public createCircleGuide(x:number,y:number) {
-        let circle = this.circleGuideGroup.getCircleGuide();
-        circle.setPosition(x,y);
-        circle.setTexture('circleGuide');
-    }
-
-    public clear() {
-        this.circleGuideGroup.getChildren().forEach((circle:any) => {
-            if(circle.active)
-                this.circleGuideGroup.killAndHide(circle);
-        });
+    public clearShotguide() {
+        this.clearingShotguideBehavior.clear();
     }
 
     public update(delta:number) {
@@ -91,6 +72,7 @@ export class ShotGuide implements IShotguide {
                     this.firstDistance = 2;
                 }
                 let arrowAngle = 180 + (180 + this.shooter.arrowShoot.angle);
+                this.clearingShotguideBehavior.clear();
                 this.appearingShotguideBehavior.appear(this.shooter.shootedBubble.x,this.shooter.shootedBubble.y,arrowAngle);
                 this.state = ShotguideState.Idle;
                 break;

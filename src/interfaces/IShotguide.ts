@@ -10,7 +10,5 @@ export interface IShotguide {
     gameWidth: number;
     stopPosition: number;
     circleGuideGroup:CircleGuideGroup;
-    clear(): void;
-    checkHitBubble(x:number,y:number, hitRange:number): boolean;
-    createCircleGuide(x:number,y:number): void;
+    checkHitGrid(x:number,y:number, hitRange:number): boolean;
 }

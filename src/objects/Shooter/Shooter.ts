@@ -3,13 +3,13 @@ import { IShooter } from "src/interfaces/IShooter";
 import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
-import { ShootingBehavior } from "./Behaviors/ShootingBehavior";
+import { ShootingBehavior } from "../../Behaviors/ShootingBehavior";
 import { ShotGuide } from "./ShotGuide";
 import { ShooterAnimation } from "./ShooterAnimation";
-import { ReloadingBehavior } from "./Behaviors/ReloadingBehavior";
-import { SwappingBehavior } from "./Behaviors/SwappingBehavior";
-import { SettingAngleBehavior } from "./Behaviors/SettingAngleBehavior";
-import { CreatingBubbleBehavior } from "./Behaviors/CreatingBubbleBehavior";
+import { ReloadingBehavior } from "../../Behaviors/ReloadingBehavior";
+import { SwappingBehavior } from "../../Behaviors/SwappingBehavior";
+import { SettingAngleBehavior } from "../../Behaviors/SettingAngleBehavior";
+import { CreatingBubbleBehavior } from "../../Behaviors/CreatingBubbleBehavior";
 import ShotguideState from "src/game/constant/ShotguideState";
 import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
 import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
@@ -90,7 +90,7 @@ export class Shooter implements IShooter {
     }
 
     public clearShotGuide() {
-        this.shotGuide.clear();
+        this.shotGuide.clearShotguide();
     }
 
     public removeInput() {
