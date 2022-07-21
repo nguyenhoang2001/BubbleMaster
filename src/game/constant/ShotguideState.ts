@@ -1,7 +1,7 @@
 const enum ShotguideState {
-    Running,
-    Fading,
-    Hiding
+    Idle,
+    Appearing,
+    Fading
 }
 
 export default ShotguideState;

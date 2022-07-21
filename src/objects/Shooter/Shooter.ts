@@ -4,13 +4,13 @@ import DEPTH from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { ShootingBehavior } from "./Behaviors/ShootingBehavior";
-// import { BulletCreator } from "./Helpers/BulletCreator";
 import { ShotGuide } from "./ShotGuide";
 import { ShooterAnimation } from "./ShooterAnimation";
 import { ReloadingBehavior } from "./Behaviors/ReloadingBehavior";
 import { SwappingBehavior } from "./Behaviors/SwappingBehavior";
-import { DrawingShotguideBehavior } from "./Behaviors/DrawingShotguideBehavior";
+import { SettingAngleBehavior } from "./Behaviors/SettingAngleBehavior";
 import { CreatingBubbleBehavior } from "./Behaviors/CreatingBubbleBehavior";
+import ShotguideState from "src/game/constant/ShotguideState";
 
 export class Shooter implements IShooter {
     // Properties
@@ -38,7 +38,7 @@ export class Shooter implements IShooter {
     private shootingBehavior: ShootingBehavior;
     private reloadingBehavior: ReloadingBehavior;
     private swappingBehavior: SwappingBehavior;
-    private drawingShotguideBehavior: DrawingShotguideBehavior;
+    private settingAngleBehavior: SettingAngleBehavior;
     private creatingBubbleBehavior: CreatingBubbleBehavior;
 
     constructor(scene:GameScene) {
@@ -49,18 +49,18 @@ export class Shooter implements IShooter {
         this.shootingBehavior = new ShootingBehavior(this);
         this.reloadingBehavior = new ReloadingBehavior(this);
         this.swappingBehavior = new SwappingBehavior(this);
-        this.drawingShotguideBehavior = new DrawingShotguideBehavior(this);
+        this.settingAngleBehavior = new SettingAngleBehavior(this);
         this.creatingBubbleBehavior = new CreatingBubbleBehavior(this);
         // Properties
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.animation = new ShooterAnimation(this,this.scene);
-        this.shotGuide = new ShotGuide(this, this.scene);
         this.isAllowShooting = true;
         this.pointerOnCircle = false;
         this.isAnimationFinished = true;
 
         let offsetXBound = 20;
         this.rectangleBound = new Phaser.Geom.Rectangle(offsetXBound,0,this.scene.sys.canvas.width - offsetXBound*2,this.scene.sys.canvas.height);
+        this.shotGuide = new ShotGuide(this, this.scene);
 
         this.drawCircle();
         this.creatingBubbleBehavior.createShootedBubble();
@@ -85,7 +85,7 @@ export class Shooter implements IShooter {
     }
 
     public clearShotGuide() {
-        this.shotGuide.hide();
+        this.shotGuide.clear();
     }
 
     public removeInput() {
@@ -162,12 +162,12 @@ export class Shooter implements IShooter {
             default: {
                 this.state = ShooterState.Idle;
                 this.shotGuide.update(delta);
-                this.drawingShotguideBehavior.draw(this.scene.input.activePointer);
+                this.settingAngleBehavior.setAngle(this.scene.input.activePointer);
                 break;
             }
         }
         if(!this.isAllowShooting || !this.isAnimationFinished) {
-            this.shotGuide.fadeOut();
+            this.shotGuide.state = ShotguideState.Fading;
         }
     }
 }

@@ -1,13 +1,14 @@
+import ShotguideState from "src/game/constant/ShotguideState";
 import { IShooter } from "src/interfaces/IShooter";
 
-export class DrawingShotguideBehavior {
+export class SettingAngleBehavior {
     private parent: IShooter;
 
     constructor(parent:IShooter) {
         this.parent = parent;
     }
 
-    public draw(pointer: Phaser.Input.Pointer) {
+    public setAngle(pointer: Phaser.Input.Pointer) {
         if(this.parent.isAllowShooting && this.parent.isAnimationFinished) {
             let angle = Phaser.Math.RAD_TO_DEG * 
             Phaser.Math.Angle.Between(this.parent.shootedBubble.x,this.parent.shootedBubble.y, pointer.x, pointer.y);
@@ -24,9 +25,9 @@ export class DrawingShotguideBehavior {
                     }
                 }
                 this.parent.arrowShoot.setAngle(angle);
-                this.parent.shotGuide.draw();
+                this.parent.shotGuide.state = ShotguideState.Appearing;
             } else {
-                this.parent.shotGuide.fadeOut();
+                this.parent.shotGuide.state = ShotguideState.Fading;
             }
         }
     }
