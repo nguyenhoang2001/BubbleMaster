@@ -5,6 +5,7 @@ export class ShootedBubble extends Bubble {
     public body: Phaser.Physics.Arcade.Body;
     public checkWorldBounce: boolean;
     public tail: Phaser.GameObjects.Image;
+    // private flyBehavior: FlyBehaviorInterface;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
@@ -62,6 +63,10 @@ export class ShootedBubble extends Bubble {
     }
 
     public update(...args: any[]): void {
+        // if(this.state == fly) {
+        //     this.flyBehavior.fly();
+        // }
+
         this.updateTailPosition();
         this.setRotation(this.body.velocity.angle());
         if(this.body.velocity.y != 0 && this.tail.visible == false) {
@@ -70,3 +75,16 @@ export class ShootedBubble extends Bubble {
         }
     }
 }
+
+
+// class FlyBehavior {
+//     private parent: BubbleInterface;
+
+//     constructor(parent:BubbleInterface) {
+//         this.parent = parent;
+//     }
+
+//     public fly() {
+//         this.parent.setPosition(x,y);
+//     }
+// }

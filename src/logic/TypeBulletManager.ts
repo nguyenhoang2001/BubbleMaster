@@ -28,9 +28,9 @@ export class TypeBulletManager {
         this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb');
         this.shooter.shootedBubble.createWorldBounds(this.shooter.rectangleBound);
         this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble as Bomb);
-        this.shooter.checkAllowShooting = false;
+        this.shooter.isAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
-            this.shooter.checkAllowShooting = true;
+            this.shooter.isAllowShooting = true;
             oldBullet.destroy();
         });
         oldBullet.setDepth(DEPTH.GAMEPLAY);
@@ -42,9 +42,9 @@ export class TypeBulletManager {
         this.shooter.shootedBubble = new FireBubble(this.scene,oldBullet.x,oldBullet.y,'fireBubble');
         this.shooter.shootedBubble.createWorldBounds(this.shooter.rectangleBound);
         this.bubblesBoard.colliderBubble.enableOverlapFireBallAndBubble(this.shooter.shootedBubble);
-        this.shooter.checkAllowShooting = false;
+        this.shooter.isAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
-            this.shooter.checkAllowShooting = true;
+            this.shooter.isAllowShooting = true;
             oldBullet.destroy();
         });
         oldBullet.setDepth(DEPTH.GAMEPLAY);
@@ -54,13 +54,13 @@ export class TypeBulletManager {
     public checkConditionToChangeType() {
         if(this.shooter.shootedBubble.name =='ShootedBubble') {
             if(this.signalChangeToFireBall) {
-                if(this.shooter.bulletSwaper.finished == true) {
+                if(this.shooter.isAnimationFinished == true) {
                     this.signalChangeToFireBall = false;
                     this.changeToFireBall();
                 }
             } 
             else if(this.signalChangeToBomb == true) {
-                if(this.shooter.bulletSwaper.finished == true) {
+                if(this.shooter.isAnimationFinished == true) {
                     this.signalChangeToBomb = false;
                     this.changeToBomb();
                 }

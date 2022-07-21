@@ -1,9 +1,9 @@
-import DEPTH from "../../../game/constant/Depth";
-import { GameScene } from "../../../scenes/GameScene";
-import { BubblesBoard } from "../../BubbleBoard/BubblesBoard";
-import { CircleGuide } from "../CircleGuide";
-import { CircleGuideGroup } from "../CircleGuideGroup";
-import { Shooter } from "../Shooter";
+import DEPTH from "../../game/constant/Depth";
+import { GameScene } from "../../scenes/GameScene";
+import { BubblesBoard } from "../BubbleBoard/BubblesBoard";
+import { CircleGuide } from "./CircleGuide";
+import { CircleGuideGroup } from "./CircleGuideGroup";
+import { Shooter } from "./Shooter";
 
 export class ShotGuide {
     private shooter: Shooter;
@@ -13,7 +13,9 @@ export class ShotGuide {
 
     public circleGuideGroup: CircleGuideGroup;
 
-    // Variables
+    
+
+    // Properties
     private firstDistance: number;
     private offsetDistance:number;
     private gameWidth:number;

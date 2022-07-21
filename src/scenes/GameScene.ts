@@ -1,4 +1,5 @@
 import { Game } from "phaser";
+import { ShootedBubble } from "src/objects/ShootedBubble";
 import DEPTH from "../game/constant/Depth";
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
@@ -21,6 +22,7 @@ export class GameScene extends Phaser.Scene {
     private gameOverContainer: GameOverContainer;
     private animationCreator: AnimationCreator;
     public holes: HolesManager;
+    private flyingBulletGroup:Phaser.GameObjects.Group;
     // Variables
     public highScore: number;
     // Logic Game Managers
@@ -69,6 +71,7 @@ export class GameScene extends Phaser.Scene {
         this.colorManager.setBubblesBoard(this.bubblesBoard);
         this.shooter = new Shooter(this);
         this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
+        this.flyingBulletGroup = this.add.group({});
 
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
         rope.setDepth(DEPTH.GAMEPLAY);
@@ -79,6 +82,10 @@ export class GameScene extends Phaser.Scene {
         // hole score
         this.holes = new HolesManager(this);
         this.typeBulletManager = new TypeBulletManager(this,this.bubblesBoard,this.shooter);
+    }
+
+    public addToFlyingBulletGroup(bullet:ShootedBubble) {
+        this.flyingBulletGroup.add(bullet);
     }
 
     update(time: number, delta: number): void {
@@ -92,6 +99,12 @@ export class GameScene extends Phaser.Scene {
             this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update(time,delta);
             this.shooter.update(delta);
+            this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
+                const bullet = _bullet as ShootedBubble;
+                if(bullet?.body.speed > 0) {
+                    bullet.update();
+                }
+            });
         } else {
             this.shooter.clearShotGuide();
             this.shooter.removeInput();
