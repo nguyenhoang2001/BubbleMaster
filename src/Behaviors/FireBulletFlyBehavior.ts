@@ -13,7 +13,6 @@ export class FireBulletFlyBehavior implements IFlyBehavior {
             this.parent.self.tail.setVisible(true);
             this.parent.self.setScale(1.1,1);
         }
-        this.parent.self.updateTailPosition();
         this.parent.self.setRotation(this.parent.self.body.velocity.angle());
         if(this.parent.self.y <= -this.parent.self.height) {
             this.parent.self.clear();

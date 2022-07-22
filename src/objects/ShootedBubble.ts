@@ -4,12 +4,13 @@ import { IBullet } from "src/interfaces/IBullet";
 import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
 import Depth from "../game/constant/Depth";
 import { Bubble } from "./Bubble";
+import { Tail } from "./Tail";
 
 export class ShootedBubble extends Bubble implements IBullet {
     // Properties
     public body: Phaser.Physics.Arcade.Body;
     public checkWorldBounce: boolean;
-    public tail: Phaser.GameObjects.Image;
+    public tail: Tail;
     public self: ShootedBubble;
     // State
     public state: BulletState;
@@ -24,7 +25,7 @@ export class ShootedBubble extends Bubble implements IBullet {
         this.body.setCircle(10,18,18);
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;
-        this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
+        this.tail = new Tail(this.scene,x,y,'tail',this).setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
         this.tail.setDepth(Depth.TAIL);
         this.tail.setVisible(false);
     }
@@ -48,40 +49,17 @@ export class ShootedBubble extends Bubble implements IBullet {
         this.checkWorldBounce = false;
     }
 
-    public updateTailPosition() {
-        let angle = this.body.velocity.angle() * Phaser.Math.RAD_TO_DEG;        
-        if(angle >= 270) {
-            angle = 90 - (360 - angle);
-        } else {
-            angle = 360 - (90 - (angle - 180));
-        }
-        this.tail.setRotation(angle * Phaser.Math.DEG_TO_RAD);
-        this.tail.x = this.x;
-        this.tail.y = this.y;
-        let angleOffset = 0;
-        let offsetX = 0;
-        let offsetY = 0;
-        if(angle >= 0 && angle <= 90) {
-            angleOffset = 90 - angle;
-            offsetX = 1;
-        } else {
-            angleOffset = 90 - (360 - angle);
-            offsetX = -1;
-        }
-        offsetY = 30 * Math.sin(angleOffset * Phaser.Math.DEG_TO_RAD);
-        offsetX *= 30 * Math.cos(angleOffset * Phaser.Math.DEG_TO_RAD);
-        this.tail.y = this.tail.y - offsetY;
-        this.tail.x = this.tail.x + offsetX;
-    }
-
     public update(...args: any[]): void {
+        this.tail.update();
         switch(this.state) {
             case BulletState.Flying: {
+                this.tail.state = TailState.Appearing;
                 this.flyBehavior.fly();
                 break;
             }
             default: {
                 this.state = BulletState.Idle;
+                this.tail.state = TailState.Idle;
                 break;
             }
         }

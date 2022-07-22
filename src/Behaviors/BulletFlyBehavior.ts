@@ -14,7 +14,6 @@ export class BulletFlyBehavior  implements IFlyBehavior {
             this.parent.self.tail.setVisible(true);
             this.parent.self.setScale(1.1,1);
         }
-        this.parent.self.updateTailPosition();
         this.parent.self.setRotation(this.parent.self.body.velocity.angle());
     }
 }
