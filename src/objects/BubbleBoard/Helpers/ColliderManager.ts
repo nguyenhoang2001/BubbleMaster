@@ -1,3 +1,4 @@
+import { BubblesBoardState } from "../../../game/constant/BubblesBoardState";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bomb } from "../../Bomb";
 import { Bubble } from "../../Bubble";
@@ -25,33 +26,33 @@ export class ColliderManager {
         this.fireBubbleHandler = new FireBubbleHandler(this.scene,this.bubblesBoard);
     }
 
-    private handleWrongBubbleHit() {
-        if((this.hittedBubble.row + this.bubblesBoard.rowOffSet) % 2) {
-            if(this.hittedBubble.column == 11) {
-               if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
-                    const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][11];
-                    if(bubble != undefined) {
-                        if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,11)) {
-                            console.log('we handle it');
-                            this.hittedBubble = bubble;
-                        }
-                    }
-               }
-            }
-        } else {
-            if(this.hittedBubble.column == 0) {
-                if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
-                     const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][0];
-                     if(bubble != undefined) {
-                         if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,0)) {
-                             console.log('we handle it');
-                             this.hittedBubble = bubble;
-                         }
-                     }
-                }
-            }
-        }
-    }
+    // private handleWrongBubbleHit() {
+        // if((this.hittedBubble.row + this.bubblesBoard.rowOffSet) % 2) {
+        //     if(this.hittedBubble.column == 11) {
+        //        if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
+        //             const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][11];
+        //             if(bubble != undefined) {
+        //                 if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,11)) {
+        //                     console.log('we handle it');
+        //                     this.hittedBubble = bubble;
+        //                 }
+        //             }
+        //        }
+        //     }
+        // } else {
+        //     if(this.hittedBubble.column == 0) {
+        //         if(this.hittedBubble.row + 1 < this.bubblesBoard.row) {
+        //              const bubble = this.bubblesBoard.board[this.hittedBubble.row + 1][0];
+        //              if(bubble != undefined) {
+        //                  if(this.bubblesBoard.isBublleExisting(this.hittedBubble.row + 1,0)) {
+        //                      console.log('we handle it');
+        //                      this.hittedBubble = bubble;
+        //                  }
+        //              }
+        //         }
+        //     }
+        // }
+    // }
 
 
     public enableOverlapBombAndBubble(bomb:Bomb) {
@@ -59,7 +60,7 @@ export class ColliderManager {
             if(_bubble.isOutGrid == false) {
                 this.hittedBubble = _bubble as Bubble;
                 this.shootedBubble = _bomb as Bomb;
-                this.handleWrongBubbleHit();
+                // this.handleWrongBubbleHit();
                 this.shootedBubble.clear();
                 this.scene.scoreManager.calculateScore();
                 let bubble = this.runCollide();
@@ -75,6 +76,7 @@ export class ColliderManager {
             if(_bubble.isOutGrid == false) {
                 this.hittedBubble = _bubble as Bubble;
                 this.shootedBubble = _fireball as FireBubble;
+
                 this.scene.scoreManager.calculateScore();
                 this.fireBubbleHandler.clearBubble(this.hittedBubble);
                 this.fireBubbleHandler.showAnimationBubble(this.hittedBubble);
@@ -150,17 +152,17 @@ export class ColliderManager {
             if(_bubble.isOutGrid == false) {
                 this.shootedBubble = _shootedBubble as ShootedBubble;
                 this.hittedBubble = _bubble as Bubble;
-                
-                this.handleWrongBubbleHit();
-                this.shootedBubble.clear();
+                this.bubblesBoard.state = BubblesBoardState.HittingBullet;
+                // this.handleWrongBubbleHit();
+                // this.shootedBubble.clear();
 
-                let bubble = this.runCollide();
-                this.shootedBubble.removeVisualEffect();
-                this.shootedBubble.destroy();
-                if(bubble != undefined) {
-                    this.bubblesBoard.hittingAnimation.showAnimation(bubble);
-                    this.bubblesBoard.clusters.checkClusters(bubble,true,true);
-                }
+                // let bubble = this.runCollide();
+                // this.shootedBubble.removeVisualEffect();
+                // this.shootedBubble.destroy();
+                // if(bubble != undefined) {
+                //     this.bubblesBoard.animation.showBouncing(bubble);
+                //     this.bubblesBoard.clusters.checkClusters(bubble,true,true);
+                // }
             }
         });
     }

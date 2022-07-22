@@ -1,6 +1,8 @@
 import { Bubble } from "src/objects/Bubble";
+import { BubblesBoardAnimation } from "src/objects/BubbleBoard/BubblesBoardAnimation";
 import { FloatingScoreGroup } from "src/objects/BubbleBoard/FloatingScoreGroup";
 import { BubblePositionManager } from "src/objects/BubbleBoard/Helpers/BubblePositionManager";
+import { Clusters } from "src/objects/BubbleBoard/Helpers/Clusters/Cluster";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";
 
@@ -19,7 +21,10 @@ export interface IBubblesBoard {
     isUpdating: boolean;
     offsetDistanceBetweenBubbles: number;
     positionManager: BubblePositionManager;
+    animation: BubblesBoardAnimation;
+    clusters: Clusters;
     updateRow(): void;
     invertRowOffset(): void;
     isBublleExisting(row:number,column:number): boolean;
+    addBubbleFromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void;
 }

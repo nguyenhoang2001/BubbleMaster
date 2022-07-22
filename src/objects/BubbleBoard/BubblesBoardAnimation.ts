@@ -3,7 +3,7 @@ import { Bubble } from "../Bubble";
 import { BubblesBoard } from "./BubblesBoard";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
 
-export class HittingAnimation {
+export class BubblesBoardAnimation {
     private bubblesBoard: BubblesBoard;
     private scene: GameScene;
     private neighborsHelper: BubbleNeighbors;
@@ -71,7 +71,7 @@ export class HittingAnimation {
     }
 
 
-    public showAnimation(targetBubble:Bubble) {
+    public showBouncing(targetBubble:Bubble) {
         this.neighborsHelper.resetProcess();
         let toWork = [];
         toWork.push(targetBubble);

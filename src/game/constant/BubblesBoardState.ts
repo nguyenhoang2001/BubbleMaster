@@ -1,4 +1,7 @@
 export enum BubblesBoardState {
     Idle,
-    AddingBubbleRows
+    AddingBubbleRows,
+    HittingBullet,
+    HittingFireBullet,
+    HittingBomb
 }

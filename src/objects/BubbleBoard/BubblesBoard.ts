@@ -5,13 +5,15 @@ import { Clusters } from "./Helpers/Clusters/Cluster";
 import { ColliderManager } from "./Helpers/ColliderManager";
 import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
 import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
-import { HittingAnimation } from "./HittingAnimation";
+import { BubblesBoardAnimation } from "./BubblesBoardAnimation";
 import { FloatingScoreGroup } from "./FloatingScoreGroup";
 import { IBubblesBoard } from "src/interfaces/IBubblesBoard";
 import { IAddingBubbleBehavior } from "src/interfaces/IAddingBubbleBehavior";
 import { AddingBubbleBehavior } from "../../Behaviors/AddingBubbleBehavior";
 import { ShootedBubble } from "../ShootedBubble";
 import { BubblesBoardState } from "../../game/constant/BubblesBoardState";
+import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
+import { HittingBulletBehavior } from "../../Behaviors/HittingBulletBehavior";
 
 export class BubblesBoard implements IBubblesBoard {
     // Helpers
@@ -20,12 +22,12 @@ export class BubblesBoard implements IBubblesBoard {
     public floatingBubbles: FloatingBubbles;
     public positionManager: BubblePositionManager;
     public neighbors: BubbleNeighbors;
-    public hittingAnimation: HittingAnimation;
+    public animation: BubblesBoardAnimation;
     // State
     public state: BubblesBoardState;
     // Behaviors
     private addingBubbleBehavior: IAddingBubbleBehavior;
-
+    private hittingBulletBehavior: IHittingBulletBehavior;
     // Properties
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
@@ -63,13 +65,14 @@ export class BubblesBoard implements IBubblesBoard {
         this.state = BubblesBoardState.Idle;
         // Behaviors
         this.addingBubbleBehavior = new AddingBubbleBehavior(this);
+        this.hittingBulletBehavior = new HittingBulletBehavior(this);
         // Game Objects
         this.neighbors = new BubbleNeighbors(this);
         this.colliderManager = new ColliderManager(this);
         this.floatingBubbles = new FloatingBubbles(this.scene,this);
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
-        this.hittingAnimation = new HittingAnimation(this);
+        this.animation = new BubblesBoardAnimation(this);
         // Init board
         this.drawBubblesBoard();
         for(let i = 0; i < this.row*this.column; i++)
@@ -130,6 +133,11 @@ export class BubblesBoard implements IBubblesBoard {
                 this.addingBubbleBehavior.addMoreBubbleRows(1);
                 this.updateRow();
                 console.log(JSON.parse(JSON.stringify(this.board)));
+                this.state = BubblesBoardState.Idle;
+                break;
+            }
+            case BubblesBoardState.HittingBullet: {
+                this.hittingBulletBehavior.hit(this.colliderManager.hittedBubble,this.colliderManager.shootedBubble);
                 this.state = BubblesBoardState.Idle;
                 break;
             }
