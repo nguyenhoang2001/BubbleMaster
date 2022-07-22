@@ -1,3 +1,4 @@
+import { BubblesBoardState } from "../game/constant/BubblesBoardState";
 import { GameScene } from "../scenes/GameScene";
 
 export class AddingNewBubbleRowManager {
@@ -22,7 +23,7 @@ export class AddingNewBubbleRowManager {
 
     public setAddSignalToGrid() {
         if(this.needToAdd) {
-            this.scene.bubblesBoard.addSignal = true;
+            this.scene.bubblesBoard.state = BubblesBoardState.AddingBubbleRows;
             this.needToAdd = false;
         } else {
             this.checkToAdd();

@@ -1,4 +1,4 @@
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 
 export class CircleGuide extends Phaser.GameObjects.Sprite {
     public body: Phaser.Physics.Arcade.Body;
@@ -15,7 +15,7 @@ export class CircleGuide extends Phaser.GameObjects.Sprite {
         this.setScale(1);
         this.body.setCircle(radius,initialRadius - radius,initialRadius - radius);
         this.body.checkCollision.none = false;
-        this.setDepth(DEPTH.GAMEPLAY);
+        this.setDepth(Depth.GAMEPLAY);
         this.setOrigin(0.5,0.5);
         this.setActive(true);
         this.setAlpha(1);

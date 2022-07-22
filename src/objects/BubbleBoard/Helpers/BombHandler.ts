@@ -1,4 +1,4 @@
-import DEPTH from "../../../game/constant/Depth";
+import Depth from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bomb } from "../../Bomb";
 import { Bubble } from "../../Bubble";
@@ -39,7 +39,7 @@ export class BombHandler {
             bubbles[i].on('animationstart', () => {
                 bubbles[i].setTintColor(tintColor);
             });
-            bubbles[i].setDepth(DEPTH.ANIMATIONEXPLODE);
+            bubbles[i].setDepth(Depth.ANIMATIONEXPLODE);
             
             bubbles[i].on('animationcomplete', (animation:any,frame:any,obj:any) => {
                 bubbles[i].anims.remove('explode');
@@ -64,7 +64,7 @@ export class BombHandler {
     }
 
     public runAnimation(bubbles:Bubble[], bomb:Bomb) {
-        bomb.setDepth(DEPTH.ANIMATIONBOMBEXPLODE);
+        bomb.setDepth(Depth.ANIMATIONBOMBEXPLODE);
         bomb.on('animationcomplete', () => {
             bomb.destroy();
         });

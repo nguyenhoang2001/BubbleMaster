@@ -1,4 +1,4 @@
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { HudContainer } from "../ui/HudContainer";
 import { GameScene } from "./GameScene";
 
@@ -18,14 +18,14 @@ export class HudScene extends Phaser.Scene {
         this.container = new HudContainer(this,0,0);
         this.score = 0;
         this.checkPointTwoThird = true;
-        this.container.setDepth(DEPTH.HUDCONTAINER);
+        this.container.setDepth(Depth.HUDCONTAINER);
         this.container.run();
         this.gameZone = this.add.zone(0,0,this.sys.canvas.width, this.sys.canvas.height);
         this.gameZone.setOrigin(0,0);
         this.comboText = this.add.text(0,0,'');
         this.comboText.style.setFontSize('40px');
         this.comboText.style.setFontFamily('Arial');
-        this.comboText.setDepth(DEPTH.TEXT);
+        this.comboText.setDepth(Depth.TEXT);
     }
 
     public update(time: number, delta: number): void {

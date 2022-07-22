@@ -1,4 +1,4 @@
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { BounceRegion } from "./BounceRegion";
 import { Hole } from "./Hole";
@@ -29,7 +29,7 @@ export class HolesManager {
     }
 
     private createHoles() {
-        this.backgroundHole = this.scene.add.image(0,0,'bgHole').setDepth(DEPTH.HOLES);
+        this.backgroundHole = this.scene.add.image(0,0,'bgHole').setDepth(Depth.HOLES);
         for(let i = 0; i < 5; i++) {
             let texture = 'orangeHole';
             if(i == 0 || i == 4) {
@@ -38,7 +38,7 @@ export class HolesManager {
             } else if(i == 1 || i == 3) {
                 texture = 'purpleHole';
             }
-            this.holes.push(new Hole(this.scene,0,0,texture,i+1).setDepth(DEPTH.GAMEPLAY));
+            this.holes.push(new Hole(this.scene,0,0,texture,i+1).setDepth(Depth.GAMEPLAY));
         }
         Phaser.Display.Align.In.BottomCenter(this.backgroundHole,this.scene.mainZone,0,0);
 
@@ -60,7 +60,7 @@ export class HolesManager {
 
     private createScoreText() {
         for(let i = 0; i < 5; i++) {
-            this.scoresText.push(this.scene.add.text(0,0,'').setDepth(DEPTH.HOLES));
+            this.scoresText.push(this.scene.add.text(0,0,'').setDepth(Depth.HOLES));
             this.scoresText[i].style.setFontSize('35px');
             this.scoresText[i].style.setFontFamily('Arial');
             this.scoresText[i].setText(this.scene.scoreManager.getHoleScore(i + 1).toString());
