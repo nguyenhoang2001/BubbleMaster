@@ -1,4 +1,4 @@
-export interface ICreatingBubbleBehavior {
+export interface ICreatingBulletBehavior {
     createShootedBubble(): void;
     createSecondBubble(): void;
 }

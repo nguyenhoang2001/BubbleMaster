@@ -27,7 +27,7 @@ export class TypeBulletManager {
         let oldBullet = this.shooter.shootedBubble;
         this.shooter.shootedBubble = new Bomb(this.scene,oldBullet.x,oldBullet.y,'bomb');
         this.shooter.shootedBubble.createWorldBounds(this.shooter.rectangleBound);
-        this.bubblesBoard.colliderBubble.enableOverlapBombAndBubble(this.shooter.shootedBubble as Bomb);
+        this.bubblesBoard.colliderManager.enableOverlapBombAndBubble(this.shooter.shootedBubble as Bomb);
         this.shooter.isAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
             this.shooter.isAllowShooting = true;
@@ -41,7 +41,7 @@ export class TypeBulletManager {
         let oldBullet = this.shooter.shootedBubble;
         this.shooter.shootedBubble = new FireBubble(this.scene,oldBullet.x,oldBullet.y,'fireBubble');
         this.shooter.shootedBubble.createWorldBounds(this.shooter.rectangleBound);
-        this.bubblesBoard.colliderBubble.enableOverlapFireBallAndBubble(this.shooter.shootedBubble);
+        this.bubblesBoard.colliderManager.enableOverlapFireBallAndBubble(this.shooter.shootedBubble);
         this.shooter.isAllowShooting = false;
         oldBullet.on('animationcomplete', () => {
             this.shooter.isAllowShooting = true;

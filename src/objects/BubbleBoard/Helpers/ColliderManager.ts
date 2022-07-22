@@ -11,8 +11,8 @@ import { BubbleNeighbors } from "./BubbleNeighbors";
 export class ColliderManager {
     public bubblesBoard: BubblesBoard;
     public scene: GameScene;
-    private shootedBubble: ShootedBubble;
-    private hittedBubble: Bubble;
+    public shootedBubble: ShootedBubble;
+    public hittedBubble: Bubble;
     private neighborsHelper: BubbleNeighbors;
     private bombHandler: BombHandler;
     private fireBubbleHandler: FireBubbleHandler;
@@ -92,22 +92,6 @@ export class ColliderManager {
         while(temp.length > 0 && count > 0) {
             let pos = temp.shift();
             if(pos != undefined) {
-                // let existing = false;
-                // existing = explodePos.some((exPos:any) => {
-                //     if(exPos.i == pos?.i && exPos.j == pos?.j) {
-                //         return true;
-                //     }
-                // });
-                // if(existing == false) {
-                //     // console.log(pos);
-                //     explodePos.push(pos);
-                //     const bubble = this.bubblesBoard.board[pos.i][pos.j];
-                //     if(bubble != undefined) {
-                //         if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
-                //             toProcess.push(bubble);
-                //         }
-                //     }
-                // }
                 explodePos.push(pos);
                 const bubble = this.bubblesBoard.board[pos.i][pos.j];
                 if(bubble != undefined) {
@@ -156,7 +140,6 @@ export class ColliderManager {
                 buffer = [];
             }
         }
-        // console.log(explodePos);
         toProcess[0]?.setVisible(false);
         this.bombHandler.clearBubbles(toProcess);
         this.bombHandler.runAnimation(toProcess,_bomb);
@@ -184,7 +167,7 @@ export class ColliderManager {
 
     public runCollide() {
         this.bubblesBoard.updateRow();
-        const newBubble = this.bubblesBoard.addingManager.addBubblefromShoot(this.hittedBubble,this.shootedBubble);
+        const newBubble = this.bubblesBoard.addBubbleFromShoot(this.hittedBubble,this.shootedBubble);
         this.bubblesBoard.updateRow();
         if(newBubble == undefined)
             return;

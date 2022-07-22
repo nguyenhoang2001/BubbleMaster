@@ -9,13 +9,13 @@ import { ShooterAnimation } from "./ShooterAnimation";
 import { ReloadingBehavior } from "../../Behaviors/ReloadingBehavior";
 import { SwappingBehavior } from "../../Behaviors/SwappingBehavior";
 import { SettingAngleBehavior } from "../../Behaviors/SettingAngleBehavior";
-import { CreatingBubbleBehavior } from "../../Behaviors/CreatingBubbleBehavior";
+import { CreatingBulletBehavior } from "../../Behaviors/CreatingBulletBehavior";
 import ShotguideState from "src/game/constant/ShotguideState";
 import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
 import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
 import { ISwappingBehavior } from "src/interfaces/ISwappingBehavior";
 import { ISettingAngleBehavior } from "src/interfaces/ISettingAngleBehavior";
-import { ICreatingBubbleBehavior } from "src/interfaces/ICreatingBubbleBehavior";
+import { ICreatingBulletBehavior } from "src/interfaces/ICreatingBulletBehavior";
 
 export class Shooter implements IShooter {
     // Properties
@@ -44,7 +44,7 @@ export class Shooter implements IShooter {
     private reloadingBehavior: IReloadingBehavior;
     private swappingBehavior: ISwappingBehavior;
     private settingAngleBehavior: ISettingAngleBehavior;
-    private creatingBubbleBehavior: ICreatingBubbleBehavior;
+    private creatingBulletBehavior: ICreatingBulletBehavior;
 
     constructor(scene:GameScene) {
         this.scene = scene;
@@ -55,7 +55,7 @@ export class Shooter implements IShooter {
         this.reloadingBehavior = new ReloadingBehavior(this);
         this.swappingBehavior = new SwappingBehavior(this);
         this.settingAngleBehavior = new SettingAngleBehavior(this);
-        this.creatingBubbleBehavior = new CreatingBubbleBehavior(this);
+        this.creatingBulletBehavior = new CreatingBulletBehavior(this);
         // Properties
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
         this.animation = new ShooterAnimation(this,this.scene);
@@ -68,8 +68,8 @@ export class Shooter implements IShooter {
         this.shotGuide = new ShotGuide(this, this.scene);
 
         this.drawCircle();
-        this.creatingBubbleBehavior.createShootedBubble();
-        this.creatingBubbleBehavior.createSecondBubble();
+        this.creatingBulletBehavior.createShootedBubble();
+        this.creatingBulletBehavior.createSecondBubble();
         this.createArrowShoot();
         this.enableInput();
     }
@@ -143,7 +143,7 @@ export class Shooter implements IShooter {
     }
 
     public createSecondBullet() {
-        this.creatingBubbleBehavior.createSecondBubble();
+        this.creatingBulletBehavior.createSecondBubble();
     }
     
     public update(delta:number) {

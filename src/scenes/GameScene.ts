@@ -70,7 +70,7 @@ export class GameScene extends Phaser.Scene {
         this.animationCreator.createAnimations();
         this.colorManager.setBubblesBoard(this.bubblesBoard);
         this.shooter = new Shooter(this);
-        this.bubblesBoard.colliderBubble.gridGroupAndBulletGroup();
+        this.bubblesBoard.colliderManager.gridGroupAndBulletGroup();
         this.flyingBulletGroup = this.add.group({});
 
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
