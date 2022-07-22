@@ -1,14 +1,26 @@
+import { BulletFlyBehavior } from "../Behaviors/BulletFlyBehavior";
+import BulletState from "src/game/constant/BulletState";
+import { IBullet } from "src/interfaces/IBullet";
+import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
 import Depth from "../game/constant/Depth";
 import { Bubble } from "./Bubble";
 
-export class ShootedBubble extends Bubble {
+export class ShootedBubble extends Bubble implements IBullet {
+    // Properties
     public body: Phaser.Physics.Arcade.Body;
     public checkWorldBounce: boolean;
     public tail: Phaser.GameObjects.Image;
-    // private flyBehavior: FlyBehaviorInterface;
+    public self: ShootedBubble;
+    // State
+    public state: BulletState;
+    // Behaviors
+    protected flyBehavior: IFlyBehavior;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
+        this.state = BulletState.Idle;
+        this.self = this as ShootedBubble;
+        this.flyBehavior = new BulletFlyBehavior(this);
         this.body.setCircle(10,18,18);
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;
@@ -63,28 +75,16 @@ export class ShootedBubble extends Bubble {
     }
 
     public update(...args: any[]): void {
-        // if(this.state == fly) {
-        //     this.flyBehavior.fly();
-        // }
-
-        this.updateTailPosition();
-        this.setRotation(this.body.velocity.angle());
-        if(this.body.velocity.y != 0 && this.tail.visible == false) {
-            this.tail.setVisible(true);
-            this.setScale(1.1,1);
+        switch(this.state) {
+            case BulletState.Flying: {
+                this.flyBehavior.fly();
+                break;
+            }
+            default: {
+                this.state = BulletState.Idle;
+                break;
+            }
         }
+
     }
 }
-
-
-// class FlyBehavior {
-//     private parent: BubbleInterface;
-
-//     constructor(parent:BubbleInterface) {
-//         this.parent = parent;
-//     }
-
-//     public fly() {
-//         this.parent.setPosition(x,y);
-//     }
-// }

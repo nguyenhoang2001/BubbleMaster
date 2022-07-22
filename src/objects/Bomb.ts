@@ -1,16 +1,22 @@
+import { BombFlyBehavior } from "../Behaviors/BombFlyBehavior";
+import { IBullet } from "src/interfaces/IBullet";
 import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
 import { BombParticles } from "./BombParticles";
 import { ShootedBubble } from "./ShootedBubble";
+import { IBomb } from "src/interfaces/IBomb";
 
-export class Bomb extends ShootedBubble {
+export class Bomb extends ShootedBubble implements IBomb {
     public offsetXParticle:number;
     public offsetYParticle:number;
-    private particles: BombParticles;
+    public particles: BombParticles;
     public scene: GameScene;
+    public self: Bomb;
 
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
+        this.self = this;
+        this.flyBehavior = new BombFlyBehavior(this);
         this.scene.add.existing(this);
         this.body.setCircle(10,20,25);
         this.name = 'Bomb';
@@ -32,13 +38,5 @@ export class Bomb extends ShootedBubble {
     public removeVisualEffect() {
         this.tail.removeFromDisplayList();
         this.removeParticle();
-    }
-
-    public update(...args: any[]): void {
-        this.updateTailPosition();
-        this.particles.updatePosition();
-        if(this.body.velocity.y != 0 && this.tail.visible == false) {
-            this.tail.setVisible(true);
-        }
     }
 }

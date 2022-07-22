@@ -1,3 +1,4 @@
+import BulletState from "src/game/constant/BulletState";
 import { IShooter } from "src/interfaces/IShooter";
 import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
 
@@ -18,6 +19,7 @@ export class ShootingBehavior implements IShootingBehavior {
                 2400,
                 this.parent.shootedBubble.body.velocity
             );
+            this.parent.shootedBubble.state = BulletState.Flying;
         }
     }
 }
