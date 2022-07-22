@@ -1,12 +1,15 @@
 import { Bubble } from "src/objects/Bubble";
 import { BubblesBoardAnimation } from "src/objects/BubbleBoard/BubblesBoardAnimation";
 import { FloatingScoreGroup } from "src/objects/BubbleBoard/FloatingScoreGroup";
+import { BubbleNeighbors } from "src/objects/BubbleBoard/Helpers/BubbleNeighbors";
 import { BubblePositionManager } from "src/objects/BubbleBoard/Helpers/BubblePositionManager";
 import { Clusters } from "src/objects/BubbleBoard/Helpers/Clusters/Cluster";
+import { FloatingBubbles } from "src/objects/BubbleBoard/Helpers/FloatingBubbles/FloatingBubbles";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";
 
 export interface IBubblesBoard {
+    neighbors: BubbleNeighbors;
     scene: GameScene;
     board: (Bubble | undefined)[][];
     gridGroup: Phaser.GameObjects.Group;
@@ -23,6 +26,7 @@ export interface IBubblesBoard {
     positionManager: BubblePositionManager;
     animation: BubblesBoardAnimation;
     clusters: Clusters;
+    floatingBubbles: FloatingBubbles,
     updateRow(): void;
     invertRowOffset(): void;
     isBublleExisting(row:number,column:number): boolean;

@@ -14,6 +14,8 @@ import { ShootedBubble } from "../ShootedBubble";
 import { BubblesBoardState } from "../../game/constant/BubblesBoardState";
 import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
 import { HittingBulletBehavior } from "../../Behaviors/HittingBulletBehavior";
+import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
+import { HittingBombBehavior } from "../../Behaviors/HittingBombBehavior";
 
 export class BubblesBoard implements IBubblesBoard {
     // Helpers
@@ -28,6 +30,7 @@ export class BubblesBoard implements IBubblesBoard {
     // Behaviors
     private addingBubbleBehavior: IAddingBubbleBehavior;
     private hittingBulletBehavior: IHittingBulletBehavior;
+    private hittingBombBehavior: IHittingBombBehavior;
     // Properties
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
@@ -66,6 +69,7 @@ export class BubblesBoard implements IBubblesBoard {
         // Behaviors
         this.addingBubbleBehavior = new AddingBubbleBehavior(this);
         this.hittingBulletBehavior = new HittingBulletBehavior(this);
+        this.hittingBombBehavior = new HittingBombBehavior(this);
         // Game Objects
         this.neighbors = new BubbleNeighbors(this);
         this.colliderManager = new ColliderManager(this);
@@ -140,6 +144,10 @@ export class BubblesBoard implements IBubblesBoard {
                 this.hittingBulletBehavior.hit(this.colliderManager.hittedBubble,this.colliderManager.shootedBubble);
                 this.state = BubblesBoardState.Idle;
                 break;
+            }
+            case BubblesBoardState.HittingBomb: {
+                this.hittingBombBehavior.hit(this.colliderManager.hittedBubble,this.colliderManager.shootedBubble);
+                this.state = BubblesBoardState.Idle;
             }
             default: {
                 this.state = BubblesBoardState.Idle;

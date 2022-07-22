@@ -14,15 +14,15 @@ export class ColliderManager {
     public scene: GameScene;
     public shootedBubble: ShootedBubble;
     public hittedBubble: Bubble;
-    private neighborsHelper: BubbleNeighbors;
-    private bombHandler: BombHandler;
+    // private neighborsHelper: BubbleNeighbors;
+    // private bombHandler: BombHandler;
     private fireBubbleHandler: FireBubbleHandler;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
-        this.neighborsHelper = this.bubblesBoard.neighbors;
-        this.bombHandler = new BombHandler(this.scene, this.bubblesBoard);
+        // this.neighborsHelper = this.bubblesBoard.neighbors;
+        // this.bombHandler = new BombHandler(this.scene, this.bubblesBoard);
         this.fireBubbleHandler = new FireBubbleHandler(this.scene,this.bubblesBoard);
     }
 
@@ -60,13 +60,14 @@ export class ColliderManager {
             if(_bubble.isOutGrid == false) {
                 this.hittedBubble = _bubble as Bubble;
                 this.shootedBubble = _bomb as Bomb;
+                this.bubblesBoard.state = BubblesBoardState.HittingBomb;
                 // this.handleWrongBubbleHit();
-                this.shootedBubble.clear();
-                this.scene.scoreManager.calculateScore();
-                let bubble = this.runCollide();
-                this.shootedBubble.removeVisualEffect();
-                if(bubble != undefined)
-                    this.runBombCollision(bubble,_bomb);
+                // this.shootedBubble.clear();
+                // this.scene.scoreManager.calculateScore();
+                // let bubble = this.runCollide();
+                // this.shootedBubble.removeVisualEffect();
+                // if(bubble != undefined)
+                //     this.runBombCollision(bubble,_bomb);
             }
         });
     }
@@ -84,68 +85,68 @@ export class ColliderManager {
         });
     }
 
-    private runBombCollision(target:Bubble,_bomb:any) {
-        let toProcess = [];
-        let explodePos: { i: number; j: number; }[] = [];
-        let temp: { i: number; j: number; }[] = [];
-        let buffer: { i: number; j: number; }[] = [];
-        temp.push({i:target.row,j:target.column});
-        let count = 4;
-        while(temp.length > 0 && count > 0) {
-            let pos = temp.shift();
-            if(pos != undefined) {
-                explodePos.push(pos);
-                const bubble = this.bubblesBoard.board[pos.i][pos.j];
-                if(bubble != undefined) {
-                    if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
-                        toProcess.push(bubble);
-                    }
-                }
+    // private runBombCollision(target:Bubble,_bomb:any) {
+    //     let toProcess = [];
+    //     let explodePos: { i: number; j: number; }[] = [];
+    //     let temp: { i: number; j: number; }[] = [];
+    //     let buffer: { i: number; j: number; }[] = [];
+    //     temp.push({i:target.row,j:target.column});
+    //     let count = 4;
+    //     while(temp.length > 0 && count > 0) {
+    //         let pos = temp.shift();
+    //         if(pos != undefined) {
+    //             explodePos.push(pos);
+    //             const bubble = this.bubblesBoard.board[pos.i][pos.j];
+    //             if(bubble != undefined) {
+    //                 if(this.bubblesBoard.isBublleExisting(bubble.row,bubble.column)) {
+    //                     toProcess.push(bubble);
+    //                 }
+    //             }
                 
-                let arrNeighborPos = this.neighborsHelper.getNeighborPos(pos.i,pos.j);
-                arrNeighborPos.forEach((neighPos:any) => {
-                    let existingExplodePos = false;
-                    let existingTemp = false;
-                    let existingBuffer = false;
-                    existingExplodePos =  explodePos.some((exPos:any) => {
-                        if(exPos.i == neighPos?.i && exPos.j == neighPos?.j) {
-                            return true;
-                        }
-                        return false;
-                    });
-                    if(!existingExplodePos) {
-                        existingTemp =  temp.some((tempPos:any) => {
-                            if(tempPos.i == neighPos?.i && tempPos.j == neighPos?.j) {
-                                return true;
-                            }
-                            return false;
-                        });
-                        if(!existingTemp) {
-                            existingBuffer = buffer.some((bufferPos:any) => {
-                                if(bufferPos.i == neighPos.i && bufferPos.j == neighPos.j) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                        }
-                    }
-                    if(!existingExplodePos && !existingTemp && !existingBuffer) {
-                        buffer.push(neighPos);
-                    }
-                });
-            }
-            if(temp.length == 0) {
-                count--;
-                buffer.forEach((bufferPos:any) => {
-                    temp.push(bufferPos);
-                });
-                buffer = [];
-            }
-        }
-        toProcess[0]?.setVisible(false);
-        this.bombHandler.clearBubbles(toProcess);
-        this.bombHandler.runAnimation(toProcess,_bomb);
-    }
+    //             let arrNeighborPos = this.neighborsHelper.getNeighborPos(pos.i,pos.j);
+    //             arrNeighborPos.forEach((neighPos:any) => {
+    //                 let existingExplodePos = false;
+    //                 let existingTemp = false;
+    //                 let existingBuffer = false;
+    //                 existingExplodePos =  explodePos.some((exPos:any) => {
+    //                     if(exPos.i == neighPos?.i && exPos.j == neighPos?.j) {
+    //                         return true;
+    //                     }
+    //                     return false;
+    //                 });
+    //                 if(!existingExplodePos) {
+    //                     existingTemp =  temp.some((tempPos:any) => {
+    //                         if(tempPos.i == neighPos?.i && tempPos.j == neighPos?.j) {
+    //                             return true;
+    //                         }
+    //                         return false;
+    //                     });
+    //                     if(!existingTemp) {
+    //                         existingBuffer = buffer.some((bufferPos:any) => {
+    //                             if(bufferPos.i == neighPos.i && bufferPos.j == neighPos.j) {
+    //                                 return true;
+    //                             }
+    //                             return false;
+    //                         });
+    //                     }
+    //                 }
+    //                 if(!existingExplodePos && !existingTemp && !existingBuffer) {
+    //                     buffer.push(neighPos);
+    //                 }
+    //             });
+    //         }
+    //         if(temp.length == 0) {
+    //             count--;
+    //             buffer.forEach((bufferPos:any) => {
+    //                 temp.push(bufferPos);
+    //             });
+    //             buffer = [];
+    //         }
+    //     }
+    //     toProcess[0]?.setVisible(false);
+    //     this.bombHandler.clearBubbles(toProcess);
+    //     this.bombHandler.runAnimation(toProcess,_bomb);
+    // }
 
     public gridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
@@ -167,12 +168,12 @@ export class ColliderManager {
         });
     }
 
-    public runCollide() {
-        this.bubblesBoard.updateRow();
-        const newBubble = this.bubblesBoard.addBubbleFromShoot(this.hittedBubble,this.shootedBubble);
-        this.bubblesBoard.updateRow();
-        if(newBubble == undefined)
-            return;
-        return newBubble;
-    }
+    // public runCollide() {
+    //     this.bubblesBoard.updateRow();
+    //     const newBubble = this.bubblesBoard.addBubbleFromShoot(this.hittedBubble,this.shootedBubble);
+    //     this.bubblesBoard.updateRow();
+    //     if(newBubble == undefined)
+    //         return;
+    //     return newBubble;
+    // }
 }
