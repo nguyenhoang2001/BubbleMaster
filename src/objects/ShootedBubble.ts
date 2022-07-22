@@ -11,7 +11,6 @@ export class ShootedBubble extends Bubble implements IBullet {
     public body: Phaser.Physics.Arcade.Body;
     public checkWorldBounce: boolean;
     public tail: Tail;
-    public self: ShootedBubble;
     // State
     public state: BulletState;
     // Behaviors
@@ -20,7 +19,6 @@ export class ShootedBubble extends Bubble implements IBullet {
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
         this.state = BulletState.Idle;
-        this.self = this as ShootedBubble;
         this.flyBehavior = new BulletFlyBehavior(this);
         this.body.setCircle(10,18,18);
         this.name = 'ShootedBubble';

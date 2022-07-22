@@ -9,9 +9,9 @@ export class BombFlyBehavior implements IFlyBehavior {
     }
 
     public fly(): void {
-        if(this.parent.self.body.velocity.y != 0 && this.parent.self.tail.visible == false) {
-            this.parent.self.tail.setVisible(true);
+        if(this.parent.body.velocity.y != 0 && this.parent.tail.visible == false) {
+            this.parent.tail.setVisible(true);
         }
-        this.parent.self.particles.updatePosition();
+        this.parent.particles.updatePosition();
     }
 }

@@ -1,5 +1,6 @@
-import { Bomb } from "src/objects/Bomb";
+import { BombParticles } from "src/objects/BombParticles";
+import { IBullet } from "./IBullet";
 
-export interface IBomb {
-    self: Bomb;
+export interface IBomb extends IBullet {
+    particles: BombParticles;
 }

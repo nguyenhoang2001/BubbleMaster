@@ -11,11 +11,9 @@ export class Bomb extends ShootedBubble implements IBomb {
     public offsetYParticle:number;
     public particles: BombParticles;
     public scene: GameScene;
-    public self: Bomb;
 
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
-        this.self = this;
         this.flyBehavior = new BombFlyBehavior(this);
         this.scene.add.existing(this);
         this.body.setCircle(10,20,25);

@@ -9,15 +9,15 @@ export class FireBulletFlyBehavior implements IFlyBehavior {
     }
 
     public fly(): void {
-        if(this.parent.self.body.velocity.y != 0 && this.parent.self.tail.visible == false) {
-            this.parent.self.tail.setVisible(true);
-            this.parent.self.setScale(1.1,1);
+        if(this.parent.body.velocity.y != 0 && this.parent.tail.visible == false) {
+            this.parent.tail.setVisible(true);
+            this.parent.setScale(1.1,1);
         }
-        this.parent.self.setRotation(this.parent.self.body.velocity.angle());
-        if(this.parent.self.y <= -this.parent.self.height) {
-            this.parent.self.clear();
-            this.parent.self.removeVisualEffect();
-            this.parent.self.destroy();
+        this.parent.setRotation(this.parent.body.velocity.angle());
+        if(this.parent.y <= -this.parent.height) {
+            this.parent.clear();
+            this.parent.removeVisualEffect();
+            this.parent.destroy();
         }
     }
 }
