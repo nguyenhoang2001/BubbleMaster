@@ -1,4 +1,4 @@
-import DEPTH from "../../../../game/constant/Depth";
+import Depth from "../../../../game/constant/Depth";
 import { GameScene } from "../../../../scenes/GameScene";
 import { Bubble } from "../../../Bubble";
 import { ScoreText } from "../../../ScoreText";
@@ -26,7 +26,7 @@ export class ClusterHandler {
         for(let i = 0; i < cluster.length; i++) {
             let tintColor = cluster[i].texture.key;
             cluster[i].on('animationstart', () => {
-                cluster[i].setDepth(DEPTH.ANIMATIONEXPLODE);
+                cluster[i].setDepth(Depth.ANIMATIONEXPLODE);
                 cluster[i].setTintColor(tintColor);
             });
 

@@ -1,4 +1,4 @@
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { Bomb } from "../objects/Bomb";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { FireBubble } from "../objects/FireBubble";
@@ -33,7 +33,7 @@ export class TypeBulletManager {
             this.shooter.isAllowShooting = true;
             oldBullet.destroy();
         });
-        oldBullet.setDepth(DEPTH.GAMEPLAY);
+        oldBullet.setDepth(Depth.GAMEPLAY);
         oldBullet.anims.play('showBomb');
     }
 
@@ -47,7 +47,7 @@ export class TypeBulletManager {
             this.shooter.isAllowShooting = true;
             oldBullet.destroy();
         });
-        oldBullet.setDepth(DEPTH.GAMEPLAY);
+        oldBullet.setDepth(Depth.GAMEPLAY);
         oldBullet.anims.play('showBomb');
     }
 

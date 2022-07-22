@@ -1,6 +1,6 @@
 import ShooterState from "src/game/constant/ShooterState";
 import { IShooter } from "src/interfaces/IShooter";
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { ShootingBehavior } from "../../Behaviors/ShootingBehavior";
@@ -131,7 +131,7 @@ export class Shooter implements IShooter {
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
-        this.circle.setDepth(DEPTH.GAMEPLAY);
+        this.circle.setDepth(Depth.GAMEPLAY);
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-85);
         this.animation.showRotatingCircle();
     }

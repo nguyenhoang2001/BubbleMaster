@@ -1,6 +1,6 @@
 import { Game } from "phaser";
 import { ShootedBubble } from "src/objects/ShootedBubble";
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { AnimationCreator } from "../helpers/AnimationCreator";
 import { ColorManager } from "../logic/ColorManager";
 import { MovingGridManager } from "../logic/MovingGridManager";
@@ -61,12 +61,12 @@ export class GameScene extends Phaser.Scene {
         // Game Objects
         this.mainZone = this.add.zone(0,0,this.sys.canvas.width,this.sys.canvas.height).setOrigin(0,0);
         this.background = this.add.image(0,0,'background').setOrigin(0,0);
-        this.background.setDepth(DEPTH.BACKGROUND);
+        this.background.setDepth(Depth.BACKGROUND);
         this.animationCreator = new AnimationCreator(this);
         this.bubblesBoard = new BubblesBoard(this,this.gridX,this.gridY,this.gridRow,this.gridColumn,this.gridRowOffset,this.gridRowHeight);
         this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
-        this.gameOverContainer.setDepth(DEPTH.GAMEOVERCONTAINER);
+        this.gameOverContainer.setDepth(Depth.GAMEOVERCONTAINER);
         this.animationCreator.createAnimations();
         this.colorManager.setBubblesBoard(this.bubblesBoard);
         this.shooter = new Shooter(this);
@@ -74,7 +74,7 @@ export class GameScene extends Phaser.Scene {
         this.flyingBulletGroup = this.add.group({});
 
         let rope = this.add.image(0,298*2+250*2,'rope').setOrigin(0,0);
-        rope.setDepth(DEPTH.GAMEPLAY);
+        rope.setDepth(Depth.GAMEPLAY);
         rope.setDisplaySize(rope.width + 210, rope.height);
         // Logic Game
         this.scoreManager = new ScoreManager(this.bubblesBoard,this);

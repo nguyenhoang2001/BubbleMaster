@@ -1,8 +1,8 @@
-import DEPTH from "../game/constant/Depth";
 import { IShooter } from "src/interfaces/IShooter";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";
 import { ICreatingBubbleBehavior } from "src/interfaces/ICreatingBubbleBehavior";
+import Depth from "../game/constant/Depth";
 
 export class CreatingBubbleBehavior implements ICreatingBubbleBehavior {
     private parent: IShooter;
@@ -24,7 +24,7 @@ export class CreatingBubbleBehavior implements ICreatingBubbleBehavior {
     public createShootedBubble() {
         this.parent.shootedBubble = this.parent.bulletGroup.get(28,28,'',undefined,true);
         this.activateBullet(this.parent.shootedBubble ,this.scene.colorManager.getColorToShoot());
-        this.parent.shootedBubble.setDepth(DEPTH.BULLET);
+        this.parent.shootedBubble.setDepth(Depth.BULLET);
         this.parent.setUpPositionShootedBubble();
         this.parent.shootedBubble.checkWorldBounce = false;
     }
@@ -32,7 +32,7 @@ export class CreatingBubbleBehavior implements ICreatingBubbleBehavior {
     public createSecondBubble() {
         this.parent.secondBubble = this.parent.bulletGroup.get(28,28,'',undefined,true);
         this.activateBullet(this.parent.secondBubble,this.scene.colorManager.getColorToShoot());
-        this.parent.secondBubble.setDepth(DEPTH.BULLET);
+        this.parent.secondBubble.setDepth(Depth.BULLET);
         this.parent.secondBubble.setScale(0.8);
         this.parent.setUpPositionSecondBubble();
         this.parent.secondBubble.checkWorldBounce = false;

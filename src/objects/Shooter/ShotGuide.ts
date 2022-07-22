@@ -4,7 +4,7 @@ import { ICheckingShotguideHitGridBehavior } from "src/interfaces/ICheckingShotg
 import { IClearingShotguideBehavior } from "src/interfaces/IClearingShotguideBehavior";
 import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
 import { IShotguide } from "src/interfaces/IShotguide";
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { BubblesBoard } from "../BubbleBoard/BubblesBoard";
 import { AppearingShotguideBehavior } from "../../Behaviors/AppearingShotguideBehavior";

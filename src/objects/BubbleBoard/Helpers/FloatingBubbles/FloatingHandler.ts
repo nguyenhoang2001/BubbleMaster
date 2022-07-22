@@ -1,4 +1,4 @@
-import DEPTH from "../../../../game/constant/Depth";
+import Depth from "../../../../game/constant/Depth";
 import { GameScene } from "../../../../scenes/GameScene";
 import { Bubble } from "../../../Bubble";
 import { BubblesBoard } from "../../BubblesBoard";
@@ -54,7 +54,7 @@ export class FloatingHandler {
             let column = bubble.column;
             this.bubblesBoard.board[row][column] = undefined;
             bubble.body.checkCollision.none = true;
-            bubble.setDepth(DEPTH.FALLBALL);
+            bubble.setDepth(Depth.FALLBALL);
         });
     }
 }

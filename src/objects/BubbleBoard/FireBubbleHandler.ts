@@ -1,4 +1,4 @@
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
 import { ScoreText } from "../ScoreText";
@@ -33,7 +33,7 @@ export class FireBubbleHandler {
             bubble.on('animationstart', () => {
                 bubble.setTintColor(tintColor);
             });
-            bubble.setDepth(DEPTH.ANIMATIONEXPLODE);
+            bubble.setDepth(Depth.ANIMATIONEXPLODE);
             bubble.anims.playAfterDelay('explode',0);
 
             bubble.on('animationupdate', (animation:any,frame:any,obj:any) => {

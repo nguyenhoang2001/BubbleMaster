@@ -1,4 +1,4 @@
-import DEPTH from "../../game/constant/Depth";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
 import { ScoreText } from "../ScoreText";
@@ -15,7 +15,7 @@ export class Hole extends Phaser.GameObjects.Image {
         this.scene.physics.world.enable(this);
         this.light = this.scene.add.sprite(0,0,'gamePlaySet');
         this.setColorLight();
-        this.light.setDepth(DEPTH.LIGHT);
+        this.light.setDepth(Depth.LIGHT);
         this.holeNumber = holeNumber;
         this.body.setSize(120,10);
         this.body.setOffset(5,65);

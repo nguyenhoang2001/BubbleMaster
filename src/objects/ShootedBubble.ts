@@ -1,4 +1,4 @@
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { Bubble } from "./Bubble";
 
 export class ShootedBubble extends Bubble {
@@ -13,7 +13,7 @@ export class ShootedBubble extends Bubble {
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;
         this.tail = this.scene.add.image(x,y,'tail').setAlpha(0.4).setScale(0.9).setOrigin(0.5,0);
-        this.tail.setDepth(DEPTH.TAIL);
+        this.tail.setDepth(Depth.TAIL);
         this.tail.setVisible(false);
     }
 

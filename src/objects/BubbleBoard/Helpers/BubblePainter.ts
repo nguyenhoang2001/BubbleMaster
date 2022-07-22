@@ -1,5 +1,5 @@
 // import { logicGame } from "../../../game";
-import DEPTH from "../../../game/constant/Depth";
+import Depth from "../../../game/constant/Depth";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bubble } from "../../Bubble";
 import { BubblesBoard } from "../BubblesBoard";
@@ -18,7 +18,7 @@ export class BubblePainter {
         bubble.setOrigin(0.5,0.5);
         bubble.row = row;
         bubble.column = column;
-        bubble.setDepth(DEPTH.GRIDBALL);
+        bubble.setDepth(Depth.GRIDBALL);
         if(texture != undefined) {
             bubble.setTexture(texture);
         } else {
