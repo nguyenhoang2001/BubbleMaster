@@ -13,7 +13,7 @@ export class SwappingBehavior implements ISwappingBehavior {
             let saveCurrentBullet = this.parent.shootedBubble;
             this.parent.shootedBubble = this.parent.secondBubble;
             this.parent.secondBubble = saveCurrentBullet;
-            this.parent.animation.showSwapping();
+            this.parent.swappingBulletSkinComponent.swap();
         }
     }
 }

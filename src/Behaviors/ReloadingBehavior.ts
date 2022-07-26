@@ -12,6 +12,6 @@ export class ReloadingBehavior implements IReloadingBehavior {
         this.parent.shootedBubble = this.parent.secondBubble;
         this.parent.createSecondBullet();
         this.parent.secondBubble.setScale(0);
-        this.parent.animation.showReloading();
+        this.parent.reloadingBulletSkinComponent.reload();
     }
 }

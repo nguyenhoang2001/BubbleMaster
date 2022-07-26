@@ -5,7 +5,6 @@ import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
 import { ShootingBehavior } from "../../Behaviors/ShootingBehavior";
 import { ShotGuide } from "./ShotGuide";
-import { ShooterAnimation } from "./ShooterAnimation";
 import { ReloadingBehavior } from "../../Behaviors/ReloadingBehavior";
 import { SwappingBehavior } from "../../Behaviors/SwappingBehavior";
 import { SettingAngleBehavior } from "../../Behaviors/SettingAngleBehavior";
@@ -16,6 +15,12 @@ import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
 import { ISwappingBehavior } from "src/interfaces/ISwappingBehavior";
 import { ISettingAngleBehavior } from "src/interfaces/ISettingAngleBehavior";
 import { ICreatingBulletBehavior } from "src/interfaces/ICreatingBulletBehavior";
+import { IArrowsSkinComponent } from "src/interfaces/IArrowsSkinComponent";
+import { ArrowsSkinComponent } from "./ArrowsSkinComponent";
+import { ISwappingBulletSkinComponent } from "src/interfaces/ISwappingBulletSkinComponent";
+import { SwappingBulletSkinComponent } from "./SwappingBulletSkinComponent";
+import { IReloadingBulletSkinComponent } from "src/interfaces/IReloadingBulletSkinComponent";
+import { ReloadingBulletSkinComponent } from "./ReloadingBulletSkinComponent";
 
 export class Shooter implements IShooter {
     // Properties
@@ -28,7 +33,6 @@ export class Shooter implements IShooter {
     public shootedBubble: ShootedBubble;
     public secondBubble: ShootedBubble;
 
-    public animation: ShooterAnimation;
     public circle: Phaser.GameObjects.Image;
     public arrowShoot: Phaser.GameObjects.Line;
 
@@ -37,6 +41,10 @@ export class Shooter implements IShooter {
     public isAllowShooting: boolean;
     private pointerOnCircle: boolean;
     public isAnimationFinished:boolean;
+    // Skin Components
+    public arrowsSkinComponent: IArrowsSkinComponent;
+    public swappingBulletSkinComponent: ISwappingBulletSkinComponent;
+    public reloadingBulletSkinComponent: IReloadingBulletSkinComponent;
     // State
     private state: ShooterState;
     // Behaviors
@@ -58,7 +66,6 @@ export class Shooter implements IShooter {
         this.creatingBulletBehavior = new CreatingBulletBehavior(this);
         // Properties
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
-        this.animation = new ShooterAnimation(this,this.scene);
         this.isAllowShooting = true;
         this.pointerOnCircle = false;
         this.isAnimationFinished = true;
@@ -72,6 +79,11 @@ export class Shooter implements IShooter {
         this.creatingBulletBehavior.createSecondBubble();
         this.createArrowShoot();
         this.enableInput();
+        // Skin components
+        this.arrowsSkinComponent = new ArrowsSkinComponent(this);
+        this.swappingBulletSkinComponent = new SwappingBulletSkinComponent(this);
+        this.reloadingBulletSkinComponent = new ReloadingBulletSkinComponent(this);
+        this.arrowsSkinComponent.rotate();
     }
         // dependency , strategy pattern
 
@@ -133,7 +145,6 @@ export class Shooter implements IShooter {
         this.circle = this.scene.add.image(0,0,'circle');
         this.circle.setDepth(Depth.GAMEPLAY);
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-85);
-        this.animation.showRotatingCircle();
     }
 
     private createArrowShoot() {
