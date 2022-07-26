@@ -1,35 +1,33 @@
-import { BubblesBoardState } from "../../../game/constant/BubblesBoardState";
+import { HittingBombBehavior } from "../../../Behaviors/HittingBombBehavior";
+import { HittingBulletBehavior } from "../../../Behaviors/HittingBulletBehavior";
+import { HittingFireBallBehavior } from "../../../Behaviors/HittingFireBallBehavior";
+import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
+import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
+import { IHittingFireBallBehavior } from "src/interfaces/IHittingFireBallBehavior";
 import { GameScene } from "../../../scenes/GameScene";
 import { Bomb } from "../../Bomb";
-import { Bubble } from "../../Bubble";
 import { FireBubble } from "../../FireBubble";
-import { ShootedBubble } from "../../ShootedBubble";
 import { BubblesBoard } from "../BubblesBoard";
-import { FireBubbleHandler } from "../FireBubbleHandler";
 
 export class ColliderManager {
     public bubblesBoard: BubblesBoard;
     public scene: GameScene;
-    public shootedBubble: ShootedBubble;
-    public hittedBubble: Bubble;
-    // private neighborsHelper: BubbleNeighbors;
-    // private bombHandler: BombHandler;
-    private fireBubbleHandler: FireBubbleHandler;
+    private hittingBulletBehavior: IHittingBulletBehavior;
+    private hittingBombBehavior: IHittingBombBehavior;
+    private hittingFireBallBehavior: IHittingFireBallBehavior;
 
     constructor(bubblesBoard:BubblesBoard) {
         this.bubblesBoard = bubblesBoard;
         this.scene = this.bubblesBoard.scene;
-        // this.neighborsHelper = this.bubblesBoard.neighbors;
-        // this.bombHandler = new BombHandler(this.scene, this.bubblesBoard);
-        this.fireBubbleHandler = new FireBubbleHandler(this.scene,this.bubblesBoard);
+        this.hittingBulletBehavior = new HittingBulletBehavior(this.bubblesBoard);
+        this.hittingBombBehavior = new HittingBombBehavior(this.bubblesBoard);
+        this.hittingFireBallBehavior = new HittingFireBallBehavior(this.bubblesBoard);
     }
 
     public enableOverlapBombAndBubble(bomb:Bomb) {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,bomb,(_bubble:any,_bomb:any) => {
             if(_bubble.isOutGrid == false) {
-                this.hittedBubble = _bubble as Bubble;
-                this.shootedBubble = _bomb as Bomb;
-                this.bubblesBoard.hitBomb(this.hittedBubble,this.shootedBubble);
+                this.hittingBombBehavior.hit(_bubble,_bomb);
             }
         });
     }
@@ -37,22 +35,15 @@ export class ColliderManager {
     public enableOverlapFireBallAndBubble(fireBall:FireBubble) {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,fireBall,(_bubble:any,_fireball:any) => {
             if(_bubble.isOutGrid == false) {
-                this.hittedBubble = _bubble as Bubble;
-                this.shootedBubble = _fireball as FireBubble;
-                this.bubblesBoard.hitFireBall(this.hittedBubble,this.shootedBubble);
-                // this.scene.scoreManager.calculateScore();
-                // this.fireBubbleHandler.clearBubble(this.hittedBubble);
-                // this.fireBubbleHandler.showAnimationBubble(this.hittedBubble);
+                this.hittingFireBallBehavior.hit(_bubble,_fireball);
             }
         });
     }
 
-    public gridGroupAndBulletGroup() {
+    public enableOverlapGridGroupAndBulletGroup() {
         this.scene.physics.add.overlap(this.bubblesBoard.gridGroup,this.scene.shooter.bulletGroup,(_bubble:any,_shootedBubble:any) => {
             if(_bubble.isOutGrid == false) {
-                this.shootedBubble = _shootedBubble as ShootedBubble;
-                this.hittedBubble = _bubble as Bubble;
-                this.bubblesBoard.hitBullet(this.hittedBubble,this.shootedBubble);
+                this.hittingBulletBehavior.hit(_bubble,_shootedBubble);
             }
         });
     }

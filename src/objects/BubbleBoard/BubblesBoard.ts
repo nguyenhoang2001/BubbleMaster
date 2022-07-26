@@ -12,12 +12,6 @@ import { IAddingBubbleBehavior } from "src/interfaces/IAddingBubbleBehavior";
 import { AddingBubbleBehavior } from "../../Behaviors/AddingBubbleBehavior";
 import { ShootedBubble } from "../ShootedBubble";
 import { BubblesBoardState } from "../../game/constant/BubblesBoardState";
-import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
-import { HittingBulletBehavior } from "../../Behaviors/HittingBulletBehavior";
-import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
-import { HittingBombBehavior } from "../../Behaviors/HittingBombBehavior";
-import { IHittingFireBallBehavior } from "src/interfaces/IHittingFireBallBehavior";
-import { HittingFireBallBehavior } from "../../Behaviors/HittingFireBallBehavior";
 
 export class BubblesBoard implements IBubblesBoard {
     // Helpers
@@ -31,9 +25,6 @@ export class BubblesBoard implements IBubblesBoard {
     public state: BubblesBoardState;
     // Behaviors
     private addingBubbleBehavior: IAddingBubbleBehavior;
-    private hittingBulletBehavior: IHittingBulletBehavior;
-    private hittingBombBehavior: IHittingBombBehavior;
-    private hittingFireBallBehavior: IHittingFireBallBehavior;
     // Properties
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
@@ -71,9 +62,6 @@ export class BubblesBoard implements IBubblesBoard {
         this.state = BubblesBoardState.Idle;
         // Behaviors
         this.addingBubbleBehavior = new AddingBubbleBehavior(this);
-        this.hittingBulletBehavior = new HittingBulletBehavior(this);
-        this.hittingBombBehavior = new HittingBombBehavior(this);
-        this.hittingFireBallBehavior = new HittingFireBallBehavior(this);
         // Game Objects
         this.neighbors = new BubbleNeighbors(this);
         this.colliderManager = new ColliderManager(this);
@@ -128,18 +116,6 @@ export class BubblesBoard implements IBubblesBoard {
                 this.addingBubbleBehavior.addBubble(i,j);
             }
         }
-    }
-
-    public hitBullet(hittedBubble:Bubble, shootedBubble:ShootedBubble) {
-        this.hittingBulletBehavior.hit(hittedBubble,shootedBubble);
-    }
-
-    public hitBomb(hittedBubble:Bubble, shootedBubble:ShootedBubble) {
-        this.hittingBombBehavior.hit(hittedBubble,shootedBubble);
-    }
-
-    public hitFireBall(hittedBubble:Bubble, shootedBubble:ShootedBubble) {
-        this.hittingFireBallBehavior.hit(hittedBubble,shootedBubble);
     }
 
     public addBubbleFromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
