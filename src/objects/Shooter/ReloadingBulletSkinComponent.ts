@@ -1,6 +1,6 @@
 import { ReloadingBulletSkinBehavior } from "../../Behaviors/ReloadingBulletSkinBehavior";
 import { IShooter } from "src/interfaces/objects/IShooter";
-import { IReloadingBulletSkinComponent } from "src/interfaces/behaviors/IReloadingBulletSkinComponent";
+import { IReloadingBulletSkinComponent } from "src/interfaces/objects/IReloadingBulletSkinComponent";
 import { IReloadingBulletSkinBehavior } from "src/interfaces/behaviors/IReloadingBulletSkinBehavior";
 
 export class ReloadingBulletSkinComponent implements IReloadingBulletSkinComponent {

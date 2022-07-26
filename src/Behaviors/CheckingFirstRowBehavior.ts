@@ -1,7 +1,8 @@
 import { BubblesBoardState } from "../game/constant/BubblesBoardState";
 import { IBubblesBoard } from "src/interfaces/objects/IBubblesBoard";
+import { ICheckingFirstRowBehavior } from "src/interfaces/behaviors/ICheckingFirstRowBehavior";
 
-export class CheckingFirstRowBehavior {
+export class CheckingFirstRowBehavior implements ICheckingFirstRowBehavior {
     private parent: IBubblesBoard;
     private isNeedToAdd:boolean;
 

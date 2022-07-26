@@ -1,6 +1,6 @@
 import Depth from "../game/constant/Depth";
 import { IRotatingArrowsSkinBehavior } from "src/interfaces/behaviors/IRotatingArrowsSkinBehavior";
-import { IArrowsSkinComponent } from "src/interfaces/behaviors/IArrowsSkinComponent";
+import { IArrowsSkinComponent } from "src/interfaces/objects/IArrowsSkinComponent";
 
 export class RotatingArrowsSkinBehavior implements IRotatingArrowsSkinBehavior {
     public parent: IArrowsSkinComponent;

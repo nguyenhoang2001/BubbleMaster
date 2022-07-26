@@ -1,6 +1,6 @@
 import { SwapingBulletSkinBehavior } from "../../Behaviors/SwappingBulletSkinBehavior";
 import { IShooter } from "src/interfaces/objects/IShooter";
-import { ISwappingBulletSkinComponent } from "src/interfaces/behaviors/ISwappingBulletSkinComponent";
+import { ISwappingBulletSkinComponent } from "src/interfaces/objects/ISwappingBulletSkinComponent";
 import { ISwappingBulletSkinBehavior } from "src/interfaces/behaviors/ISwappingBulletSkinBehavior";
 
 export class SwappingBulletSkinComponent implements ISwappingBulletSkinComponent {

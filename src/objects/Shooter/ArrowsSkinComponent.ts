@@ -1,4 +1,4 @@
-import { IArrowsSkinComponent } from "src/interfaces/behaviors/IArrowsSkinComponent";
+import { IArrowsSkinComponent } from "src/interfaces/objects/IArrowsSkinComponent";
 import { IRotatingArrowsSkinBehavior } from "src/interfaces/behaviors/IRotatingArrowsSkinBehavior";
 import { IShooter } from "src/interfaces/objects/IShooter";
 import { RotatingArrowsSkinBehavior } from "../../Behaviors/RotatingArrowsSkinBehavior";

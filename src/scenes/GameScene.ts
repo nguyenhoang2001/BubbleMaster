@@ -6,7 +6,6 @@ import { ColorManager } from "../logic/ColorManager";
 import { MovingGridManager } from "../logic/MovingGridManager";
 import { ScoreManager } from "../logic/ScoreManager";
 import { TypeBulletManager } from "../logic/TypeBulletManager";
-import { AddingNewBubbleRowManager } from "../objects/AddingNewBubbleRowManager";
 import { BubblesBoard } from "../objects/BubbleBoard/BubblesBoard";
 import { HolesManager } from "../objects/Hole/HolesManager";
 import { Shooter } from "../objects/Shooter/Shooter";
@@ -16,7 +15,6 @@ export class GameScene extends Phaser.Scene {
     // Objects
     public bubblesBoard: BubblesBoard;
     public shooter: Shooter;
-    private addingNewBubbleRowManager: AddingNewBubbleRowManager;
     private background: Phaser.GameObjects.Image;
     public mainZone: Phaser.GameObjects.Zone;
     private gameOverContainer: GameOverContainer;
@@ -64,7 +62,6 @@ export class GameScene extends Phaser.Scene {
         this.background.setDepth(Depth.BACKGROUND);
         this.animationCreator = new AnimationCreator(this);
         this.bubblesBoard = new BubblesBoard(this,this.gridX,this.gridY,this.gridRow,this.gridColumn,this.gridRowOffset,this.gridRowHeight);
-        this.addingNewBubbleRowManager = new AddingNewBubbleRowManager(this);
         this.gameOverContainer = new GameOverContainer(this,0,0);
         this.gameOverContainer.setDepth(Depth.GAMEOVERCONTAINER);
         this.animationCreator.createAnimations();
@@ -96,7 +93,7 @@ export class GameScene extends Phaser.Scene {
                 this.highScore = this.scoreManager.getScore();
             }
             this.movingGridManager.moveDownBubbles(time,delta);
-            this.addingNewBubbleRowManager.setAddSignalToGrid();
+            // this.addingNewBubbleRowManager.setAddSignalToGrid();
             this.bubblesBoard.update(time,delta);
             this.shooter.update(delta);
             this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {

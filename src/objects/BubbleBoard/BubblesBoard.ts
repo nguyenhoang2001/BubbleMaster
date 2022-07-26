@@ -12,6 +12,8 @@ import { IAddingBubbleBehavior } from "src/interfaces/behaviors/IAddingBubbleBeh
 import { AddingBubbleBehavior } from "../../Behaviors/AddingBubbleBehavior";
 import { ShootedBubble } from "../ShootedBubble";
 import { BubblesBoardState } from "../../game/constant/BubblesBoardState";
+import { ICheckingFirstRowBehavior } from "src/interfaces/behaviors/ICheckingFirstRowBehavior";
+import { CheckingFirstRowBehavior } from "../../Behaviors/CheckingFirstRowBehavior";
 
 export class BubblesBoard implements IBubblesBoard {
     // Helpers
@@ -25,6 +27,7 @@ export class BubblesBoard implements IBubblesBoard {
     public state: BubblesBoardState;
     // Behaviors
     private addingBubbleBehavior: IAddingBubbleBehavior;
+    private checkingFirstRowBehavior: ICheckingFirstRowBehavior;
     // Properties
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
@@ -62,6 +65,7 @@ export class BubblesBoard implements IBubblesBoard {
         this.state = BubblesBoardState.Idle;
         // Behaviors
         this.addingBubbleBehavior = new AddingBubbleBehavior(this);
+        this.checkingFirstRowBehavior = new CheckingFirstRowBehavior(this);
         // Game Objects
         this.neighbors = new BubbleNeighbors(this);
         this.colliderManager = new ColliderManager(this);
@@ -137,6 +141,7 @@ export class BubblesBoard implements IBubblesBoard {
                 let topBubble = this.board[0].find(n=>n);
                 if(topBubble != undefined)
                     this.y = topBubble.y;
+                this.checkingFirstRowBehavior.check();
                 this.floatingBubbles.update();
                 // this.updateRow();
                 break;
