@@ -1,5 +1,6 @@
-import { IClearingShotguideBehavior } from "src/interfaces/IClearingShotguideBehavior";
-import { IShotguide } from "src/interfaces/IShotguide";
+import { IClearingShotguideBehavior } from "src/interfaces/behaviors/IClearingShotguideBehavior";
+import { IShotguide } from "src/interfaces/objects/IShotguide";
+
 
 export class ClearingShotguideBehavior implements IClearingShotguideBehavior {
     private parent: IShotguide;

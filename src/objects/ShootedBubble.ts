@@ -1,10 +1,10 @@
 import { FLyingBulletBehavior } from "../Behaviors/FlyingBulletBehavior";
 import BulletState from "src/game/constant/BulletState";
-import { IBullet } from "src/interfaces/IBullet";
-import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
+import { IBullet } from "src/interfaces/objects/IBullet";
 import Depth from "../game/constant/Depth";
 import { Bubble } from "./Bubble";
 import { Tail } from "./Tail";
+import { IFlyingBehavior } from "src/interfaces/behaviors/IFlyingBehavior";
 
 export class ShootedBubble extends Bubble implements IBullet {
     // Properties

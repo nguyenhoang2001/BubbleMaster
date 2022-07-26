@@ -1,6 +1,6 @@
+import { IAppearingTailBehavior } from "src/interfaces/behaviors/IAppearingTailBehavior";
+import { ITail } from "src/interfaces/objects/ITail";
 import { AppearingTailBehavior } from "../Behaviors/AppearingTailBehavior";
-import { ITail } from "src/interfaces/ITail";
-import { IAppearingTailBehavior } from "src/interfaces/IAppearingTailBehavior";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class Tail extends Phaser.GameObjects.Image implements ITail {

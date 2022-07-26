@@ -1,6 +1,6 @@
 import BulletState from "src/game/constant/BulletState";
-import { IShooter } from "src/interfaces/IShooter";
-import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
+import { IShooter } from "src/interfaces/objects/IShooter";
+import { IShootingBehavior } from "src/interfaces/behaviors/IShootingBehavior";
 
 export class ShootingBehavior implements IShootingBehavior {
     private parent: IShooter;

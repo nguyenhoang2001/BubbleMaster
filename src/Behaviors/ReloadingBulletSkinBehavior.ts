@@ -1,5 +1,5 @@
-import { IReloadingBulletSkinBehavior } from "src/interfaces/IReloadingBulletSkinBehavior";
-import { IShooter } from "src/interfaces/IShooter";
+import { IReloadingBulletSkinBehavior } from "src/interfaces/behaviors/IReloadingBulletSkinBehavior";
+import { IShooter } from "src/interfaces/objects/IShooter";
 
 export class ReloadingBulletSkinBehavior implements IReloadingBulletSkinBehavior {
     private parent: IShooter;

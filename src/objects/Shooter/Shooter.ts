@@ -1,5 +1,5 @@
 import ShooterState from "src/game/constant/ShooterState";
-import { IShooter } from "src/interfaces/IShooter";
+import { IShooter } from "src/interfaces/objects/IShooter";
 import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "../ShootedBubble";
@@ -10,17 +10,17 @@ import { SwappingBehavior } from "../../Behaviors/SwappingBehavior";
 import { SettingAngleBehavior } from "../../Behaviors/SettingAngleBehavior";
 import { CreatingBulletBehavior } from "../../Behaviors/CreatingBulletBehavior";
 import ShotguideState from "src/game/constant/ShotguideState";
-import { IShootingBehavior } from "src/interfaces/IShootingBehavior";
-import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
-import { ISwappingBehavior } from "src/interfaces/ISwappingBehavior";
-import { ISettingAngleBehavior } from "src/interfaces/ISettingAngleBehavior";
-import { ICreatingBulletBehavior } from "src/interfaces/ICreatingBulletBehavior";
-import { IArrowsSkinComponent } from "src/interfaces/IArrowsSkinComponent";
 import { ArrowsSkinComponent } from "./ArrowsSkinComponent";
-import { ISwappingBulletSkinComponent } from "src/interfaces/ISwappingBulletSkinComponent";
 import { SwappingBulletSkinComponent } from "./SwappingBulletSkinComponent";
-import { IReloadingBulletSkinComponent } from "src/interfaces/IReloadingBulletSkinComponent";
 import { ReloadingBulletSkinComponent } from "./ReloadingBulletSkinComponent";
+import { IArrowsSkinComponent } from "src/interfaces/behaviors/IArrowsSkinComponent";
+import { ISwappingBulletSkinComponent } from "src/interfaces/behaviors/ISwappingBulletSkinComponent";
+import { IReloadingBulletSkinComponent } from "src/interfaces/behaviors/IReloadingBulletSkinComponent";
+import { IShootingBehavior } from "src/interfaces/behaviors/IShootingBehavior";
+import { IReloadingBehavior } from "src/interfaces/behaviors/IReloadingBehavior";
+import { ISwappingBehavior } from "src/interfaces/behaviors/ISwappingBehavior";
+import { ISettingAngleBehavior } from "src/interfaces/behaviors/ISettingAngleBehavior";
+import { ICreatingBulletBehavior } from "src/interfaces/behaviors/ICreatingBulletBehavior";
 
 export class Shooter implements IShooter {
     // Properties

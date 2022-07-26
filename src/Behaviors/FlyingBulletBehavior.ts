@@ -1,5 +1,5 @@
-import { IBullet } from "src/interfaces/IBullet";
-import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
+import { IFlyingBehavior } from "src/interfaces/behaviors/IFlyingBehavior";
+import { IBullet } from "src/interfaces/objects/IBullet";
 
 
 export class FLyingBulletBehavior implements IFlyingBehavior {

@@ -1,5 +1,5 @@
-import { IBubblesBoard } from "src/interfaces/IBubblesBoard";
-import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
+import { IBubblesBoard } from "src/interfaces/objects/IBubblesBoard";
+import { IHittingBulletBehavior } from "src/interfaces/behaviors/IHittingBulletBehavior";
 import { Bubble } from "src/objects/Bubble";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 

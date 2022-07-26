@@ -1,5 +1,6 @@
-import { ITail } from "src/interfaces/ITail";
-import { IAppearingTailBehavior } from "src/interfaces/IAppearingTailBehavior";
+import { IAppearingTailBehavior } from "src/interfaces/behaviors/IAppearingTailBehavior";
+import { ITail } from "src/interfaces/objects/ITail";
+
 
 export class AppearingTailBehavior implements IAppearingTailBehavior {
     private parent: ITail;

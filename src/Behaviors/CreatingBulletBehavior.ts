@@ -1,7 +1,7 @@
-import { IShooter } from "src/interfaces/IShooter";
+import { ICreatingBulletBehavior } from "src/interfaces/behaviors/ICreatingBulletBehavior";
+import { IShooter } from "src/interfaces/objects/IShooter";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { GameScene } from "src/scenes/GameScene";
-import { ICreatingBulletBehavior } from "src/interfaces/ICreatingBulletBehavior";
 import Depth from "../game/constant/Depth";
 
 export class CreatingBulletBehavior implements ICreatingBulletBehavior {

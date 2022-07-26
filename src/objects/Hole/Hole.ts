@@ -1,7 +1,6 @@
 import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
-import { ScoreText } from "../ScoreText";
 
 export class Hole extends Phaser.GameObjects.Image {
     public scene:GameScene;

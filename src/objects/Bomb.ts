@@ -1,10 +1,9 @@
 import { FlyingBombBehavior } from "../Behaviors/FlyingBombBehavior";
-import { IBullet } from "src/interfaces/IBullet";
 import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
 import { BombParticles } from "./BombParticles";
 import { ShootedBubble } from "./ShootedBubble";
-import { IBomb } from "src/interfaces/IBomb";
+import { IBomb } from "src/interfaces/objects/IBomb";
 
 export class Bomb extends ShootedBubble implements IBomb {
     public offsetXParticle:number;

@@ -1,9 +1,10 @@
+import { IHittingBombBehavior } from "src/interfaces/behaviors/IHittingBombBehavior";
+import { IHittingBulletBehavior } from "src/interfaces/behaviors/IHittingBulletBehavior";
+import { IHittingFireBallBehavior } from "src/interfaces/behaviors/IHittingFireBallBehavior";
 import { HittingBombBehavior } from "../../Behaviors/HittingBombBehavior";
 import { HittingBulletBehavior } from "../../Behaviors/HittingBulletBehavior";
 import { HittingFireBallBehavior } from "../../Behaviors/HittingFireBallBehavior";
-import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
-import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
-import { IHittingFireBallBehavior } from "src/interfaces/IHittingFireBallBehavior";
+
 import { GameScene } from "../../scenes/GameScene";
 import { Bomb } from "../Bomb";
 import { FireBubble } from "../FireBubble";

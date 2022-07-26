@@ -1,8 +1,9 @@
 import { ShootedBubble } from "src/objects/ShootedBubble";
 import { ShotGuide } from "src/objects/Shooter/ShotGuide";
 import { GameScene } from "src/scenes/GameScene";
-import { IReloadingBulletSkinComponent } from "./IReloadingBulletSkinComponent";
-import { ISwappingBulletSkinComponent } from "./ISwappingBulletSkinComponent";
+import { IReloadingBulletSkinComponent } from "../behaviors/IReloadingBulletSkinComponent";
+import { ISwappingBulletSkinComponent } from "../behaviors/ISwappingBulletSkinComponent";
+
 
 export interface IShooter {
     scene:GameScene;

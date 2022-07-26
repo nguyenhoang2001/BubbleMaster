@@ -1,6 +1,5 @@
 import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
-import { Bubble } from "./Bubble";
 
 export class ScoreText extends Phaser.GameObjects.Text {
     public scene: GameScene;

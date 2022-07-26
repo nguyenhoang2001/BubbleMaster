@@ -1,5 +1,6 @@
-import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
-import { IShotguide } from "src/interfaces/IShotguide";
+import { IFadingShotguideBehavior } from "src/interfaces/behaviors/IFadingShotguideBehavior";
+import { IShotguide } from "src/interfaces/objects/IShotguide";
+
 
 export class FadingShotguideBehavior implements IFadingShotguideBehavior {
     private parent: IShotguide;

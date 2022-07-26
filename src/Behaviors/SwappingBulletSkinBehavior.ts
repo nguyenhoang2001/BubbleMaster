@@ -1,4 +1,4 @@
-import { IShooter } from "src/interfaces/IShooter";
+import { IShooter } from "src/interfaces/objects/IShooter";
 
 export class SwapingBulletSkinBehavior {
     private parent: IShooter;

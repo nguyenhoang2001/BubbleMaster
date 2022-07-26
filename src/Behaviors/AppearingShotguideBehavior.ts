@@ -1,5 +1,6 @@
-import { IAppearingShotguideBehavior } from "src/interfaces/IAppearingShotguideBehavior";
-import { IShotguide } from "src/interfaces/IShotguide";
+import { IAppearingShotguideBehavior } from "src/interfaces/behaviors/IAppearingShotguideBehavior";
+import { IShotguide } from "src/interfaces/objects/IShotguide";
+
 
 export class AppearingShotguideBehavior implements IAppearingShotguideBehavior {
     private parent: IShotguide;

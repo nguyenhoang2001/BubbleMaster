@@ -1,4 +1,3 @@
-import { ShootedBubble } from "src/objects/ShootedBubble";
 import { Tail } from "src/objects/Tail";
 
 export interface IBullet {

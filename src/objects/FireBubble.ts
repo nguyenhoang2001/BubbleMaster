@@ -1,5 +1,5 @@
 import { FlyingFireBulletBehavior } from "../Behaviors/FlyingFireBulletBehavior";
-import { IFireBullet } from "src/interfaces/IFireBullet";
+import { IFireBullet } from "src/interfaces/objects/IFireBullet";
 import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
 import { ShootedBubble } from "./ShootedBubble";

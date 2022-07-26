@@ -1,10 +1,5 @@
 import ShotguideState from "src/game/constant/ShotguideState";
-import { IAppearingShotguideBehavior } from "src/interfaces/IAppearingShotguideBehavior";
-import { ICheckingShotguideHitGridBehavior } from "src/interfaces/ICheckingShotguideHitGridBehavior";
-import { IClearingShotguideBehavior } from "src/interfaces/IClearingShotguideBehavior";
-import { IFadingShotguideBehavior } from "src/interfaces/IFadingShotguideBehavior";
-import { IShotguide } from "src/interfaces/IShotguide";
-import Depth from "../../game/constant/Depth";
+
 import { GameScene } from "../../scenes/GameScene";
 import { BubblesBoard } from "../BubbleBoard/BubblesBoard";
 import { AppearingShotguideBehavior } from "../../Behaviors/AppearingShotguideBehavior";
@@ -13,6 +8,11 @@ import { ClearingShotguideBehavior } from "../../Behaviors/ClearingShotguideBeha
 import { FadingShotguideBehavior } from "../../Behaviors/FadingShotguideBehavior";
 import { CircleGuideGroup } from "./CircleGuideGroup";
 import { Shooter } from "./Shooter";
+import { IShotguide } from "src/interfaces/objects/IShotguide";
+import { IAppearingShotguideBehavior } from "src/interfaces/behaviors/IAppearingShotguideBehavior";
+import { IFadingShotguideBehavior } from "src/interfaces/behaviors/IFadingShotguideBehavior";
+import { IClearingShotguideBehavior } from "src/interfaces/behaviors/IClearingShotguideBehavior";
+import { ICheckingShotguideHitGridBehavior } from "src/interfaces/behaviors/ICheckingShotguideHitGridBehavior";
 
 export class ShotGuide implements IShotguide {
 

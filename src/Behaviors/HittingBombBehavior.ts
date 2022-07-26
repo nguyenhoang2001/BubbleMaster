@@ -1,9 +1,9 @@
 import Depth from "../game/constant/Depth";
-import { IBubblesBoard } from "src/interfaces/IBubblesBoard";
+import { IBubblesBoard } from "src/interfaces/objects/IBubblesBoard";
 import { Bubble } from "src/objects/Bubble";
 import { Bomb } from "src/objects/Bomb";
 import { ShootedBubble } from "src/objects/ShootedBubble";
-import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
+import { IHittingBombBehavior } from "src/interfaces/behaviors/IHittingBombBehavior";
 
 export class HittingBombBehavior implements IHittingBombBehavior {
     private parent:IBubblesBoard;

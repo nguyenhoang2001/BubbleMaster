@@ -1,6 +1,5 @@
-import { ICheckingShotguideHitGridBehavior } from "src/interfaces/ICheckingShotguideHitGridBehavior";
-import { IShooter } from "src/interfaces/IShooter";
-import { IShotguide } from "src/interfaces/IShotguide";
+import { ICheckingShotguideHitGridBehavior } from "src/interfaces/behaviors/ICheckingShotguideHitGridBehavior";
+import { IShotguide } from "src/interfaces/objects/IShotguide";
 import { BubblesBoard } from "src/objects/BubbleBoard/BubblesBoard";
 
 export class CheckingShotguideHitGridBehavior implements ICheckingShotguideHitGridBehavior {

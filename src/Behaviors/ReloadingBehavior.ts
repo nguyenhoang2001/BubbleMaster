@@ -1,5 +1,5 @@
-import { IReloadingBehavior } from "src/interfaces/IReloadingBehavior";
-import { IShooter } from "src/interfaces/IShooter";
+import { IReloadingBehavior } from "src/interfaces/behaviors/IReloadingBehavior";
+import { IShooter } from "src/interfaces/objects/IShooter";
 
 export class ReloadingBehavior implements IReloadingBehavior {
     private parent:IShooter;

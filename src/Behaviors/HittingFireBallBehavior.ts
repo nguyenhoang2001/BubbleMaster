@@ -1,5 +1,5 @@
 import Depth from "../game/constant/Depth";
-import { IBubblesBoard } from "src/interfaces/IBubblesBoard";
+import { IBubblesBoard } from "src/interfaces/objects/IBubblesBoard";
 import { Bubble } from "src/objects/Bubble";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 

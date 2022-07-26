@@ -1,7 +1,6 @@
-import Depth from "../../game/constant/Depth";
-import { IArrowsSkinComponent } from "src/interfaces/IArrowsSkinComponent";
-import { IShooter } from "src/interfaces/IShooter";
-import { IRotatingArrowsSkinBehavior } from "src/interfaces/IRotatingArrowsSkinBehavior";
+import { IArrowsSkinComponent } from "src/interfaces/behaviors/IArrowsSkinComponent";
+import { IRotatingArrowsSkinBehavior } from "src/interfaces/behaviors/IRotatingArrowsSkinBehavior";
+import { IShooter } from "src/interfaces/objects/IShooter";
 import { RotatingArrowsSkinBehavior } from "../../Behaviors/RotatingArrowsSkinBehavior";
 
 export class ArrowsSkinComponent implements IArrowsSkinComponent {
