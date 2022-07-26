@@ -1,8 +1,8 @@
 import { IBullet } from "src/interfaces/IBullet";
-import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
+import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
 
 
-export class BulletFlyBehavior implements IFlyBehavior {
+export class FLyingBulletBehavior implements IFlyingBehavior {
     private parent: IBullet;
 
     constructor(parent:IBullet) {

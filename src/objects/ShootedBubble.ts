@@ -1,7 +1,7 @@
-import { BulletFlyBehavior } from "../Behaviors/BulletFlyBehavior";
+import { FLyingBulletBehavior } from "../Behaviors/FlyingBulletBehavior";
 import BulletState from "src/game/constant/BulletState";
 import { IBullet } from "src/interfaces/IBullet";
-import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
+import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
 import Depth from "../game/constant/Depth";
 import { Bubble } from "./Bubble";
 import { Tail } from "./Tail";
@@ -14,12 +14,12 @@ export class ShootedBubble extends Bubble implements IBullet {
     // State
     public state: BulletState;
     // Behaviors
-    protected flyBehavior: IFlyBehavior;
+    protected fLyingBulletBehavior: IFlyingBehavior;
 
     constructor(scene:Phaser.Scene, x:number, y:number, texture:string) {
         super(scene,x,y,texture,undefined,undefined);
         this.state = BulletState.Idle;
-        this.flyBehavior = new BulletFlyBehavior(this);
+        this.fLyingBulletBehavior = new FLyingBulletBehavior(this);
         this.body.setCircle(10,18,18);
         this.name = 'ShootedBubble';
         this.checkWorldBounce = false;
@@ -52,7 +52,7 @@ export class ShootedBubble extends Bubble implements IBullet {
         switch(this.state) {
             case BulletState.Flying: {
                 this.tail.state = TailState.Appearing;
-                this.flyBehavior.fly();
+                this.fLyingBulletBehavior.fly();
                 break;
             }
             default: {

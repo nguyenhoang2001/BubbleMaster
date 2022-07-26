@@ -1,6 +1,6 @@
-import { TailAppearingBehavior } from "../Behaviors/TailAppearingBehavior";
+import { AppearingTailBehavior } from "../Behaviors/AppearingTailBehavior";
 import { ITail } from "src/interfaces/ITail";
-import { ITailAppearingBehavior } from "src/interfaces/ITailAppearingBehavior";
+import { IAppearingTailBehavior } from "src/interfaces/IAppearingTailBehavior";
 import { ShootedBubble } from "./ShootedBubble";
 
 export class Tail extends Phaser.GameObjects.Image implements ITail {
@@ -9,7 +9,7 @@ export class Tail extends Phaser.GameObjects.Image implements ITail {
     // State
     public state: TailState;
     // Behaviors
-    protected appearingBehavior: ITailAppearingBehavior;
+    protected appearingTailBehavior: IAppearingTailBehavior;
 
     constructor(scene:Phaser.Scene,x:number,y:number,texture:string, shootedBubble:ShootedBubble) {
         super(scene,x,y,texture);
@@ -17,13 +17,13 @@ export class Tail extends Phaser.GameObjects.Image implements ITail {
         this.shootedBubble = shootedBubble;
         this.self = this;
         this.state = TailState.Idle;
-        this.appearingBehavior = new TailAppearingBehavior(this);
+        this.appearingTailBehavior = new AppearingTailBehavior(this);
     }
 
     public update(...args: any[]): void {
         switch(this.state) {
             case TailState.Appearing: {
-                this.appearingBehavior.appear();
+                this.appearingTailBehavior.appear();
                 break;
             }
             default: {

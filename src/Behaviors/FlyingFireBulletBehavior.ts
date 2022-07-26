@@ -1,7 +1,7 @@
 import { IFireBullet } from "src/interfaces/IFireBullet";
-import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
+import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
 
-export class FireBulletFlyBehavior implements IFlyBehavior {
+export class FlyingFireBulletBehavior implements IFlyingBehavior {
     private parent:IFireBullet;
 
     constructor(parent:IFireBullet) {

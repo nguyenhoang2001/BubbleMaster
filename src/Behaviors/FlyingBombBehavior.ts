@@ -1,7 +1,7 @@
 import { IBomb } from "src/interfaces/IBomb";
-import { IFlyBehavior } from "src/interfaces/IFlyBehavior";
+import { IFlyingBehavior } from "src/interfaces/IFlyingBehavior";
 
-export class BombFlyBehavior implements IFlyBehavior {
+export class FlyingBombBehavior implements IFlyingBehavior {
     private parent: IBomb;
 
     constructor(parent:IBomb) {

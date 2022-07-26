@@ -44,7 +44,7 @@ export class MovingGridManager {
 
     public moveDownBubbles(time:number,delta:number) {
         if(this.shooted) {
-            this.bubblesBoard.updateRow();
+            // this.bubblesBoard.updateRow();
             this.updateVelocity(delta);
             this.bubblesBoard.gridGroup.getChildren().forEach((_bubble:any) => {
                 let bubble = _bubble as Bubble;

@@ -1,4 +1,4 @@
-import { BombFlyBehavior } from "../Behaviors/BombFlyBehavior";
+import { FlyingBombBehavior } from "../Behaviors/FlyingBombBehavior";
 import { IBullet } from "src/interfaces/IBullet";
 import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
@@ -14,7 +14,7 @@ export class Bomb extends ShootedBubble implements IBomb {
 
     constructor(scene:GameScene, x:number, y:number, texture:string) {
         super(scene,x,y,texture);
-        this.flyBehavior = new BombFlyBehavior(this);
+        this.fLyingBulletBehavior = new FlyingBombBehavior(this);
         this.scene.add.existing(this);
         this.body.setCircle(10,20,25);
         this.name = 'Bomb';
