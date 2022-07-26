@@ -1,4 +1,4 @@
-const DEPTH = {
+const Depth = {
     BACKGROUND: 0,
     GAMEPLAY: 5,
     GRIDBALL: 6,
@@ -17,4 +17,4 @@ const DEPTH = {
     GAMEOVERCONTAINER:18
 }
 
-export default DEPTH;
+export default Depth;

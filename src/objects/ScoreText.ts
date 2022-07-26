@@ -1,6 +1,5 @@
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
-import { Bubble } from "./Bubble";
 
 export class ScoreText extends Phaser.GameObjects.Text {
     public scene: GameScene;
@@ -9,7 +8,7 @@ export class ScoreText extends Phaser.GameObjects.Text {
         super(scene,x,y,text,{});
         this.style.setFontSize('30px');
         this.style.setFontFamily('Arial');
-        this.setDepth(DEPTH.TEXT);
+        this.setDepth(Depth.TEXT);
         this.scene.add.existing(this);
         this.setScale(0);
     }
