@@ -1,13 +1,13 @@
-import { HittingBombBehavior } from "../../../Behaviors/HittingBombBehavior";
-import { HittingBulletBehavior } from "../../../Behaviors/HittingBulletBehavior";
-import { HittingFireBallBehavior } from "../../../Behaviors/HittingFireBallBehavior";
+import { HittingBombBehavior } from "../../Behaviors/HittingBombBehavior";
+import { HittingBulletBehavior } from "../../Behaviors/HittingBulletBehavior";
+import { HittingFireBallBehavior } from "../../Behaviors/HittingFireBallBehavior";
 import { IHittingBombBehavior } from "src/interfaces/IHittingBombBehavior";
 import { IHittingBulletBehavior } from "src/interfaces/IHittingBulletBehavior";
 import { IHittingFireBallBehavior } from "src/interfaces/IHittingFireBallBehavior";
-import { GameScene } from "../../../scenes/GameScene";
-import { Bomb } from "../../Bomb";
-import { FireBubble } from "../../FireBubble";
-import { BubblesBoard } from "../BubblesBoard";
+import { GameScene } from "../../scenes/GameScene";
+import { Bomb } from "../Bomb";
+import { FireBubble } from "../FireBubble";
+import { BubblesBoard } from "./BubblesBoard";
 
 export class ColliderManager {
     public bubblesBoard: BubblesBoard;

@@ -1,8 +1,8 @@
-import Depth from "../../../../game/constant/Depth";
-import { GameScene } from "../../../../scenes/GameScene";
-import { Bubble } from "../../../Bubble";
-import { ScoreText } from "../../../ScoreText";
-import { BubblesBoard } from "../../BubblesBoard";
+import Depth from "../../../game/constant/Depth";
+import { GameScene } from "../../../scenes/GameScene";
+import { Bubble } from "../../Bubble";
+import { ScoreText } from "../../ScoreText";
+import { BubblesBoard } from "../BubblesBoard";
 import { Clusters } from "./Cluster";
 
 export class ClusterHandler {

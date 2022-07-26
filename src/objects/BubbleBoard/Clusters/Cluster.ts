@@ -1,6 +1,6 @@
-import { GameScene } from "../../../../scenes/GameScene";
-import { Bubble } from "../../../Bubble";
-import { BubblesBoard } from "../../BubblesBoard";
+import { GameScene } from "../../../scenes/GameScene";
+import { Bubble } from "../../Bubble";
+import { BubblesBoard } from "../BubblesBoard";
 import { ClusterDetector } from "./ClusterDetector";
 import { ClusterHandler } from "./ClusterHandler";
 

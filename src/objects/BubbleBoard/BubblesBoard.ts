@@ -1,10 +1,10 @@
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
-import { BubblePositionManager } from "./Helpers/BubblePositionManager";
-import { Clusters } from "./Helpers/Clusters/Cluster";
-import { ColliderManager } from "./Helpers/ColliderManager";
-import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
-import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
+import { BubblePositionManager } from "./BubblePositionManager";
+import { Clusters } from "./Clusters/Cluster";
+import { ColliderManager } from "./ColliderManager";
+import { FloatingBubbles } from "./FloatingBubbles/FloatingBubbles";
+import { BubbleNeighbors } from "./BubbleNeighbors";
 import { BubblesBoardAnimation } from "./BubblesBoardAnimation";
 import { FloatingScoreGroup } from "./FloatingScoreGroup";
 import { IBubblesBoard } from "src/interfaces/IBubblesBoard";

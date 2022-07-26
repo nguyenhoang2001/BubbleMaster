@@ -1,5 +1,5 @@
-import { Bubble } from "../../../Bubble";
-import { BubblesBoard } from "../../BubblesBoard";
+import { Bubble } from "../../Bubble";
+import { BubblesBoard } from "../BubblesBoard";
 
 export class FloatingDetector {
     private bubblesBoard!: BubblesBoard;

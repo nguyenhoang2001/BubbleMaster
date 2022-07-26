@@ -1,7 +1,7 @@
 import { GameScene } from "../../scenes/GameScene";
 import { Bubble } from "../Bubble";
 import { BubblesBoard } from "./BubblesBoard";
-import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
+import { BubbleNeighbors } from "./BubbleNeighbors";
 
 export class BubblesBoardAnimation {
     private bubblesBoard: BubblesBoard;

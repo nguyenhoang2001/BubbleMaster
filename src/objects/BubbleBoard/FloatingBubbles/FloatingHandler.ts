@@ -1,7 +1,7 @@
-import Depth from "../../../../game/constant/Depth";
-import { GameScene } from "../../../../scenes/GameScene";
-import { Bubble } from "../../../Bubble";
-import { BubblesBoard } from "../../BubblesBoard";
+import Depth from "../../../game/constant/Depth";
+import { GameScene } from "../../../scenes/GameScene";
+import { Bubble } from "../../Bubble";
+import { BubblesBoard } from "../BubblesBoard";
 import { FloatingBubbles } from "./FloatingBubbles";
 
 export class FloatingHandler {

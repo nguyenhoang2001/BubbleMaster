@@ -1,6 +1,6 @@
-import { Bubble } from "../../Bubble";
-import { BubblesBoard } from "../BubblesBoard";
-import { GameScene } from "../../../scenes/GameScene";
+import { Bubble } from "../Bubble";
+import { BubblesBoard } from "./BubblesBoard";
+import { GameScene } from "../../scenes/GameScene";
 import { ShootedBubble } from "src/objects/ShootedBubble";
 
 export class BubblePositionManager {
