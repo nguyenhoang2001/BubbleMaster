@@ -1,76 +1,100 @@
-import DEPTH from "../../game/constant/Depth";
+import ShooterState from "src/game/constant/ShooterState";
+import { IShooter } from "src/interfaces/objects/IShooter";
+import Depth from "../../game/constant/Depth";
 import { GameScene } from "../../scenes/GameScene";
-import { Bomb } from "../Bomb";
-import { FireBubble } from "../FireBubble";
 import { ShootedBubble } from "../ShootedBubble";
-import { AnimationShooter } from "./Helpers/AnimationShooter";
-import { BulletCreator } from "./Helpers/BulletCreator";
-import { BulletSwaper } from "./Helpers/BulletSwaper";
-import { ShotGuide } from "./Helpers/ShotGuide";
+import { ShootingBehavior } from "../../Behaviors/ShootingBehavior";
+import { ShotGuide } from "./ShotGuide";
+import { ReloadingBehavior } from "../../Behaviors/ReloadingBehavior";
+import { SwappingBehavior } from "../../Behaviors/SwappingBehavior";
+import { SettingAngleBehavior } from "../../Behaviors/SettingAngleBehavior";
+import { CreatingBulletBehavior } from "../../Behaviors/CreatingBulletBehavior";
+import ShotguideState from "src/game/constant/ShotguideState";
+import { ArrowsSkinComponent } from "./ArrowsSkinComponent";
+import { SwappingBulletSkinComponent } from "./SwappingBulletSkinComponent";
+import { ReloadingBulletSkinComponent } from "./ReloadingBulletSkinComponent";
+import { IArrowsSkinComponent } from "src/interfaces/objects/IArrowsSkinComponent";
+import { ISwappingBulletSkinComponent } from "src/interfaces/objects/ISwappingBulletSkinComponent";
+import { IReloadingBulletSkinComponent } from "src/interfaces/objects/IReloadingBulletSkinComponent";
+import { IShootingBehavior } from "src/interfaces/behaviors/IShootingBehavior";
+import { IReloadingBehavior } from "src/interfaces/behaviors/IReloadingBehavior";
+import { ISwappingBehavior } from "src/interfaces/behaviors/ISwappingBehavior";
+import { ISettingAngleBehavior } from "src/interfaces/behaviors/ISettingAngleBehavior";
+import { ICreatingBulletBehavior } from "src/interfaces/behaviors/ICreatingBulletBehavior";
 
-export class Shooter {
+export class Shooter implements IShooter {
+    // Properties
     public scene: GameScene;
 
     public bulletGroup: Phaser.GameObjects.Group;
-    private flyingBulletGroup:Phaser.GameObjects.Group;
-
-    private bulletCreator: BulletCreator;
-    public bulletSwaper: BulletSwaper;
 
     public rectangleBound: Phaser.Geom.Rectangle;
 
-    public shootedBubble: ShootedBubble | Bomb | FireBubble;
-    public secondBubllet: ShootedBubble;
+    public shootedBubble: ShootedBubble;
+    public secondBubble: ShootedBubble;
 
-    public animation: AnimationShooter;
     public circle: Phaser.GameObjects.Image;
-    public arrowShoot: Phaser.GameObjects.Line
+    public arrowShoot: Phaser.GameObjects.Line;
 
-    private shotGuide: ShotGuide;
+    public shotGuide: ShotGuide;
 
-    private isShoot: boolean;
-    public checkAllowShooting: boolean;
+    public isAllowShooting: boolean;
     private pointerOnCircle: boolean;
+    public isAnimationFinished:boolean;
+    // Skin Components
+    public arrowsSkinComponent: IArrowsSkinComponent;
+    public swappingBulletSkinComponent: ISwappingBulletSkinComponent;
+    public reloadingBulletSkinComponent: IReloadingBulletSkinComponent;
+    // State
+    private state: ShooterState;
+    // Behaviors
+    private shootingBehavior: IShootingBehavior;
+    private reloadingBehavior: IReloadingBehavior;
+    private swappingBehavior: ISwappingBehavior;
+    private settingAngleBehavior: ISettingAngleBehavior;
+    private creatingBulletBehavior: ICreatingBulletBehavior;
 
     constructor(scene:GameScene) {
         this.scene = scene;
-
+        // state
+        this.state = ShooterState.Idle;
+        // Behaviors
+        this.shootingBehavior = new ShootingBehavior(this);
+        this.reloadingBehavior = new ReloadingBehavior(this);
+        this.swappingBehavior = new SwappingBehavior(this);
+        this.settingAngleBehavior = new SettingAngleBehavior(this);
+        this.creatingBulletBehavior = new CreatingBulletBehavior(this);
+        // Properties
         this.bulletGroup = this.scene.add.group({classType:ShootedBubble});
-        this.flyingBulletGroup = this.scene.add.group({});
-
-        this.bulletCreator = new BulletCreator(this);
-        this.bulletSwaper = new BulletSwaper(this);
-        this.animation = new AnimationShooter(this,this.scene);
+        this.isAllowShooting = true;
+        this.pointerOnCircle = false;
+        this.isAnimationFinished = true;
 
         let offsetXBound = 20;
         this.rectangleBound = new Phaser.Geom.Rectangle(offsetXBound,0,this.scene.sys.canvas.width - offsetXBound*2,this.scene.sys.canvas.height);
-
-        this.drawCircle();
-        this.bulletCreator.createTwoBullets();
-        this.drawLine();
-
         this.shotGuide = new ShotGuide(this, this.scene);
 
+        this.drawCircle();
+        this.creatingBulletBehavior.createShootedBubble();
+        this.creatingBulletBehavior.createSecondBubble();
+        this.createArrowShoot();
         this.enableInput();
-        this.enableChangeBubble();
-
-        this.isShoot = false;
-        this.checkAllowShooting = true;
-        this.pointerOnCircle = false;
+        // Skin components
+        this.arrowsSkinComponent = new ArrowsSkinComponent(this);
+        this.swappingBulletSkinComponent = new SwappingBulletSkinComponent(this);
+        this.reloadingBulletSkinComponent = new ReloadingBulletSkinComponent(this);
+        this.arrowsSkinComponent.rotate();
     }
+        // dependency , strategy pattern
 
-    private drawLine() {
-        this.createLine();
-    }
-
-    public setUpPositionSecond() {
+    public setUpPositionSecondBubble() {
         let x = 65*Math.cos(60*Phaser.Math.DEG_TO_RAD) + this.circle.x;
         let y = 65*Math.sin(60*Phaser.Math.DEG_TO_RAD) + this.circle.y;
-        this.secondBubllet.x = x;
-        this.secondBubllet.y = y;
+        this.secondBubble.x = x;
+        this.secondBubble.y = y;
     }
 
-    public setUpPositionFirst() {
+    public setUpPositionShootedBubble() {
         let x = 65*Math.cos(-90*Phaser.Math.DEG_TO_RAD) + this.circle.x;
         let y = 65*Math.sin(-90*Phaser.Math.DEG_TO_RAD) + this.circle.y;
         this.shootedBubble.x = x;
@@ -78,7 +102,7 @@ export class Shooter {
     }
 
     public clearShotGuide() {
-        this.shotGuide.hide();
+        this.shotGuide.clearShotguide();
     }
 
     public removeInput() {
@@ -86,111 +110,80 @@ export class Shooter {
         this.scene.input.removeAllListeners();
     }
 
-    private enableChangeBubble() {
-        this.circle.setInteractive();
-        this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
-            if(pointer.leftButtonDown()) {
-                if(this.bulletSwaper.finished) {
-                    this.bulletSwaper.startSwaping();
-                }
-            }
-        });
-        this.circle.on('pointerover', () => {
-            this.pointerOnCircle = true;
-        });
-        this.circle.on('pointerout', () => {
-            this.pointerOnCircle = false;
-        });
-    }
-
-    public enableInput() {
+    private enableInput() {
             this.scene.input.on('pointerup',(pointer:Phaser.Input.Pointer) => {
                 if(pointer.leftButtonReleased()) {
-                    if(this.checkAllowShooting && this.bulletSwaper.finished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
-                        this.isShoot = true;
-                    }else {
-                        this.isShoot = false;
+                    if(this.isAllowShooting && this.isAnimationFinished && !this.pointerOnCircle && this.shotGuide.circleGuideGroup.countActive(true) > 0) {
+                        this.state = ShooterState.Shooting;
+                    } else {
+                        this.state = ShooterState.Idle;
                     }
                 } 
                 else if (pointer.rightButtonReleased()) {
-                    if(this.bulletSwaper.finished) {
-                        this.bulletSwaper.startSwaping();
+                    if(this.isAnimationFinished) {
+                        this.state = ShooterState.Swapping;
                     }
                 }
             },this);
+            this.circle.setInteractive();
+            this.circle.on('pointerdown', (pointer:Phaser.Input.Pointer) => {
+                if(pointer.leftButtonDown()) {
+                    if(this.isAnimationFinished) {
+                        this.state = ShooterState.Swapping;
+                    }
+                }
+            });
+            this.circle.on('pointerover', () => {
+                this.pointerOnCircle = true;
+            });
+            this.circle.on('pointerout', () => {
+                this.pointerOnCircle = false;
+            });
     }
 
     private drawCircle() {
         this.circle = this.scene.add.image(0,0,'circle');
-        this.circle.setDepth(DEPTH.GAMEPLAY);
+        this.circle.setDepth(Depth.GAMEPLAY);
         Phaser.Display.Align.In.BottomCenter(this.circle,this.scene.mainZone,0,-85);
-        this.animation.createAnimationForCircle();
     }
 
-    private createLine() {
+    private createArrowShoot() {
         this.arrowShoot = this.scene.add.line(this.shootedBubble.x,this.shootedBubble.y,0,0,100,0,0xff0000);
         this.arrowShoot.setOrigin(0,0);
         this.arrowShoot.setVisible(false);
     }
 
-    private rotateShooter(pointer: Phaser.Input.Pointer) {
-        if(this.checkAllowShooting && this.bulletSwaper.finished) {
-            let angle = Phaser.Math.RAD_TO_DEG * 
-            Phaser.Math.Angle.Between(this.shootedBubble.x,this.shootedBubble.y, pointer.x, pointer.y);
-            if (angle < 0) {
-                angle = 180 + (180 + angle);
-            }
-            if(angle >= 180 && angle <= 360) {
-                if(angle < 190) {
-                    angle = 190;
-                }
-                else {
-                    if(angle > 350) {
-                        angle = 350;
-                    }
-                }
-                this.arrowShoot.setAngle(angle);
-                this.shotGuide.draw();
-            } else {
-                this.shotGuide.fadeOut();
-            }
-        }
-    }
-
-    private shootBubble() {
-        if(this.arrowShoot.angle != 0) {
-            this.scene.events.emit('shooted');
-            this.shootedBubble.body.checkCollision.none = false;
-            this.shootedBubble.checkWorldBounce = true;
-            this.scene.physics.velocityFromRotation (
-                this.arrowShoot.angle*Phaser.Math.DEG_TO_RAD,
-                2400,
-                this.shootedBubble.body.velocity
-            );
-            this.flyingBulletGroup.add(this.shootedBubble);
-            this.bulletSwaper.swapBulletAfterShooting();
-        }
-    }
-
-    public makeSecondBullet() {
-        this.bulletCreator.createSecondBullet();
+    public createSecondBullet() {
+        this.creatingBulletBehavior.createSecondBubble();
     }
     
     public update(delta:number) {
-        this.shotGuide.update(delta);
-        this.flyingBulletGroup.getChildren().forEach((_bullet:any) => {
-            const bullet = _bullet as ShootedBubble;
-            if(bullet?.body.speed > 0) {
-                bullet.update();
+        switch(this.state) {
+            case ShooterState.Shooting: {
+                this.shootingBehavior.shoot();
+                this.scene.addToFlyingBulletGroup(this.shootedBubble);
+                this.state = ShooterState.Reloading;
+                break;
             }
-        });
-        if(this.isShoot) {
-            this.isShoot = false;
-            this.shootBubble();
+            case ShooterState.Reloading: {
+                this.reloadingBehavior.reload();
+                this.state = ShooterState.Idle;
+                break;
+            }
+            case ShooterState.Swapping: {
+                this.swappingBehavior.swap();
+                this.state = ShooterState.Idle;
+                break;
+            }
+            default: {
+                this.state = ShooterState.Idle;
+                this.shotGuide.update(delta);
+                this.settingAngleBehavior.setAngle(this.scene.input.activePointer);
+                break;
+            }
         }
-        if(!this.checkAllowShooting || !this.bulletSwaper.finished) {
-            this.shotGuide.fadeOut();
+        if(!this.isAllowShooting || !this.isAnimationFinished) {
+            this.shotGuide.state = ShotguideState.Fading;
         }
-        this.rotateShooter(this.scene.input.activePointer);
     }
 }

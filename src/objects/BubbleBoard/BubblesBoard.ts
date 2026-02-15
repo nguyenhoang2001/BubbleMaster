@@ -1,33 +1,39 @@
 import { GameScene } from "../../scenes/GameScene";
-import { AddingBubble } from "./Helpers/AddingBubble/AddingBubble";
 import { Bubble } from "../Bubble";
-import { BubblePainter } from "./Helpers/BubblePainter";
-import { BubblePositionManager } from "./Helpers/BubblePositionManager";
-import { Clusters } from "./Helpers/Clusters/Cluster";
-import { ColliderManager } from "./Helpers/ColliderManager";
-import { FloatingBubbles } from "./Helpers/FloatingBubbles/FloatingBubbles";
-import { ShootedBubble } from "../ShootedBubble";
-import { BubbleNeighbors } from "./Helpers/BubbleNeighbors";
-import { HittingAnimation } from "./HittingAnimation";
-import { ScoreText } from "../ScoreText";
+import { BubblePositionManager } from "./BubblePositionManager";
+import { Clusters } from "./Clusters/Cluster";
+import { ColliderManager } from "./ColliderManager";
+import { FloatingBubbles } from "./FloatingBubbles/FloatingBubbles";
+import { BubbleNeighbors } from "./BubbleNeighbors";
+import { BubblesBoardAnimation } from "./BubblesBoardAnimation";
 import { FloatingScoreGroup } from "./FloatingScoreGroup";
+import { IBubblesBoard } from "src/interfaces/objects/IBubblesBoard";
+import { IAddingBubbleBehavior } from "src/interfaces/behaviors/IAddingBubbleBehavior";
+import { AddingBubbleBehavior } from "../../Behaviors/AddingBubbleBehavior";
+import { ShootedBubble } from "../ShootedBubble";
+import { BubblesBoardState } from "../../game/constant/BubblesBoardState";
+import { ICheckingFirstRowBehavior } from "src/interfaces/behaviors/ICheckingFirstRowBehavior";
+import { CheckingFirstRowBehavior } from "../../Behaviors/CheckingFirstRowBehavior";
 
-export class BubblesBoard {
+export class BubblesBoard implements IBubblesBoard {
     // Helpers
-    public addingManager: AddingBubble;
-    public colliderBubble: ColliderManager;
+    public colliderManager: ColliderManager;
     public clusters: Clusters;
     public floatingBubbles: FloatingBubbles;
     public positionManager: BubblePositionManager;
-    public painter: BubblePainter;
     public neighbors: BubbleNeighbors;
-    public hittingAnimation: HittingAnimation;
-    // Variables
+    public animation: BubblesBoardAnimation;
+    // State
+    public state: BubblesBoardState;
+    // Behaviors
+    private addingBubbleBehavior: IAddingBubbleBehavior;
+    private checkingFirstRowBehavior: ICheckingFirstRowBehavior;
+    // Properties
     public board: (Bubble | undefined)[][];
     public gridGroup: Phaser.GameObjects.Group;
     public scoreGroup: FloatingScoreGroup;
-    public row: number; // 27 is max
-    public column:number; // 12 is max
+    public row: number;
+    public column:number;
     public rowOffSet:number;
     public rowHeight:number;
     public scene: GameScene;
@@ -36,10 +42,9 @@ export class BubblesBoard {
     public addSignal: boolean;
     public isUpdating: boolean;
     public offsetDistanceBetweenBubbles: number;
-    // public deltaY!: number;
 
     constructor(scene:GameScene,x:number,y:number,row:number, column:number,rowOffSet:number, rowHeight:number) {
-        // Variables
+        // Properties
         this.x = x;
         this.y = y;
         this.offsetDistanceBetweenBubbles = 1.5;
@@ -56,17 +61,20 @@ export class BubblesBoard {
         for(let i = 0; i < this.row; i++) {
             this.board[i] = []
         }
+        // State
+        this.state = BubblesBoardState.Idle;
+        // Behaviors
+        this.addingBubbleBehavior = new AddingBubbleBehavior(this);
+        this.checkingFirstRowBehavior = new CheckingFirstRowBehavior(this);
         // Game Objects
         this.neighbors = new BubbleNeighbors(this);
-        this.addingManager = new AddingBubble(this);
-        this.colliderBubble = new ColliderManager(this);
+        this.colliderManager = new ColliderManager(this);
         this.floatingBubbles = new FloatingBubbles(this.scene,this);
         this.clusters = new Clusters(this.scene,this);
         this.positionManager = new BubblePositionManager(this);
-        this.painter = new BubblePainter(this);
-        this.hittingAnimation = new HittingAnimation(this);
+        this.animation = new BubblesBoardAnimation(this);
         // Init board
-        this.painter.drawBubblesBoard();
+        this.drawBubblesBoard();
         for(let i = 0; i < this.row*this.column; i++)
             this.scoreGroup.create(0,0,undefined,undefined,false,false);
     }
@@ -106,19 +114,38 @@ export class BubblesBoard {
         this.board.length = this.row;
     }
 
-    public update(time:number,delta:number) {
-        let topBubble = this.board[0].find(n=>n);
-        if(topBubble != undefined)
-            this.y = topBubble.y;
-
-        if(this.addSignal) {
-            this.updateRow();
-            this.addingManager.moreBubbleRows(1);
-            this.addSignal = false;
-            this.updateRow();
-            console.log(JSON.parse(JSON.stringify(this.board)));
+    public drawBubblesBoard() {
+        for(let i = 0; i < this.row; i++) {
+            for(let j = 0; j < this.column; j++) {
+                this.addingBubbleBehavior.addBubble(i,j);
+            }
         }
-        this.floatingBubbles.update();
-        this.updateRow();
+    }
+
+    public addBubbleFromShoot(hittedBubble:Bubble,shootedBubble:ShootedBubble):Bubble|void {
+        return this.addingBubbleBehavior.addBubbleFromShoot(hittedBubble,shootedBubble);
+    }
+
+    public update(time:number,delta:number) {
+        switch(this.state) {
+            case BubblesBoardState.AddingBubbleRows: {
+                this.updateRow();
+                this.addingBubbleBehavior.addMoreBubbleRows(1);
+                this.updateRow();
+                console.log(JSON.parse(JSON.stringify(this.board)));
+                this.state = BubblesBoardState.Idle;
+                break;
+            }
+            default: {
+                this.state = BubblesBoardState.Idle;
+                let topBubble = this.board[0].find(n=>n);
+                if(topBubble != undefined)
+                    this.y = topBubble.y;
+                this.checkingFirstRowBehavior.check();
+                this.floatingBubbles.update();
+                // this.updateRow();
+                break;
+            }
+        }
     }
 }

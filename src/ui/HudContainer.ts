@@ -1,4 +1,4 @@
-import DEPTH from "../game/constant/Depth";
+import Depth from "../game/constant/Depth";
 import { GameScene } from "../scenes/GameScene";
 import { HudScene } from "../scenes/HudScene";
 
@@ -91,7 +91,7 @@ export class HudContainer extends Phaser.GameObjects.Container {
             onComplete: () => {
                 this.runProgressBar = true;
                 this.bombIcon = this.scene.add.image(200,300,'bombIcon');
-                this.bombIcon.setDepth(DEPTH.ICON);
+                this.bombIcon.setDepth(Depth.ICON);
                 Phaser.Display.Align.In.LeftCenter(this.bombIcon,this.progressBar, (-2/3)*this.progressBar.width);
             }
         })
